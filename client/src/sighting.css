@@ -1,0 +1,51 @@
+/* Main container for the sighting page */
+.sighting-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Container for the Google Map */
+.map-container {
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for the sighting details section */
+.sighting-details-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual detail items within the sighting details */
+.detail-item {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Remove the bottom border from the last detail item */
+.detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Style for the headings */
+h1,
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Style for the strong tags in detail items */
+.detail-item strong {
+  display: inline-block;
+  min-width: 100px;
+  color: #495057;
+}

@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5555",
   "dependencies": {
+    "@react-google-maps/api": "^2.20.6",
     "@remix-run/router": "^1.23.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
