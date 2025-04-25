@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import "../map.css";
 
 // The "marker" library is required for marker functionality
@@ -52,6 +52,7 @@ function Map({ center, markers }) {
   return (
     <div className="map-container">
         <GoogleMap
+        mapContainerStyle={{ width: "100%", height: "100%" }}
         // Center the map on the provided coordinates
         center={center}
         // Set the initial zoom level (10 is a good default for city-level view)

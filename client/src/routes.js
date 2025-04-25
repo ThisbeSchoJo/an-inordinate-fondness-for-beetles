@@ -5,6 +5,7 @@ import Species from "./components/Species";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ErrorPage from "./components/ErrorPage";
+import FireflyObservations from "./components/FireflyObservations";
 
 
 const routes = [
@@ -32,6 +33,10 @@ const routes = [
             {
                 path: "/signup",
                 element: <Signup />
+            },
+            {
+                path: "/firefly-observations",
+                element: <FireflyObservations />
             }
         ]
     }
