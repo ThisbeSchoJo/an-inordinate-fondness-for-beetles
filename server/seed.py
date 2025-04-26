@@ -9,7 +9,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Sighting, Species
+from models import db, User, Sighting, Species, Friendship
 
 if __name__ == '__main__':
     fake = Faker()
@@ -21,6 +21,7 @@ if __name__ == '__main__':
         Sighting.query.delete()
         Species.query.delete()
         User.query.delete()
+        Friendship.query.delete()
         db.session.commit()
         print("Existing data cleared.")
         
@@ -60,6 +61,14 @@ if __name__ == '__main__':
 
         db.session.add(sighting1)
         db.session.add(sighting2)
+        db.session.commit()
+
+        # Create bidirectional friendship between users
+        friendship1 = Friendship(user_id=user1.id, friend_id=user2.id)
+        friendship2 = Friendship(user_id=user2.id, friend_id=user1.id)
+
+        db.session.add(friendship1)
+        db.session.add(friendship2)
         db.session.commit()
         
         print("Database seeded successfully!")
