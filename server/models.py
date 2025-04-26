@@ -14,6 +14,7 @@ class User(db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
 
     sightings = db.relationship("Sighting", back_populates="user")
+    friendships = db.relationship("Friendship", back_populates="user")
 
     def __repr__(self):
         return f"<User {self.username}, {self.email}, {self.password}>"
@@ -48,3 +49,26 @@ class Species(db.Model, SerializerMixin):
     def __repr__(self):
         return f"<Species: {self.name}, Type: {self.type}, Scientific Name: {self.scientific_name}>"
     
+class Friend(db.Model, SerializerMixin):
+    __tablename__ = "friends"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+
+    friendships = db.relationship("Friendship", back_populates="friend")
+
+    def __repr__(self):
+        return f"<Friend: {self.name}>"
+    
+class Friendship(db.Model, SerializerMixin):
+    __tablename__ = "friendships"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    friend_id = db.Column(db.Integer, db.ForeignKey("friends.id"))
+
+    user = db.relationship("User", back_populates="friendships")
+    friend = db.relationship("Friend", back_populates="friendships")
+
+    def __repr__(self):
+        return f"<Friendship {self.id} - User: {self.user.username}, Friend: {self.friend.name}>"   
