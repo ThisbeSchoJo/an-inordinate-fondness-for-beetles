@@ -21,6 +21,28 @@ from models import User, Sighting, Species, Friendship
 def index():
     return '<h1>Project Server</h1>'
 
+class Users(Resource):
+    def post(self):
+        form_json = request.get_json()
+        new_user = User(
+            name=form_json.get("name"),
+            username=form_json.get("username"),
+            password=form_json.get("password"),
+            email=form_json.get("email"),
+            location=form_json.get("location"),
+            bio=form_json.get("bio")
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        #Set the session so user stays logged in
+        session["user_id"] = new_user.id
+        response = make_response(
+            new_user.to_dict(rules=("-password","-password_digest")), 
+            201
+        )
+        return response
+api.add_resource(Users, "/users")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

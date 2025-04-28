@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+import bcrypt
 
 from config import db
 
@@ -12,6 +13,9 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
+    password_digest = db.Column(db.String, nullable=False)
+
+    serialize_rules = ("-password", "-password_digest") # Hide password and password_digest from JSON responses
 
     sightings = db.relationship("Sighting", back_populates="user")
     # User's friendships where they are the user
