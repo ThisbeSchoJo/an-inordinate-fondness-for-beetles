@@ -25,12 +25,9 @@ class Users(Resource):
     def post(self):
         form_json = request.get_json()
         new_user = User(
-            name=form_json.get("name"),
             username=form_json.get("username"),
             password=form_json.get("password"),
-            email=form_json.get("email"),
-            location=form_json.get("location"),
-            bio=form_json.get("bio")
+            email=form_json.get("email")
         )
         db.session.add(new_user)
         db.session.commit()
