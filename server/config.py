@@ -16,7 +16,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
-app.secret_key = "supersecret"
+
+# Set up:
+    # generate a secrete key `python -c 'import os; print(os.urandom(16))'`
+app.secret_key = b'N1g\x02;\x103n\x1cjVaz\x91\xb9\xf5'
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={

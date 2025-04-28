@@ -40,6 +40,22 @@ class Users(Resource):
         return response
 api.add_resource(Users, "/users")
 
+class Login(Resource):
+    # POST request to handle login requests
+    def post(self):
+        data = request.get_json()
+        user = User.query.filter_by(username=data.get("username")).first()
+        if user:
+            session["user_id"] = user.id
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            return response
+        else:
+            abort(401, "Invalid username")
+api.add_resource(Login,"/login")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
