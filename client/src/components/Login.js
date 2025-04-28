@@ -1,14 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function Login() {
-    const [formData, setFormData] = useState({
+function Login({updateUser}) {
+    const navigate = useNavigate()
+    const [loginData, setLoginData] = useState({
         username: "",
         password: ""
     })
+
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
+        setLoginData({
+            ...loginData,
             [e.target.name]: e.target.value
         })
     }
@@ -19,29 +21,34 @@ function Login() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(loginData)
         })
         .then(response => {
             if (response.ok) {
-                response.json().then(user => {
-                    addUser(user)
-                    history.pushState(`/users/${user.id}`)
-                })
+                return response.json()
+            } else {
+                throw new Error("Invalid username or password")
             }
-            else {
-                alert("Invalid username or password")
-            }
+        })
+        .then(user => {
+            updateUser(user);
+            navigate("/")
+        })
+        .catch(error => {
+            alert(error.message)
         })
     }
     
     return (
         <>
-            <h1>Login</h1>
+            <h1>Please Log In</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Username" name="username"value={formData.username} onChange={handleChange}/>
-                <input type="password" placeholder="Password" name="password"value={formData.password} onChange={handleChange}/>
-                <button type="submit">Login</button>
-                <NavLink to="/signup">Signup</NavLink>
+                <label>Username</label>
+                <input type="text" name="username" value={loginData.username} onChange={handleChange}/>
+                <label>Password</label>
+                <input type="password" name="password" value={loginData.password} onChange={handleChange}/>
+                <button type="submit">Log in!</button>
+                <NavLink to="/signup">Not a member? Sign up!</NavLink>
             </form>
         </>
     )
