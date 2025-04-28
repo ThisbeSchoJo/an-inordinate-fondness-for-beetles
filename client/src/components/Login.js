@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Login() {
     return (
         <>
@@ -6,6 +8,7 @@ function Login() {
                 <input type="text" placeholder="Username" />
                 <input type="password" placeholder="Password" />
                 <button type="submit">Login</button>
+                <NavLink to="/signup">Signup</NavLink>
             </form>
         </>
     )
