@@ -21,21 +21,25 @@ function Login() {
             },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(error => {
-            console.error("Error:", error)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(user => {
+                    addUser(user)
+                    history.pushState(`/users/${user.id}`)
+                })
+            }
+            else {
+                alert("Invalid username or password")
+            }
         })
     }
     
     return (
         <>
             <h1>Login</h1>
-            <form>
-                <input type="text" placeholder="Username" value={formData.username} onChange={handleChange}/>
-                <input type="password" placeholder="Password" value={formData.password} onChange={handleChange}/>
+            <form onSubmit={handleSubmit}>
+                <input type="text" placeholder="Username" name="username"value={formData.username} onChange={handleChange}/>
+                <input type="password" placeholder="Password" name="password"value={formData.password} onChange={handleChange}/>
                 <button type="submit">Login</button>
                 <NavLink to="/signup">Signup</NavLink>
             </form>
