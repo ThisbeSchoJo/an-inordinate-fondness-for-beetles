@@ -56,6 +56,19 @@ class Login(Resource):
             abort(401, "Invalid username")
 api.add_resource(Login,"/login")
 
+class AuthorizedSession(Resource):
+    def get(self):
+        user = User.query.filter_by(id=session.get("user_id")).first()
+        if user:
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            return response
+        else:
+            abort(401, "Unauthorized")
+api.add_resource(AuthorizedSession, "/authorized")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
