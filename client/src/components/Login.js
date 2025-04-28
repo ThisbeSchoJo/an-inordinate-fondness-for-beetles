@@ -1,7 +1,9 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 
-function Login({updateUser}) {
+
+function Login() {
+    const {updateUser} = useOutletContext()
     const navigate = useNavigate()
     const [loginData, setLoginData] = useState({
         username: "",
