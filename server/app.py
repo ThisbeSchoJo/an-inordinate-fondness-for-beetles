@@ -38,14 +38,14 @@ class Users(Resource):
             201
         )
         return response
-api.add_resource(Users, "/users")
+api.add_resource(Users, "/signup")
 
 class Login(Resource):
     # POST request to handle login requests
     def post(self):
         data = request.get_json()
         user = User.query.filter_by(username=data.get("username")).first()
-        if user:
+        if user and user.password == data.get("password"):
             session["user_id"] = user.id
             response = make_response(
                 user.to_dict(),
@@ -75,6 +75,31 @@ class Logout(Resource):
         response = make_response("", 204)
         return response
 api.add_resource(Logout, "/logout")
+
+class Sightings(Resource):
+    def post(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+        
+        data = request.get_json()
+
+        new_sighting = Sighting(
+            species_id=data.get("species_id"),
+            location=data.get("location"),
+            timestamp=data.get("timestamp"),
+            description=data.get("description"),
+            image=data.get("image"),
+            user_id=user_id
+        )
+        db.session.add(new_sighting)
+        db.session.commit()
+        response = make_response(
+            new_sighting.to_dict(),
+            201
+        )
+        return response
+api.add_resource(Sightings, "/sightings")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
