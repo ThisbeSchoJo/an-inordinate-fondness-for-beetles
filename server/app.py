@@ -77,6 +77,10 @@ class Logout(Resource):
 api.add_resource(Logout, "/logout")
 
 class Sightings(Resource):
+    def get(self):
+        sightings = [sighting.to_dict() for sighting in Sighting.query.all()]
+        return make_response(sightings, 200)
+
     def post(self):
         user_id = session.get("user_id")
         if not user_id:
@@ -100,6 +104,19 @@ class Sightings(Resource):
         )
         return response
 api.add_resource(Sightings, "/sightings")
+
+class SightingsById(Resource):
+    def get(self, id):
+        sighting = Sighting.query.filter_by(id=id).first()
+        if not sighting:
+            abort(404, "Sighting not found")
+        response = make_response(
+            sighting.to_dict(),
+            200
+        )
+        return response
+api.add_resource(SightingsById, "/sightings/<int:id>")
+    
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
