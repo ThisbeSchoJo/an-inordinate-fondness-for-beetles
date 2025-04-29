@@ -102,7 +102,7 @@ class Sightings(Resource):
             new_sighting.to_dict(),
             201
         )
-        return response
+        return response 
 api.add_resource(Sightings, "/sightings")
 
 class SightingsById(Resource):
@@ -115,6 +115,41 @@ class SightingsById(Resource):
             200
         )
         return response
+    
+    def patch(self, id):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+        sighting = Sighting.query.filter_by(id=id).first()
+        if not sighting:
+            abort(404, "Sighting not found")
+        if sighting.user_id != user_id:
+            abort(403, "Unauthorized")
+        data = request.get_json()
+        for attr in data:
+            setattr(sighting, attr, data[attr])
+        db.session.commit()
+        response = make_response(
+            sighting.to_dict(),
+            200
+        )
+        return response
+    
+    def delete(self, id):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+        sighting = Sighting.query.filter_by(id=id).first()
+        if not sighting:
+            abort(404, "Sighting not found")
+        if sighting.user_id != user_id:
+            abort(403, "Forbidden: You do not have permission to delete this sighting")
+        db.session.delete(sighting)
+        db.session.commit()
+
+        response = make_response("", 204)
+        return response
+
 api.add_resource(SightingsById, "/sightings/<int:id>")
     
 
