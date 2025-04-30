@@ -1,13 +1,29 @@
-import { NavLink } from "react-router-dom";
+// NavBar component provides navigation links for the application
+// It conditionally renders different links based on user authentication status
+import { NavLink, useOutletContext } from "react-router-dom";
 
 function NavBar() {
+  // Get the current user from the context provided by the parent component
+  const { user } = useOutletContext();
+
   return (
+    // Main navigation container with navbar class for styling
     <nav className="navbar">
+      {/* Always visible navigation links */}
       <NavLink to="/">Home</NavLink>
       <NavLink to="/sightings">Sightings</NavLink>
       <NavLink to="/species">Species</NavLink>
-      <NavLink to="/login">Login</NavLink>
-      <NavLink to="/logout">Logout</NavLink>
+
+      {/* Conditional rendering based on user authentication */}
+      {user ? (
+        // If user is authenticated, show logout button
+        <>
+          <NavLink to="/logout">Logout</NavLink>
+        </>
+      ) : (
+        // If user is not authenticated, show login button
+        <NavLink to="/login">Login</NavLink>
+      )}
     </nav>
   );
 }
