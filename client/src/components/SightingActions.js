@@ -2,33 +2,142 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-// Contains buttons for actions (Add, Edit, Delete)
+// Renders buttons for actions (Add, Edit, Delete)
 // Handles logic for adding, editing, and deleting sightings
 
-function SightingActions() {
-    const { user } = useOutletContext();
-    const navigate = useNavigate();
-    const [selectedSighting, setSelectedSighting] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
+// Function to handle adding a new sighting
+function handleAdd() {
+  if (!user) {
+    navigate("/login");
+    return;
+  }
+  setSelectedSighting(null);
+  setIsEditing(true);
+}
 
-    return (
-        // Action buttons displayed when not in edit mode
+// Function to handle editing a sighting
+function handleEdit(id) {
+  if (!user) {
+    navigate("/login");
+    return;
+  }
+  const sightingToEdit = sightings.find((s) => s.id === id);
+  if (!sightingToEdit) {
+    setError("Sighting not found");
+    return;
+  }
+  setSelectedSighting(sightingToEdit);
+  setIsEditing(true);
+}
+
+// Handles the API request to update a sighting
+async function handleEditSubmit(formData) {
+  if (!user) {
+    navigate("/login");
+    return;
+  }
+
+  try {
+    setIsLoading(true);
+    setError(null);
+
+    const response = await fetch(
+      `http://localhost:5000/sightings/${selectedSighting.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    if (response.status === 401) {
+      navigate("/login");
+      return;
+    }
+
+    if (response.status === 403) {
+      setError("You don't have permission to edit this sighting");
+      return;
+    }
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to edit sighting");
+    }
+
+    fetchSightings();
+    setIsEditing(false);
+    setSelectedSighting(null);
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+// Function to cancel editing
+function handleCancelEdit() {
+  setIsEditing(false);
+  setSelectedSighting(null);
+  setError(null);
+}
+
+// Handles deleting sighting
+async function handleDelete(id) {
+  if (!user) {
+    navigate("/login");
+    return;
+  }
+  try {
+    setIsLoading(true);
+    setError(null);
+
+    const response = await fetch(`http://localhost:5000/sightings/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.status === 401) {
+      navigate("/login");
+      return;
+    }
+
+    if (response.status === 403) {
+      setError("You don't have permission to delete this sighting");
+      return;
+    }
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to delete sighting");
+    }
+
+    fetchSightings();
+    setSelectedSighting(null);
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+// This component renders the action buttons for the sightings feature.
+// It receives action handlers as props and renders the appropriate buttons based on selection state.
+function SightingActions({ onAdd, onDelete, onEdit, selectedSighting }) {
+  return (
+    <div className="sighting-actions">
+      {/* Always show the Add button */}
+      <button onClick={onAdd}>Add New Sighting</button>
+      {/* Only show Delete and Edit buttons when a sighting is selected */}
+      {selectedSighting && (
         <div>
-          <button onClick={() => handleAdd()}>Add New Sighting</button>
-          {selectedSighting && (
-            <div>
-              <button onClick={() => handleDelete(selectedSighting.id)}>
-                {" "}
-                Delete{" "}
-              </button>
-              <button onClick={() => handleEdit(selectedSighting.id)}>
-                {" "}
-                Edit{" "}
-              </button>
-            </div>
-          )}
+          <button onClick={onDelete}>Delete</button>
+          <button onClick={onEdit}>Edit</button>
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
 export default SightingActions;
