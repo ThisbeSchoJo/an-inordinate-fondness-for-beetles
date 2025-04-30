@@ -7,20 +7,12 @@ import { useState } from "react";
 
 // Function to handle adding a new sighting
 function handleAdd() {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
   setSelectedSighting(null);
   setIsEditing(true);
 }
 
 // Function to handle editing a sighting
 function handleEdit(id) {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
   const sightingToEdit = sightings.find((s) => s.id === id);
   if (!sightingToEdit) {
     setError("Sighting not found");
@@ -32,11 +24,6 @@ function handleEdit(id) {
 
 // Handles the API request to update a sighting
 async function handleEditSubmit(formData) {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
-
   try {
     setIsLoading(true);
     setError(null);
@@ -86,10 +73,6 @@ function handleCancelEdit() {
 
 // Handles deleting sighting
 async function handleDelete(id) {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
   try {
     setIsLoading(true);
     setError(null);

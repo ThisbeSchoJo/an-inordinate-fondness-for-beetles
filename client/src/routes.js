@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ErrorPage from "./components/ErrorPage";
 import FireflyObservations from "./components/FireflyObservations";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 const routes = [
@@ -17,10 +18,6 @@ const routes = [
             {
                 path: "/",
                 element: <Home />
-            },
-            {
-                path: "/sightings",
-                element: <Sighting />
             },
             {
                 path: "/species",
@@ -37,6 +34,12 @@ const routes = [
             {
                 path: "/firefly-observations",
                 element: <FireflyObservations />
+            },
+            {
+                path: "/sightings",
+                element: <ProtectedRoute>
+                    <Sighting />
+                </ProtectedRoute>
             }
         ]
     }

@@ -15,7 +15,6 @@ function SightingList() {
   const [error, setError] = useState(null); // Stores any error messages to display to the user
   const [selectedSighting, setSelectedSighting] = useState(null); // Currently selected sighting for editing/deleting
   const [isEditing, setIsEditing] = useState(false); // Tracks whether the user is in edit mode
-  const { user } = useOutletContext(); // Gets the current user from the auth context
   const navigate = useNavigate(); // Hook for programmatic navigation
 
   // Fetch sightings when the component mounts
