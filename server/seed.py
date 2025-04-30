@@ -28,8 +28,8 @@ if __name__ == '__main__':
         # Seed code goes here!
         print("Adding new data...")
 
-        user1 = User(username="John Doe", email="john.doe@example.com", password="password123")
-        user2 = User(username="Jane Smith", email="jane.smith@example.com", password="password456")
+        user1 = User(username="John Doe", password="password123")
+        user2 = User(username="Jane Smith", password="password456")
 
         db.session.add(user1)
         db.session.add(user2)

@@ -7,7 +7,6 @@ from flask import Flask, request, make_response, abort, session, jsonify
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from werkzeug.exceptions import NotFound, Unauthorized
-from flask_cors import CORS
 
 # Local imports
 from config import app, db, api
@@ -27,7 +26,7 @@ class Users(Resource):
         new_user = User(
             username=form_json.get("username"),
             password=form_json.get("password"),
-            email=form_json.get("email")
+            # email=form_json.get("email")
         )
         db.session.add(new_user)
         db.session.commit()
@@ -155,4 +154,3 @@ api.add_resource(SightingsById, "/sightings/<int:id>")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-

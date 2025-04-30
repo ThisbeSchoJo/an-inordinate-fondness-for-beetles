@@ -25,11 +25,12 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send login request to backend
-    fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5555/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(loginData),
     })
       .then((response) => {

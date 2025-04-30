@@ -18,11 +18,12 @@ function Signup() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/signup", {
+    fetch("http://localhost:5555/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(signUpData),
     })
       .then((response) => {
