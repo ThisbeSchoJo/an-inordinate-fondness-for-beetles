@@ -7,6 +7,7 @@ function NavBar() {
       <NavLink to="/sightings">Sightings</NavLink>
       <NavLink to="/species">Species</NavLink>
       <NavLink to="/login">Login</NavLink>
+      <NavLink to="/logout">Logout</NavLink>
     </nav>
   );
 }
