@@ -184,82 +184,10 @@ function SightingList() {
 
       {/* Conditional rendering based on edit mode */}
       {isEditing ? (
-        // Edit form displayed when in edit mode
-        <div>
-          <h2>Edit Sighting</h2>
-          <form onSubmit={handleEditSubmit}>
-            <div>
-              <label htmlFor="species_id">Species:</label>
-              <input
-                type="text"
-                id="species_id"
-                name="species_id"
-                value={formData.species_id}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="location">Location:</label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="timestamp">Timestamp:</label>
-              <input
-                type="datetime-local"
-                id="timestamp"
-                name="timestamp"
-                value={formData.timestamp}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="description">Description:</label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="image">Image URL:</label>
-              <input
-                type="text"
-                id="image"
-                name="image"
-                value={formData.image}
-                onChange={handleFormChange}
-              />
-            </div>
-            <button type="submit">Save Changes</button>
-            <button type="button" onClick={handleCancelEdit}>
-              Cancel
-            </button>
-          </form>
-        </div>
+        <SightingForm />
       ) : (
         // Action buttons displayed when not in edit mode
-        <div>
-          <button onClick={() => handleAdd()}>Add New Sighting</button>
-          {selectedSighting && (
-            <div>
-              <button onClick={() => handleDelete(selectedSighting.id)}>
-                {" "}
-                Delete{" "}
-              </button>
-              <button onClick={() => handleEdit(selectedSighting.id)}>
-                {" "}
-                Edit{" "}
-              </button>
-            </div>
-          )}
-        </div>
+        <SightingActions />
       )}
 
       {/* Display error messages if any */}
