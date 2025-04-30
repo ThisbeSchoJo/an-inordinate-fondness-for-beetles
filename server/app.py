@@ -57,7 +57,9 @@ api.add_resource(Login,"/login")
 
 class AuthorizedSession(Resource):
     def get(self):
+        # Get the user from the session
         user = User.query.filter_by(id=session.get("user_id")).first()
+        # If the user is found, return the user's data
         if user:
             response = make_response(
                 user.to_dict(),
@@ -70,6 +72,7 @@ api.add_resource(AuthorizedSession, "/authorized")
 
 class Logout(Resource):
     def delete(self):
+        # Clear the session
         session["user_id"] = None
         response = make_response("", 204)
         return response

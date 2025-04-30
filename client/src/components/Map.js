@@ -64,10 +64,7 @@ function Map({ center, markers }) {
         { markers ? (
             markers.map((marker, index) => (
                 // Create a div for each marker
-                <div key={index} className="marker">
-                    {/* Display the marker title */}
-                    {marker.title}
-                </div>
+                <Marker key={index} position={marker.position} title={marker.title} />
             ))
         ) : null}
         </GoogleMap>

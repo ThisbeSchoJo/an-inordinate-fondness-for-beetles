@@ -13,11 +13,9 @@ function Logout() {
   async function handleLogout() {
     try {
       // Make DELETE request to logout endpoint
-      const response = await fetch("http://localhost:5000/logout", {
+      const response = await fetch("http://localhost:5555/logout", {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        credentials: "include",
       });
       // If the API call is successful, clear the user state
       if (response.ok) {
@@ -27,8 +25,8 @@ function Logout() {
       // Log any errors that occur during the logout process
       console.error("Error logging out:", error);
     }
-    // Always navigate to the login page, regardless of API call success
-    navigate("/login");
+    // Always navigate to the home page, regardless of API call success
+    navigate("/");
   }
 
   return (

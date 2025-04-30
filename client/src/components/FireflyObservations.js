@@ -26,8 +26,8 @@ function FireflyObservations() {
   }
 
   // Use the custom hook to fetch data with the current page and filters
-  const { data, loading, error, refetch } =
-    useFireflyInaturalistData(filteredParams);
+  const { data, loading, error, refetch } = useFireflyInaturalistData(filteredParams);
+  console.log("iNaturalist data:", data);
 
   // Prepare markers for the map from the observation data
   // Each marker represents a firefly observation with its location and title
@@ -45,6 +45,8 @@ function FireflyObservations() {
       // Store the observation ID for reference
       id: observation.id,
     })) || []; // if data.results is null, return an empty array
+    console.log("Markers:", markers);
+
 
   // Calculate the center of the map
   const center =
