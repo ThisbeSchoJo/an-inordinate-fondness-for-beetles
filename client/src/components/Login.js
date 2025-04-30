@@ -1,5 +1,6 @@
 import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
+import "../login.css";
 
 function Login() {
   // Get the updateUser function from App.js through React Router's context
@@ -51,27 +52,37 @@ function Login() {
   };
 
   return (
-    <>
-      <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={loginData.username}
-          onChange={handleChange}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={loginData.password}
-          onChange={handleChange}
-        />
-        <button type="submit">Log in!</button>
-        <NavLink to="/signup">Not a member? Sign up!</NavLink>
+    <div className="login-container">
+      <h1 className="login-title">Please Log In</h1>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label className="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            value={loginData.username}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={loginData.password}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <button type="submit" className="submit-button">
+          Log in!
+        </button>
+        <NavLink to="/signup" className="nav-link">
+          Not a member? Sign up!
+        </NavLink>
       </form>
-    </>
+    </div>
   );
 }
 
