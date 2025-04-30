@@ -15,3 +15,5 @@ function ProtectedRoute({children}) {
         </div>
     )
 }
+
+export default ProtectedRoute;

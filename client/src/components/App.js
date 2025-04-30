@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import NavBar from "./NavBar";
 import { Outlet } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function App() {
   // Authentication state
@@ -17,8 +17,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
-      {/* Pass authentication state and update function to all child routes */}
+      <NavBar user={user} />
       <Outlet
         context={{
           user,

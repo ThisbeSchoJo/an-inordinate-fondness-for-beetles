@@ -8,41 +8,42 @@ import ErrorPage from "./components/ErrorPage";
 import FireflyObservations from "./components/FireflyObservations";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-
 const routes = [
-    {
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
         path: "/",
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-            {
-                path: "/",
-                element: <Home />
-            },
-            {
-                path: "/species",
-                element: <Species />
-            },
-            {
-                path: "/login",
-                element: <Login />
-            },
-            {
-                path: "/signup",
-                element: <Signup />
-            },
-            {
-                path: "/firefly-observations",
-                element: <FireflyObservations />
-            },
-            {
-                path: "/sightings",
-                element: <ProtectedRoute>
-                    <Sighting />
-                </ProtectedRoute>
-            }
-        ]
-    }
-]
+        element: <Home />,
+      },
+      {
+        path: "/species",
+        element: <Species />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/firefly-observations",
+        element: <FireflyObservations />,
+      },
+      {
+        path: "/sightings",
+        element: (
+          <ProtectedRoute>
+            <Sighting />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+];
 
 export default routes;
