@@ -34,15 +34,19 @@ class Sighting(db.Model, SerializerMixin):
     __tablename__ = "sightings"
 
     id = db.Column(db.Integer, primary_key=True)
+    location = db.Column(db.String)
+    timestamp = db.Column(db.DateTime)
+    description = db.Column(db.String)
+    image = db.Column(db.String)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     species_id = db.Column(db.Integer, db.ForeignKey("species.id"))
-    location = db.Column(db.String, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
-    description = db.Column(db.String, nullable=False)
-    image = db.Column(db.String, nullable=False)
 
     user = db.relationship("User", back_populates="sightings")
     species = db.relationship("Species", back_populates="sightings")
+
+    serialize_rules = ('-user.sightings', '-species.sightings')
 
     def __repr__(self):
         return f"<Sighting {self.id} - Location: {self.location}, Timestamp: {self.timestamp}>"

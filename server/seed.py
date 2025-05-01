@@ -35,28 +35,36 @@ if __name__ == '__main__':
         db.session.add(user2)
         db.session.commit()
         
-        species1 = Species(name="Tiger", type="Mammal", scientific_name="Panthera tigris")
-        species2 = Species(name="Eagle", type="Bird", scientific_name="Aquila chrysaetos")
-
-        db.session.add(species1)
-        db.session.add(species2)
+        # Add firefly species
+        firefly = Species(
+            name="Common Eastern Firefly", 
+            type="Insect", 
+            scientific_name="Photinus pyralis"
+        )
+        db.session.add(firefly)
         db.session.commit()
         
+        # Add firefly sightings with coordinates
         sighting1 = Sighting(
-            location="Jungle", 
-            timestamp=datetime.strptime("2023-01-15", "%Y-%m-%d"), 
-            description="Seen in the jungle", 
-            image="tiger.jpg", 
+            location="Central Park, New York", 
+            timestamp=datetime.strptime("2023-06-15 20:30", "%Y-%m-%d %H:%M"), 
+            description="Large group of fireflies near the pond", 
+            image="https://example.com/firefly1.jpg", 
             user_id=user1.id, 
-            species_id=species1.id
+            species_id=firefly.id,
+            latitude=40.7829,
+            longitude=-73.9654
         )
+        
         sighting2 = Sighting(
-            location="Sky", 
-            timestamp=datetime.strptime("2023-01-16", "%Y-%m-%d"), 
-            description="Seen in the sky", 
-            image="eagle.jpg", 
+            location="Prospect Park, Brooklyn", 
+            timestamp=datetime.strptime("2023-06-16 21:00", "%Y-%m-%d %H:%M"), 
+            description="Fireflies in the meadow", 
+            image="https://example.com/firefly2.jpg", 
             user_id=user2.id, 
-            species_id=species2.id
+            species_id=firefly.id,
+            latitude=40.6602,
+            longitude=-73.9690
         )
 
         db.session.add(sighting1)
