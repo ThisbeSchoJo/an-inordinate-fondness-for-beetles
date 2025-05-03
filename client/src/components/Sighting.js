@@ -8,12 +8,14 @@ import React, { useState, useEffect } from "react";
 import Map from "./Map";
 import "../sighting.css";
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
+import ObservationPopup from "./ObservationPopup";
 
 function Sighting() {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
+  const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
 
   // State for storing sighting details (currently not used but kept for future expansion)
   const [sightingData, setSightingData] = useState({
@@ -88,9 +90,26 @@ function Sighting() {
         },
         title: observation.species_guess || "Unknown Firefly",
         id: observation.id,
+        observation: observation, // Store the full observation data for the popup
       };
     }) || [];
   console.log("iNaturalist markers:", inaturalistMarkers);
+
+  /**
+   * Handle marker click
+   * Sets the selected observation for the popup
+   */
+  const handleMarkerClick = (marker) => {
+    setSelectedObservation(marker.observation);
+  };
+
+  /**
+   * Handle popup close
+   * Clears the selected observation
+   */
+  const handleClosePopup = () => {
+    setSelectedObservation(null);
+  };
 
   // Show loading state while getting user's location
   if (isLoadingLocation) {
@@ -108,8 +127,19 @@ function Sighting() {
 
       {/* Map container with user's location and iNaturalist markers */}
       <div className="map-container">
-        <Map center={mapCenter} markers={inaturalistMarkers} zoom={10} />
+        <Map
+          center={mapCenter}
+          markers={inaturalistMarkers}
+          zoom={10}
+          onMarkerClick={handleMarkerClick}
+        />
       </div>
+
+      {/* Observation popup */}
+      <ObservationPopup
+        observation={selectedObservation}
+        onClose={handleClosePopup}
+      />
 
       {/* Sighting details section (currently static, can be expanded later) */}
       <div className="sighting-details-container">

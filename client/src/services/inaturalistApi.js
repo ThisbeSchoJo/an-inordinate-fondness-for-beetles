@@ -1,129 +1,125 @@
 /**
  * iNaturalist API Service
- * This service provides functions to interact with the iNaturalist API
- * for fetching firefly observations and related data.
+ * This file contains functions to interact with the iNaturalist API
+ * Documentation: https://api.inaturalist.org/v1/docs/
  */
 
 import axios from "axios";
 
-// Base URL for the iNaturalist API
-const BASE_URL = "https://api.inaturalist.org/v1";
+// Base URL for the iNaturalist API v1
+// This is the endpoint that all API requests will be made to
+const API_BASE_URL = "https://api.inaturalist.org/v1";
 
-// Create an axios instance with the base URL
+//Create an axios instance with default configuration
+// >> allows us to set common headers and base URL for all requests
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-/**
- * Search for firefly observations
- * @param {Object} params - Query parameters for the search
- * @param {number} params.lat - Latitude for location-based search
- * @param {number} params.lng - Longitude for location-based search
- * @param {number} params.radius - Search radius in kilometers
- * @param {string} params.quality_grade - Quality grade filter (e.g., "research")
- * @param {boolean} params.photos - Whether to include only observations with photos
- * @returns {Promise} - Promise resolving to the API response
- */
-export const searchFireflyObservations = async (params = {}) => {
+// searchFireflyObservations is an asynchronous API function that fetches firefly observations from iNaturalist API, with default filters set for fireflies, pagination, and sorting. You can override or extend the default parameters by passing a params object.
+// params is an object with optional query parameters:
+// taxon_id: The taxon ID for fireflies (Lampyridae)
+// per_page: Number of results per page
+// order_by: Sort order (desc or asc)
+// order: Field to sort by
+// page: Page number for pagination
+// place_id: Filter by place ID
+// observed_on: Filter by observation date
+// Returns a promise that resolves to an object containing an array of observations (the API response)
+
+export async function searchFireflyObservations(params = {}) {
   try {
+    // First, let's find the correct taxon_id for Lampyridae
+    const taxaResponse = await searchFireflySpecies();
+    const lampyridae = taxaResponse.results.find(
+      (taxon) =>
+        taxon.name.toLowerCase() === "lampyridae" && taxon.rank === "family"
+    );
+
+    if (!lampyridae) {
+      throw new Error("Could not find Lampyridae taxon");
+    }
+
+    console.log("Found Lampyridae taxon:", lampyridae);
+
     // Default parameters for firefly search
     const defaultParams = {
-      taxon_id: 48073, // Lampyridae (fireflies) taxon ID
-      per_page: 100,
-      order_by: "observed_on",
-      order: "desc",
-      quality_grade: "research",
-      photos: true,
-    };
-
-    // Merge default parameters with provided parameters
-    const queryParams = { ...defaultParams, ...params };
-
-    // Log the search parameters for debugging
-    console.log("Searching firefly observations with params:", queryParams);
-
-    // Make the API request
-    const response = await api.get("/observations", { params: queryParams });
-    return response.data;
-  } catch (error) {
-    console.error("Error searching firefly observations:", error);
-    throw error;
-  }
-};
-
-/**
- * Get details for a specific observation
- * @param {number} id - The observation ID
- * @returns {Promise} - Promise resolving to the observation details
- */
-export const getObservationDetails = async (id) => {
-  try {
-    const response = await api.get(`/observations/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error getting observation details:", error);
-    throw error;
-  }
-};
-
-/**
- * Search for firefly species
- * @param {Object} params - Query parameters for the search
- * @returns {Promise} - Promise resolving to the species search results
- */
-export const searchFireflySpecies = async (params = {}) => {
-  try {
-    const defaultParams = {
-      q: "Lampyridae",
-      rank: "family",
+      taxon_id: lampyridae.id, // Use the found taxon_id
       per_page: 20,
-      locale: "en",
+      order_by: "desc",
+      order: "created_at",
+      page: 1,
+      ...params,
     };
 
-    const queryParams = { ...defaultParams, ...params };
-    console.log("Searching firefly species with params:", queryParams);
-
-    const response = await api.get("/taxa", { params: queryParams });
+    console.log("Searching iNaturalist with params:", defaultParams);
+    const response = await api.get("/observations", { params: defaultParams });
+    console.log("iNaturalist response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error searching firefly species:", error);
+    console.error("Error fetching firefly observations:", error);
     throw error;
   }
-};
+}
 
-/**
- * Get observations by species ID
- * @param {number} speciesId - The species ID
- * @param {Object} params - Additional query parameters
- * @returns {Promise} - Promise resolving to the observations for the species
- */
-export const getObservationsBySpecies = async (speciesId, params = {}) => {
+//Get detailed information about a specific observation
+export async function getObservationDetails(observationId) {
+  // observationId is the ID of the observation to fetch
+  try {
+    const response = await api.get(`/observations/${observationId}`); // Make the API request to get a specific observation by ID
+    return response.data; // Returns a promise that resolves to an object containing the observation details (the API response)
+  } catch (error) {
+    console.error(
+      `Error fetching observation details for ID ${observationId}:`,
+      error
+    );
+    throw error;
+  }
+}
+
+// Search for firefly species (taxa) on iNaturalist
+export async function searchFireflySpecies(query = "Lampyridae") {
+  try {
+    const response = await api.get("/taxa", {
+      params: {
+        q: query,
+        is_active: true,
+        per_page: 20,
+        rank: "family", // Search specifically at the family level
+        locale: "en", // Ensure English names
+      },
+    });
+    console.log("Firefly taxa search results:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error searching for firefly species:", error);
+    throw error;
+  }
+}
+
+//Get observations for a specific species
+export async function getObservationsBySpecies(taxonId, params = {}) {
+  // params is an object with optional query parameters: (e.g., per_page, page, order_by, order, place_id, observed_on)
   try {
     const defaultParams = {
-      per_page: 100,
-      order_by: "observed_on",
-      order: "desc",
+      taxon_id: taxonId, // taxonId is the ID of the species
+      per_page: 20,
+      ...params,
     };
 
-    const queryParams = { ...defaultParams, ...params };
-    console.log(`Getting observations for species ${speciesId}:`, queryParams);
-
-    const response = await api.get(`/observations`, {
-      params: { ...queryParams, taxon_id: speciesId },
-    });
-    return response.data;
+    const response = await api.get("/observations", { params: defaultParams });
+    return response.data; // Returns a promise that resolves to an object containing the observations (the API response)
   } catch (error) {
-    console.error("Error getting observations by species:", error);
+    console.error(`Error fetching observations for species ${taxonId}:`, error);
     throw error;
   }
-};
+}
 
-/**
- * Search for places by name
- * @param {string} query - The search query for places
- * @returns {Promise} - Promise resolving to the places search results
- */
-export const searchPlaces = async (query) => {
+// Function to search for places by name
+export async function searchPlaces(query) {
   try {
     console.log("Searching places with query:", query);
     const response = await api.get("/places", {
@@ -140,7 +136,7 @@ export const searchPlaces = async (query) => {
     console.error("Error searching places:", error);
     throw error;
   }
-};
+}
 
 /**
  * Get observations near a specific location
@@ -154,7 +150,7 @@ export const getObservationsByLocation = async (lat, lng, radius = 10) => {
     console.log("Searching observations near location:", { lat, lng, radius });
     const response = await api.get("/observations", {
       params: {
-        taxon_id: 48073, // Lampyridae family
+        taxon_id: 47731, // Lampyridae family
         lat: lat,
         lng: lng,
         radius: radius, // radius in kilometers
