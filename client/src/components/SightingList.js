@@ -7,8 +7,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import SightingItem from "./SightingItem";
 import SightingActions from "./SightingActions";
 import SightingForm from "./SightingForm";
-import Map from "./Map";
-import { useFireflyInaturalistData } from "../hooks/useFireflyInaturalistData";
 
 function SightingList() {
   // State variables to manage component data and UI state
@@ -23,31 +21,6 @@ function SightingList() {
   useEffect(() => {
     fetchSightings();
   }, []);
-
-  // Prepare markers from user sightings
-  const userSightingsMarkers = sightings.map((sighting) => ({
-    position: {
-      lat: sighting.latitude,
-      lng: sighting.longitude,
-      title: sighting.species,
-      id: sighting.id,
-      type: "user",
-    },
-  }));
-
-  // Prepare markers from iNaturalist data
-  const inaturalistMarkers = inaturalistData?.results?.map((observation) => ({
-    position: {
-      lat: observation.geojson?.coordinates[1] || 0,
-      lng: observation.geojson?.coordinates[0] || 0,
-      title: observation.species_guess || "Unknown Firefly",
-      id: observation.id,
-      type: "inaturalist",
-    },
-  })) || [];
-
-  // Combine user sightings and iNaturalist markers
-  const allMarkers = [...userSightingsMarkers, ...inaturalistMarkers];
 
   // Function to fetch sightings from the API
   async function fetchSightings() {
@@ -67,12 +40,34 @@ function SightingList() {
     }
   }
 
-  const { data: inaturalistData, loading: inaturalistLoading } = useFireflyInaturalistData({});
+  // Handle form submission
+  function handleEditSubmit(formData) {
+    // ... existing code ...
+  }
+
+  // Handle cancel edit
+  function handleCancelEdit() {
+    // ... existing code ...
+  }
+
+  // Handle add new sighting
+  function handleAdd() {
+    // ... existing code ...
+  }
+
+  // Handle delete sighting
+  function handleDelete(id) {
+    // ... existing code ...
+  }
+
+  // Handle edit sighting
+  function handleEdit(id) {
+    // ... existing code ...
+  }
 
   return (
     <div>
       <h1>Sighting List</h1>
-      <Map center={mapCenter} markers={allMarkers} />
 
       {/* Conditional rendering based on edit mode */}
       {isEditing ? (

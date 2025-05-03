@@ -116,8 +116,29 @@ api.add_resource(CheckSession, "/check_session")
 
 class Sightings(Resource):
     def get(self):
-        sightings = [sighting.to_dict() for sighting in Sighting.query.all()]
-        return make_response(sightings, 200)
+        # Check if location parameters are provided
+        lat = request.args.get('lat')
+        lng = request.args.get('lng')
+        radius = request.args.get('radius', 10)  # Default radius of 10km
+        
+        if lat and lng:
+            try:
+                lat = float(lat)
+                lng = float(lng)
+                radius = float(radius)
+                
+                # Query sightings within the specified radius
+                sightings = Sighting.query.filter(
+                    Sighting.latitude.between(lat - radius/111, lat + radius/111),
+                    Sighting.longitude.between(lng - radius/111, lng + radius/111)
+                ).all()
+            except (ValueError, TypeError):
+                abort(400, "Invalid latitude, longitude, or radius parameters")
+        else:
+            # If no location parameters, return all sightings
+            sightings = Sighting.query.all()
+            
+        return make_response([sighting.to_dict() for sighting in sightings], 200)
 
     def post(self):
         user_id = session.get("user_id")

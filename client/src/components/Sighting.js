@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "./Map";
 import "../sighting.css";
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
-
 
 /**
  * Sighting Component
@@ -11,15 +10,35 @@ import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
  * and markers.
  */
 function Sighting() {
-  // State for the map's center coordinates
-  // Currently set to New York City coordinates as an example
-  const [mapCenter, setMapCenter] = useState({
-    lat: 40.7128,
-    lng: -74.006,
-  });
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true);
+
+  // Get user's location when component mounts
+  useEffect(() => {
+    console.log("Requesting geolocation...");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("Got location:", { latitude, longitude });
+          setUserLocation({ lat: latitude, lng: longitude });
+          setIsLoadingLocation(false);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setLocationError(error.message);
+          setIsLoadingLocation(false);
+        }
+      );
+    } else {
+      console.log("Geolocation not supported");
+      setLocationError("Geolocation is not supported by your browser");
+      setIsLoadingLocation(false);
+    }
+  }, []);
 
   // State for the sighting data
-  // This would typically be populated from your backend API
   const [sightingData, setSightingData] = useState({
     species: "",
     location: "",
@@ -28,26 +47,43 @@ function Sighting() {
     image: "",
   });
 
-  // State for the markers to display on the map
-  // Each marker has a position and title
-  const [markers, setMarkers] = useState([]);
+  // Use the user's location for the map center
+  const mapCenter = userLocation || { lat: 0, lng: 0 };
+  console.log("Map center:", mapCenter);
 
-  const { data, loading, error } = useFireflyInaturalistData();
+  const { data, loading, error } = useFireflyInaturalistData({
+    lat: userLocation?.lat,
+    lng: userLocation?.lng,
+    radius: 10,
+  });
   console.log("iNaturalist data:", data);
   console.log("Loading:", loading);
   console.log("Error:", error);
 
   // Prepare markers from iNaturalist data
-  const inaturalistMarkers = data?.results?.map((observation) => ({
-    position: {
-      lat: observation.geojson?.coordinates[1] || 0,
-      lng: observation.geojson?.coordinates[0] || 0,
-    },
-    title: observation.species_guess || "Unknown Firefly",
-    id: observation.id,
-  }));
+  const inaturalistMarkers =
+    data?.results?.map((observation) => {
+      const [lat, lng] = observation.location
+        .split(",")
+        .map((coord) => parseFloat(coord.trim()));
+      return {
+        position: {
+          lat,
+          lng,
+        },
+        title: observation.species_guess || "Unknown Firefly",
+        id: observation.id,
+      };
+    }) || [];
   console.log("iNaturalist markers:", inaturalistMarkers);
-  
+
+  if (isLoadingLocation) {
+    return <div className="loading">Getting your location...</div>;
+  }
+
+  if (locationError) {
+    return <div className="error">Error: {locationError}</div>;
+  }
 
   return (
     // Main container for the sighting page
@@ -57,7 +93,7 @@ function Sighting() {
       {/* Container for the map component */}
       <div className="map-container">
         {/* Pass the center coordinates and markers to the Map component */}
-        <Map center={mapCenter} markers={inaturalistMarkers} />
+        <Map center={mapCenter} markers={inaturalistMarkers} zoom={10} />
       </div>
 
       {/* Container for the sighting details */}
