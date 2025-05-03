@@ -118,9 +118,54 @@ async function getObservationsBySpecies(taxonId, params = {}) {
   }
 }
 
+// Function to search for places by name
+async function searchPlaces(query) {
+  try {
+    console.log("Searching places with query:", query);
+    const response = await api.get("/places", {
+      params: {
+        q: query,
+        per_page: 5,
+        order_by: "area",
+        order: "desc",
+      },
+    });
+    console.log("Places API response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error searching places:", error);
+    throw error;
+  }
+}
+
+// Function to get observations near a specific location
+async function getObservationsByLocation(lat, lng, radius = 10) {
+  try {
+    console.log("Searching observations near location:", { lat, lng, radius });
+    const response = await api.get("/observations", {
+      params: {
+        taxon_id: 47731, // Lampyridae family
+        lat: lat,
+        lng: lng,
+        radius: radius, // radius in kilometers
+        per_page: 20,
+        order_by: "desc",
+        order: "created_at",
+      },
+    });
+    console.log("Location-based observations response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching location-based observations:", error);
+    throw error;
+  }
+}
+
 export {
   searchFireflyObservations,
   getObservationDetails,
   searchFireflySpecies,
   getObservationsBySpecies,
+  searchPlaces,
+  getObservationsByLocation,
 };
