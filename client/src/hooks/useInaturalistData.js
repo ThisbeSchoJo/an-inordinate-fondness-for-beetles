@@ -35,22 +35,8 @@ export const useFireflyInaturalistData = (params = {}) => {
     try {
       setLoading(true);
       setError(null);
-
-      // If location parameters are provided, use location-based search
-      if (params.lat && params.lng) {
-        console.log("Fetching observations by location:", params);
-        const response = await getObservationsByLocation(
-          params.lat,
-          params.lng,
-          params.radius
-        );
-        setData(response);
-      } else {
-        // Otherwise, use general search
-        console.log("Fetching observations with params:", params);
-        const response = await searchFireflyObservations(params);
-        setData(response);
-      }
+      const response = await searchFireflyObservations(params);
+      setData(response);
     } catch (err) {
       setError(err.message);
       console.error("Error fetching firefly data:", err);

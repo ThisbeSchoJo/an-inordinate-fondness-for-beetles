@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
+import "../App.css";
 
 function App() {
   // Authentication state
@@ -31,15 +32,17 @@ function App() {
   };
 
   return (
-    <>
+    <div className="App">
       <NavBar user={user} />
-      <Outlet
-        context={{
-          user,
-          updateUser,
-        }}
-      />
-    </>
+      <main className="main-container">
+        <Outlet
+          context={{
+            user,
+            updateUser,
+          }}
+        />
+      </main>
+    </div>
   );
 }
 

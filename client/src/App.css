@@ -1,0 +1,91 @@
+/* Global styles */
+:root {
+  --background-color: #222;
+  --text-color: #f0f0f0;
+  --accent-yellow: #ffea00;
+  --accent-cyan: #00ffd0;
+  --hover-color: #333;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* Container for main content */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Hide the sighting details container */
+.sighting-details-container {
+  display: none;
+}
+
+/* Card styles */
+.card {
+  background-color: var(--hover-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styles */
+button {
+  background-color: var(--hover-color);
+  color: var(--text-color);
+  border: 1px solid var(--accent-yellow);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--accent-yellow);
+  color: var(--background-color);
+}
+
+/* Form styles */
+input,
+textarea,
+select {
+  background-color: var(--hover-color);
+  color: var(--text-color);
+  border: 1px solid var(--accent-cyan);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-yellow);
+}
+
+/* Link styles */
+a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-yellow);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+  }
+}

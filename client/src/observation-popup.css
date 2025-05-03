@@ -20,6 +20,7 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .close-button {
@@ -31,11 +32,18 @@
   font-size: 24px;
   cursor: pointer;
   color: #666;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #333;
 }
 
 .popup-content h2 {
   margin-top: 0;
   color: #333;
+  font-size: 1.4em;
+  margin-bottom: 15px;
 }
 
 .popup-content img {
@@ -48,9 +56,12 @@
 
 .observation-details {
   margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
 }
 
 .observation-details p {
   margin: 8px 0;
   color: #444;
+  line-height: 1.4;
 }

@@ -140,24 +140,6 @@ function Sighting() {
         observation={selectedObservation}
         onClose={handleClosePopup}
       />
-
-      {/* Sighting details section (currently static, can be expanded later) */}
-      <div className="sighting-details-container">
-        <h2>Sighting Details</h2>
-        <div className="detail-item">
-          <strong>Species:</strong> {sightingData.species}
-        </div>
-        <div className="detail-item">
-          <strong>Location:</strong> {sightingData.location}
-        </div>
-        <div className="detail-item">
-          <strong>Date/Time:</strong> {sightingData.timestamp}
-        </div>
-        <div className="detail-item">
-          <strong>Description:</strong>
-          <p>{sightingData.description}</p>
-        </div>
-      </div>
     </div>
   );
 }
