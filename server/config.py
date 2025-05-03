@@ -49,3 +49,8 @@ CORS(app,
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
      allow_headers=["Content-Type", "Authorization"],
      expose_headers=["Content-Type", "Authorization"])
+
+# Initialize extensions with app
+migrate.init_app(app, db)
+api.init_app(app)
+bcrypt.init_app(app)

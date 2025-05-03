@@ -3,9 +3,7 @@ import { useState } from "react";
 import "../login.css";
 
 function Login() {
-  // Get the updateUser function from App.js through React Router's context
   const { updateUser } = useOutletContext();
-  console.log("Login.js context:", useOutletContext());
   const navigate = useNavigate();
 
   // State for the login form

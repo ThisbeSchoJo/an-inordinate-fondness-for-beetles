@@ -1,4 +1,4 @@
-import { useOutletContext, useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import "../signup.css";
 

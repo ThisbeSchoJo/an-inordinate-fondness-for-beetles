@@ -3,17 +3,20 @@
 
 import { Navigate, useOutletContext } from "react-router-dom";
 
-function ProtectedRoute({children}) {
-    const { user } = useOutletContext();
-    if (!user) {
-        return <Navigate to="/login" />;
-    }
+function ProtectedRoute({ children }) {
+  const { user } = useOutletContext();
 
-    return (
-        <div>
-            {children}
-        </div>
-    )
+  // If user is null but we're still checking the session, show loading
+  if (user === null) {
+    return <div>Loading...</div>;
+  }
+
+  // If user is undefined (session check complete and no user), redirect to login
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return <div>{children}</div>;
 }
 
 export default ProtectedRoute;

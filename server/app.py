@@ -67,41 +67,52 @@ api.add_resource(Users, "/signup")
 
 class Login(Resource):
     def post(self):
-        data = request.get_json()
-        user = User.query.filter_by(username=data.get("username")).first()
-        if user and user.authenticate(data.get("password")):
-            session["user_id"] = user.id
-            response = make_response(
-                user.to_dict(),
-                200
-            )
-            return response
-        else:
-            abort(401, "Invalid username")
-api.add_resource(Login,"/login")
-
-class AuthorizedSession(Resource):
-    def get(self):
-        # Get the user from the session
-        user = User.query.filter_by(id=session.get("user_id")).first()
-        # If the user is found, return the user's data
-        if user:
-            response = make_response(
-                user.to_dict(),
-                200
-            )
-            return response
-        else:
-            abort(401, "Unauthorized")
-api.add_resource(AuthorizedSession, "/authorized")
+        try:
+            data = request.get_json()
+            print("Received login data:", data)  # Debug log
+            
+            user = User.query.filter_by(username=data.get("username")).first()
+            if user and user.authenticate(data.get("password")):
+                session["user_id"] = user.id
+                response = make_response(
+                    user.to_dict(rules=("-_password_hash",)),
+                    200
+                )
+                return response
+            else:
+                return make_response({"error": "Invalid username or password"}, 401)
+        except Exception as e:
+            import traceback
+            print("Error in login:", str(e))  # Debug log
+            print("Full traceback:", traceback.format_exc())  # Debug log
+            return make_response({"error": str(e)}, 500)
 
 class Logout(Resource):
     def delete(self):
-        # Clear the session
-        session["user_id"] = None
-        response = make_response("", 204)
-        return response
+        try:
+            session.pop("user_id", None)
+            return make_response({}, 204)
+        except Exception as e:
+            return make_response({"error": str(e)}, 500)
+
+class CheckSession(Resource):
+    def get(self):
+        try:
+            user_id = session.get("user_id")
+            if user_id:
+                user = User.query.filter_by(id=user_id).first()
+                if user:
+                    return make_response(
+                        user.to_dict(rules=("-_password_hash",)),
+                        200
+                    )
+            return make_response({"error": "Unauthorized"}, 401)
+        except Exception as e:
+            return make_response({"error": str(e)}, 500)
+
+api.add_resource(Login, "/login")
 api.add_resource(Logout, "/logout")
+api.add_resource(CheckSession, "/check_session")
 
 class Sightings(Resource):
     def get(self):
