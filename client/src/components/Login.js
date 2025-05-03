@@ -5,6 +5,7 @@ import "../login.css";
 function Login() {
   // Get the updateUser function from App.js through React Router's context
   const { updateUser } = useOutletContext();
+  console.log("Login.js context:", useOutletContext());
   const navigate = useNavigate();
 
   // State for the login form
@@ -24,7 +25,7 @@ function Login() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send login request to backend
+    console.log("Login data being sent:", loginData);
     fetch("http://localhost:5555/login", {
       method: "POST",
       headers: {
@@ -34,6 +35,7 @@ function Login() {
       body: JSON.stringify(loginData),
     })
       .then((response) => {
+        console.log("Login response status:", response.status);
         if (response.ok) {
           return response.json();
         } else {
@@ -41,6 +43,8 @@ function Login() {
         }
       })
       .then((user) => {
+        // Debug logging
+        console.log("Logged in user:", user);
         // On successful login:
         // 1. Update the authentication state with user data
         updateUser(user);

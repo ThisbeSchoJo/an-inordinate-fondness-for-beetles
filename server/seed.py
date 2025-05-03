@@ -28,8 +28,12 @@ if __name__ == '__main__':
         # Seed code goes here!
         print("Adding new data...")
 
-        user1 = User(username="John Doe", password="password123")
-        user2 = User(username="Jane Smith", password="password456")
+        # Create users with password hashing
+        user1 = User(username="John Doe")
+        user1.password_hash = "password123"  # This will trigger the hashing
+
+        user2 = User(username="Jane Smith")
+        user2.password_hash = "password456"  # This will trigger the hashing
 
         db.session.add(user1)
         db.session.add(user2)

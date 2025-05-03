@@ -18,6 +18,7 @@ function Signup() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Signup data being sent:", signUpData);
     fetch("http://localhost:5555/signup", {
       method: "POST",
       headers: {
@@ -27,10 +28,21 @@ function Signup() {
       body: JSON.stringify(signUpData),
     })
       .then((response) => {
+        console.log("Signup response status:", response.status);
         if (response.ok) {
           return response.json();
         } else {
-          throw new Error("Registration failed. Please try again.");
+          return response.json().then((err) => {
+            if (response.status === 409) {
+              throw new Error(
+                "Username already exists. Please choose a different username."
+              );
+            } else {
+              throw new Error(
+                err.error || "Registration failed. Please try again."
+              );
+            }
+          });
         }
       })
       .then((user) => {
@@ -38,6 +50,7 @@ function Signup() {
         navigate("/");
       })
       .catch((error) => {
+        console.error("Signup error:", error);
         alert(error.message);
       });
   };
