@@ -18,6 +18,10 @@ from config import app, db, api, bcrypt
 # Add your model imports
 from models import User, Sighting, Species, Friendship
 
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 # Views go here!
 
 @app.route('/')
@@ -27,26 +31,38 @@ def index():
 class Users(Resource):
     def post(self):
         try:
-            form_json = request.get_json()
-            print("Received signup data:", form_json)  # Debug log
+            if 'username' not in request.form or 'password' not in request.form:
+                return make_response({"error": "Username and password are required"}, 400)
             
-            if not form_json.get("username") or not form_json.get("password"):
-                abort(400, "Username and password are required")
-            
+            username = request.form['username']
+            password = request.form['password']
+
             # Check if username already exists
-            existing_user = User.query.filter_by(username=form_json.get("username")).first()
+            existing_user = User.query.filter_by(username=request.form['username']).first()
             if existing_user:
                 return make_response({"error": "Username already exists"}, 409)
             
+            # Handle file
+            file = request.files.get('profilePicture')
+            profile_pic_path = None
+            if file:
+                if file.filename == '':
+                    return make_response({"error": "No selected file"}, 400)
+                
+                # Create a unique filename
+                file_ext = os.path.splitext(file.filename)[1]
+                filename = f"{username}{file_ext}"
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                profile_pic_path = f"/{app.config['UPLOAD_FOLDER']}/{filename}"
+            
             new_user = User(
-                username=form_json.get("username")
+                username=username,
+                profile_picture=profile_pic_path
             )
             
             # Set the password using the property
-            new_user.password_hash = form_json.get("password")
-            
-            print("Created new user:", new_user)  # Debug log
-            
+            new_user.password_hash = password
+                        
             db.session.add(new_user)
             db.session.commit()
             
@@ -57,12 +73,14 @@ class Users(Resource):
                 201
             )
             return response
+        
         except Exception as e:
             import traceback
             print("Error in signup:", str(e))  # Debug log
             print("Full traceback:", traceback.format_exc())  # Debug log
             db.session.rollback()
             return make_response({"error": str(e)}, 500)
+        
 api.add_resource(Users, "/signup")
 
 class Login(Resource):
