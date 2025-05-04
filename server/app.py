@@ -165,10 +165,12 @@ class Sightings(Resource):
         
         data = request.get_json()
 
+        timestamp = datetime.strptime(data.get("timestamp"), "%Y-%m-%dT%H:%M")
+
         new_sighting = Sighting(
             species_id=data.get("species_id"),
             location=data.get("location"),
-            timestamp=data.get("timestamp"),
+            timestamp=timestamp,
             description=data.get("description"),
             image=data.get("image"),
             user_id=user_id
@@ -255,7 +257,6 @@ class FriendSearch(Resource):
                 "profile_picture": user.profile_picture
             } for user in users
         ], 200)
-
 api.add_resource(FriendSearch, "/friend-search")
 
 class AddFriend(Resource):
@@ -290,6 +291,7 @@ class AddFriend(Resource):
         db.session.commit()
         
         return make_response({"message": "Friend added successfully"}, 201)
+api.add_resource(AddFriend, "/add-friend")
 
 class Friends(Resource):
     def get(self):
@@ -307,6 +309,7 @@ class Friends(Resource):
         friends = User.query.filter(User.id.in_(friend_ids)).all()
         
         return make_response([friend.to_dict() for friend in friends], 200)
+api.add_resource(Friends, "/friends")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -133,7 +133,7 @@ function Sighting() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("http://localhost:5000/sightings", {
+        const response = await fetch("http://localhost:5555/sightings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -172,7 +172,7 @@ function Sighting() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`http://localhost:5000/sightings/${id}`, {
+      const response = await fetch(`http://localhost:5555/sightings/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
