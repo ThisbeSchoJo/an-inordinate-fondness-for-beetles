@@ -73,6 +73,44 @@ if __name__ == '__main__':
 
         db.session.add(sighting1)
         db.session.add(sighting2)
+
+        # Add Tampa/Clearwater area firefly sightings
+        sighting3 = Sighting(
+            location="Lettuce Lake Park, Tampa", 
+            timestamp=datetime.strptime("2023-06-20 20:45", "%Y-%m-%d %H:%M"), 
+            description="Fireflies along the boardwalk near the Hillsborough River", 
+            image="https://example.com/firefly3.jpg", 
+            user_id=user1.id, 
+            species_id=firefly.id,
+            latitude=28.0806,
+            longitude=-82.3654
+        )
+        
+        sighting4 = Sighting(
+            location="Philippe Park, Safety Harbor", 
+            timestamp=datetime.strptime("2023-06-21 21:15", "%Y-%m-%d %H:%M"), 
+            description="Fireflies in the oak hammock near the water", 
+            image="https://example.com/firefly4.jpg", 
+            user_id=user2.id, 
+            species_id=firefly.id,
+            latitude=28.0008,
+            longitude=-82.6965
+        )
+        
+        sighting5 = Sighting(
+            location="Moccasin Lake Nature Park, Clearwater", 
+            timestamp=datetime.strptime("2023-06-22 20:30", "%Y-%m-%d %H:%M"), 
+            description="Fireflies near the lake at dusk", 
+            image="https://example.com/firefly5.jpg", 
+            user_id=user1.id, 
+            species_id=firefly.id,
+            latitude=27.9914,
+            longitude=-82.7689
+        )
+
+        db.session.add(sighting3)
+        db.session.add(sighting4)
+        db.session.add(sighting5)
         db.session.commit()
 
         # Create bidirectional friendship between users
