@@ -228,7 +228,85 @@ class SightingsById(Resource):
         return response
 
 api.add_resource(SightingsById, "/sightings/<int:id>")
-    
+ 
+class FriendSearch(Resource):
+    def get(self):
+        # Check if user is logged in
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Please log in to search for friends")
+            
+        # Get search term
+        search_term = request.args.get('username')
+        if not search_term:
+            abort(400, "Please enter a username to search")
+
+        # Query database, excluding current user
+        users = User.query.filter(
+            User.username.ilike(f"%{search_term}%"),
+            User.id != user_id  # Exclude current user
+        ).all()
+        
+        # Return only necessary fields
+        return make_response([
+            {
+                "id": user.id,
+                "username": user.username,
+                "profile_picture": user.profile_picture
+            } for user in users
+        ], 200)
+
+api.add_resource(FriendSearch, "/friend-search")
+
+class AddFriend(Resource):
+    def post(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+            
+        data = request.get_json()   
+        friend_id = data.get("friend_id")
+        
+        # Check if friend exists
+        friend = User.query.get(friend_id)
+        if not friend:
+            abort(404, "Friend not found")
+            
+        # Check if already friends
+        existing_friendship = Friendship.query.filter(
+            ((Friendship.user_id == user_id) & (Friendship.friend_id == friend_id)) |
+            ((Friendship.user_id == friend_id) & (Friendship.friend_id == user_id))
+        ).first()
+        
+        if existing_friendship:
+            abort(400, "Already friends")
+            
+        # Create both sides of the friendship
+        friendship1 = Friendship(user_id=user_id, friend_id=friend_id)
+        friendship2 = Friendship(user_id=friend_id, friend_id=user_id)
+        
+        db.session.add(friendship1)
+        db.session.add(friendship2)
+        db.session.commit()
+        
+        return make_response({"message": "Friend added successfully"}, 201)
+
+class Friends(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+            
+        # Get all friendships where user is either the initiator or the friend
+        friendships = Friendship.query.filter(
+            (Friendship.user_id == user_id) | (Friendship.friend_id == user_id)
+        ).all()
+        
+        # Get the friend users
+        friend_ids = [f.friend_id if f.user_id == user_id else f.user_id for f in friendships]
+        friends = User.query.filter(User.id.in_(friend_ids)).all()
+        
+        return make_response([friend.to_dict() for friend in friends], 200)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
