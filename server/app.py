@@ -43,7 +43,7 @@ class Users(Resource):
                 return make_response({"error": "Username already exists"}, 409)
             
             # Handle file
-            file = request.files.get('profilePicture')
+            file = request.files.get('profile_picture')
             profile_pic_path = None
             if file:
                 if file.filename == '':
@@ -53,7 +53,7 @@ class Users(Resource):
                 file_ext = os.path.splitext(file.filename)[1]
                 filename = f"{username}{file_ext}"
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                profile_pic_path = f"/{app.config['UPLOAD_FOLDER']}/{filename}"
+                profile_pic_path = f"/static/uploads/{filename}"
             
             new_user = User(
                 username=username,

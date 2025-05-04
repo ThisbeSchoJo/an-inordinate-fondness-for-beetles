@@ -6,15 +6,15 @@ function Signup() {
   const { updateUser } = useOutletContext();
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState({
-    profilePicture: null,
+    profile_picture: null,
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
     const {name, value, files } = e.target;
-    if (name === "profilePicture") {
-      setSignUpData((prev) => ({...prev, profilePicture: files[0]}));
+    if (name === "profile_picture") {
+      setSignUpData((prev) => ({...prev, profile_picture: files[0]}));
     } else {
       setSignUpData((prev) => ({...prev, [name]: value}));
     }
@@ -23,7 +23,7 @@ function Signup() {
     e.preventDefault();
     console.log("Signup data being sent:", signUpData);
     const formData = new FormData();
-    formData.append("profilePicture", signUpData.profilePicture);
+    formData.append("profile_picture", signUpData.profile_picture);
     formData.append("username", signUpData.username);
     formData.append("password", signUpData.password);
     fetch("http://localhost:5555/signup", {
@@ -68,7 +68,7 @@ function Signup() {
           <label className="form-label">Profile Picture</label>
           <input
             type="file"
-            name="profilePicture"
+            name="profile_picture"
             onChange={handleChange}
             accept="image/*"
             className="form-input"
