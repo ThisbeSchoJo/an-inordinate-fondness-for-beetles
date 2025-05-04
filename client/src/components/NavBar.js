@@ -33,7 +33,7 @@ function NavBar({ user, updateUser }) {
     <nav className="navbar">
       {/* Always visible navigation links */}
       <NavLink to="/">
-        <Home size={20} /> 
+        <Home size={20} />
       </NavLink>
       <NavLink to="/profile">
         <User size={20} />
@@ -48,14 +48,14 @@ function NavBar({ user, updateUser }) {
         // If user is authenticated, show logout button
         <>
           <button onClick={handleLogout} className="logout-button">
-            <LogOut size={20} />
+            <LogOut size={20} className="nav-icon" />
           </button>
         </>
       ) : (
         // If user is not authenticated, show login button
         <NavLink to="/login">
           <LogIn size={20} />
-          </NavLink>
+        </NavLink>
       )}
     </nav>
   );

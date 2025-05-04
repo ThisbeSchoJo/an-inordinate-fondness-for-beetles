@@ -6,7 +6,7 @@
   background-color: #222;
   padding: 1rem;
   gap: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Base link style */
@@ -14,20 +14,17 @@
   color: #f0f0f0;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s, border-bottom 0.3s;
-  border-bottom: 2px solid transparent;
+  transition: color 0.3s;
 }
 
 /* On hover */
 .navbar a:hover {
   color: #ffea00;
-  border-bottom: 2px solid #ffea00;
 }
 
 /* When link is active (matches current route) */
 .navbar a.active {
   color: #00ffd0;
-  border-bottom: 2px solid #00ffd0;
 }
 
 /* Optional: Make it stack vertically on small screens */
@@ -39,7 +36,7 @@
 }
 
 /* Reset button styles to match links */
-.logout-button {
+.navbar .logout-button {
   background: none;
   border: none;
   padding: 0;
@@ -51,16 +48,19 @@
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
 /* Match hover style */
-.logout-button:hover {
-  color: #ffea00;
-  border-bottom: 2px solid #ffea00;
+.navbar .logout-button:hover {
+  color: #f0f0f0 !important;
 }
 
 /* Optional: match "active" link style (if needed) */
-.logout-button.active {
+.navbar .logout-button.active {
   color: #00ffd0;
-  border-bottom: 2px solid #00ffd0;
+}
+
+.navbar .logout-button:hover .nav-icon {
+  color: var(--accent-yellow);
 }
