@@ -16,15 +16,7 @@ function Sighting() {
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
-
-  // State for storing sighting details (currently not used but kept for future expansion)
-  const [sightingData, setSightingData] = useState({
-    species: "",
-    location: "",
-    timestamp: "",
-    description: "",
-    image: "",
-  });
+  const [userSightings, setUserSightings] = useState([]);
 
   /**
    * useEffect hook to get the user's location when the component mounts
@@ -95,22 +87,6 @@ function Sighting() {
     }) || [];
   console.log("iNaturalist markers:", inaturalistMarkers);
 
-  /**
-   * Handle marker click
-   * Sets the selected observation for the popup
-   */
-  const handleMarkerClick = (marker) => {
-    setSelectedObservation(marker.observation);
-  };
-
-  /**
-   * Handle popup close
-   * Clears the selected observation
-   */
-  const handleClosePopup = () => {
-    setSelectedObservation(null);
-  };
-
   // Show loading state while getting user's location
   if (isLoadingLocation) {
     return <div className="loading">Getting your location...</div>;
@@ -119,6 +95,14 @@ function Sighting() {
   // Show error state if geolocation failed
   if (locationError) {
     return <div className="error">Error: {locationError}</div>;
+  }
+
+  function handleClosePopup() {
+    setSelectedObservation(null);
+  }
+
+  function handleMarkerClick(marker) {
+    setSelectedObservation(marker.observation);
   }
 
   return (
