@@ -13,6 +13,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True)
+    profile_picture = db.Column(db.String)
     # password_digest = db.Column(db.String, nullable=False)
 
     serialize_rules = ("-sightings.user", "-friendships.user", "-friend_of.friend", "-_password_hash") # Hide password hash from JSON responses
