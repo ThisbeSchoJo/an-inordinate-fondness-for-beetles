@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Map from "./Map";
 import "../sighting.css";
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
@@ -17,7 +18,11 @@ function Sighting() {
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
+  const [selectedUserSighting, setSelectedUserSighting] = useState(null); // Stores the currently selected user sighting
   const [showSightingForm, setShowSightingForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [sightings, setSightings] = useState([]);
 
   // const [userSightings, setUserSightings] = useState([]);
 
@@ -84,7 +89,7 @@ function Sighting() {
         id: observation.id,
         observation: observation, // Store the full observation data for the popup
       };
-    // First, try to execute data?.results?.map(...) - if data or results are null/undefined, return an empty array (don't throw an error)
+      // First, try to execute data?.results?.map(...) - if data or results are null/undefined, return an empty array (don't throw an error)
     }) || [];
 
   // Show loading state while getting user's location
@@ -99,27 +104,114 @@ function Sighting() {
 
   // Function to handle clicking a marker
   function handleMarkerClick(marker) {
-    setSelectedObservation(marker.observation);
+    // If it's an iNaturalist marker
+    if (marker.observation) {
+      setSelectedObservation(marker.observation);
+    }
+    // If it's a user sighting marker
+    else {
+      setSelectedUserSighting(marker);
+    }
   }
 
   // Function to handle closing the popup
   function handleClosePopup() {
     setSelectedObservation(null);
+    setSelectedUserSighting(null);
   }
 
   // Function to handle adding a sighting
   function handleAddSighting() {
     setShowSightingForm(true);
+    setSelectedUserSighting(null);
+    setSelectedObservation(null);
   }
 
   // Function to handle submitting the sighting form
-  function handleSubmit(formData) {
-    setShowSightingForm(false);
+  async function handleSubmit(formData) {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch("http://localhost:5000/sightings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create sighting");
+      }
+
+      setShowSightingForm(false);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Function to handle editing a sighting
+  function handleEditSighting(id) {
+    setShowSightingForm(true);
+    const sightingToEdit = sightings.find((s) => s.id === id);
+    if (!sightingToEdit) {
+      setError("Sighting not found");
+      return;
+    }
+    setSelectedUserSighting(sightingToEdit);
+  }
+
+  // Function to handle deleting a sighting
+  async function handleDeleteSighting(id) {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch(`http://localhost:5000/sightings/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete sighting");
+      }
+
+      // Clear selected sighting and refresh sightings
+      setSelectedUserSighting(null);
+      // You'll need to implement fetchSightings to refresh the list
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div className="sighting-container">
       <h1>Glow Sighting</h1>
+
+      {/* Action buttons */}
+      <div className="action-buttons">
+        <button onClick={handleAddSighting}>Add Sighting</button>
+        {selectedUserSighting && (
+          <>
+            <button onClick={() => handleEditSighting(selectedUserSighting.id)}>
+              Edit Sighting
+            </button>
+            <button
+              onClick={() => handleDeleteSighting(selectedUserSighting.id)}
+            >
+              Delete Sighting
+            </button>
+          </>
+        )}
+      </div>
 
       {/* Map container with user's location and iNaturalist markers */}
       <div className="map-container">
@@ -131,23 +223,22 @@ function Sighting() {
         />
       </div>
 
-      {/* Add Sighting button */}
-      <button onClick={handleAddSighting}>Add Sighting</button>
-
       {/* Sighting form - only visible when showSightingForm is true */}
       {showSightingForm && (
         <SightingForm
-          sighting={null} // Pass null for new sighting
+          sighting={selectedUserSighting} // Pass the sighting to edit if one is selected
           onSubmit={handleSubmit}
           onCancel={() => setShowSightingForm(false)}
         />
       )}
 
       {/* Observation popup */}
-      <ObservationPopup
-        observation={selectedObservation}
-        onClose={handleClosePopup}
-      />
+      {selectedObservation && (
+        <ObservationPopup
+          observation={selectedObservation}
+          onClose={handleClosePopup}
+        />
+      )}
     </div>
   );
 }
