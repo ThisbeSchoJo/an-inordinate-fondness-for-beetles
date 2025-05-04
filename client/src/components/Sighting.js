@@ -9,6 +9,7 @@ import Map from "./Map";
 import "../sighting.css";
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import ObservationPopup from "./ObservationPopup";
+import SightingForm from "./SightingForm";
 
 function Sighting() {
   // State for managing user's location and related UI states
@@ -16,6 +17,14 @@ function Sighting() {
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
+  const [showSightingForm, setShowSightingForm] = useState(false);
+  const [formData, setFormData] = useState({
+    species_id: "",
+    location: "",
+    timestamp: "",
+    description: "",
+    image: "",
+  });
   // const [userSightings, setUserSightings] = useState([]);
 
   /**
@@ -104,6 +113,16 @@ function Sighting() {
     setSelectedObservation(null);
   }
 
+  // Function to handle adding a sighting
+  function handleAddSighting() {
+    setShowSightingForm(true);
+  }
+
+  // Function to handle submitting the sighting form
+  function handleSubmit(formData) {
+    setShowSightingForm(false);
+  }
+
   return (
     <div className="sighting-container">
       <h1>Glow Sighting</h1>
@@ -117,6 +136,18 @@ function Sighting() {
           onMarkerClick={handleMarkerClick}
         />
       </div>
+
+      {/* Add Sighting button */}
+      <button onClick={handleAddSighting}>Add Sighting</button>
+
+      {/* Sighting form - only visible when showSightingForm is true */}
+      {showSightingForm && (
+        <SightingForm
+          sighting={null} // Pass null for new sighting
+          onSubmit={handleSubmit}
+          onCancel={() => setShowSightingForm(false)}
+        />
+      )}
 
       {/* Observation popup */}
       <ObservationPopup
