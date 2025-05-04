@@ -21,3 +21,14 @@ body {
     height: 100vh;
     width: 100vw;
 }
+
+#firefly {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    /* transform: translate(-50%, -50%); */
+    height: 50px;
+    width: 50px;
+    transition: top 3s ease-in-out, left 3s ease-in-out;
+    pointer-events: none; /* So the image doesn't block mouse events */
+}
