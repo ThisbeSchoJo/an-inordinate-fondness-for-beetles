@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  getObservationsByLocation,
+  // getObservationsByLocation,
   searchFireflySpecies,
   getObservationsBySpecies,
   searchFireflyObservations,

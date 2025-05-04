@@ -28,14 +28,18 @@ function Map({ center, markers = [], zoom = 10, onMarkerClick }) {
   return (
     <div className="map-container">
       <GoogleMap
+        // Set the map container style to take full width and height of the parent div
         mapContainerStyle={{ width: "100%", height: "100%" }}
+        // Set the initial center and zoom level of the map
         center={center}
         zoom={zoom}
+        // Disable map type and street view controls because doesn't make sense for this app
         options={{
           mapTypeControl: false,
           streetViewControl: false,
         }}
       >
+        {/* Render markers for each observation */}
         {markers.map((marker, index) => (
           <Marker
             key={index}

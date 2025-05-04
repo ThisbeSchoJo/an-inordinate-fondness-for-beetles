@@ -16,6 +16,7 @@ function ObservationPopup({ observation, onClose }) {
           ×
         </button>
         <h2>{observation.species_guess || "Unknown Firefly"}</h2>
+        {/* Display the first photo if available */}
         {observation.photos?.[0]?.url && (
           <img
             src={observation.photos[0].url}
@@ -29,6 +30,7 @@ function ObservationPopup({ observation, onClose }) {
           <p>
             <strong>Location:</strong> {observation.place_guess || "Unknown"}
           </p>
+          {/* Display the description if available */}
           {observation.description && (
             <p>
               <strong>Notes:</strong> {observation.description}

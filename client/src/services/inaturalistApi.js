@@ -43,8 +43,6 @@ export async function searchFireflyObservations(params = {}) {
       throw new Error("Could not find Lampyridae taxon");
     }
 
-    console.log("Found Lampyridae taxon:", lampyridae);
-
     // Default parameters for firefly search
     const defaultParams = {
       taxon_id: lampyridae.id, // Use the found taxon_id
@@ -55,12 +53,9 @@ export async function searchFireflyObservations(params = {}) {
       ...params,
     };
 
-    console.log("Searching iNaturalist with params:", defaultParams);
     const response = await api.get("/observations", { params: defaultParams });
-    console.log("iNaturalist response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching firefly observations:", error);
     throw error;
   }
 }
@@ -72,10 +67,6 @@ export async function getObservationDetails(observationId) {
     const response = await api.get(`/observations/${observationId}`); // Make the API request to get a specific observation by ID
     return response.data; // Returns a promise that resolves to an object containing the observation details (the API response)
   } catch (error) {
-    console.error(
-      `Error fetching observation details for ID ${observationId}:`,
-      error
-    );
     throw error;
   }
 }
@@ -92,10 +83,8 @@ export async function searchFireflySpecies(query = "Lampyridae") {
         locale: "en", // Ensure English names
       },
     });
-    console.log("Firefly taxa search results:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error searching for firefly species:", error);
     throw error;
   }
 }
@@ -113,7 +102,6 @@ export async function getObservationsBySpecies(taxonId, params = {}) {
     const response = await api.get("/observations", { params: defaultParams });
     return response.data; // Returns a promise that resolves to an object containing the observations (the API response)
   } catch (error) {
-    console.error(`Error fetching observations for species ${taxonId}:`, error);
     throw error;
   }
 }
@@ -121,7 +109,6 @@ export async function getObservationsBySpecies(taxonId, params = {}) {
 // Function to search for places by name
 export async function searchPlaces(query) {
   try {
-    console.log("Searching places with query:", query);
     const response = await api.get("/places", {
       params: {
         q: query,
@@ -130,10 +117,8 @@ export async function searchPlaces(query) {
         order: "desc",
       },
     });
-    console.log("Places API response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error searching places:", error);
     throw error;
   }
 }
@@ -147,7 +132,6 @@ export async function searchPlaces(query) {
  */
 export const getObservationsByLocation = async (lat, lng, radius = 10) => {
   try {
-    console.log("Searching observations near location:", { lat, lng, radius });
     const response = await api.get("/observations", {
       params: {
         taxon_id: 47731, // Lampyridae family
@@ -159,10 +143,8 @@ export const getObservationsByLocation = async (lat, lng, radius = 10) => {
         order: "created_at",
       },
     });
-    console.log("Location-based observations response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching location-based observations:", error);
     throw error;
   }
 };

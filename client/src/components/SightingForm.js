@@ -11,6 +11,7 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     timestamp: "",
     description: "",
     image: "",
+    // user_id is automatically set from the user's session
   });
 
   // Initialize form data when sighting changes (for edit mode)
