@@ -18,13 +18,7 @@ function Sighting() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
   const [showSightingForm, setShowSightingForm] = useState(false);
-  const [formData, setFormData] = useState({
-    species_id: "",
-    location: "",
-    timestamp: "",
-    description: "",
-    image: "",
-  });
+
   // const [userSightings, setUserSightings] = useState([]);
 
   /**
