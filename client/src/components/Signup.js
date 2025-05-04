@@ -6,26 +6,31 @@ function Signup() {
   const { updateUser } = useOutletContext();
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState({
+    profilePicture: null,
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setSignUpData({
-      ...signUpData,
-      [e.target.name]: e.target.value,
-    });
+    const {name, value, files } = e.target;
+    if (name === "profilePicture") {
+      setSignUpData((prev) => ({...prev, profilePicture: files[0]}));
+    } else {
+      setSignUpData((prev) => ({...prev, [name]: value}));
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Signup data being sent:", signUpData);
+    const formData = new FormData();
+    formData.append("profilePicture", signUpData.profilePicture);
+    formData.append("username", signUpData.username);
+    formData.append("password", signUpData.password);
     fetch("http://localhost:5555/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: formData,
+      // no headers needed for form data
       credentials: "include",
-      body: JSON.stringify(signUpData),
     })
       .then((response) => {
         console.log("Signup response status:", response.status);
@@ -59,6 +64,16 @@ function Signup() {
     <div className="signup-container">
       <h1 className="signup-title">Signup</h1>
       <form onSubmit={handleSubmit} className="signup-form">
+        <div className="form-group">
+          <label className="form-label">Profile Picture</label>
+          <input
+            type="file"
+            name="profilePicture"
+            onChange={handleChange}
+            accept="image/*"
+            className="form-input"
+          />
+        </div>
         <div className="form-group">
           <label className="form-label">Username</label>
           <input
