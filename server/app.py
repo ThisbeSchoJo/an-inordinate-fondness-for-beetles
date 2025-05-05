@@ -31,14 +31,21 @@ def index():
 class Users(Resource):
     def post(self):
         try:
-            if 'username' not in request.form or 'password' not in request.form:
+            data = request.get_json()
+            print("Received signup data:", data)  # Debug log
+            
+            if not data or 'username' not in data or 'password' not in data:
                 return make_response({"error": "Username and password are required"}, 400)
             
-            username = request.form['username']
-            password = request.form['password']
+            username = data['username']
+            password = data['password']
+
+            # Validate password
+            if not password or len(password.strip()) == 0:
+                return make_response({"error": "Password cannot be empty"}, 400)
 
             # Check if username already exists
-            existing_user = User.query.filter_by(username=request.form['username']).first()
+            existing_user = User.query.filter_by(username=username).first()
             if existing_user:
                 return make_response({"error": "Username already exists"}, 409)
             
@@ -89,21 +96,30 @@ class Login(Resource):
             data = request.get_json()
             print("Received login data:", data)  # Debug log
             
+            if not data or 'username' not in data or 'password' not in data:
+                return make_response({"error": "Username and password are required"}, 400)
+            
             user = User.query.filter_by(username=data.get("username")).first()
-            if user and user.authenticate(data.get("password")):
-                session["user_id"] = user.id
-                response = make_response(
-                    user.to_dict(rules=("-_password_hash",)),
-                    200
-                )
-                return response
-            else:
-                return make_response({"error": "Invalid username or password"}, 401)
+            if not user:
+                return make_response({"error": "User not found"}, 404)
+                
+            if not user.authenticate(data.get("password")):
+                return make_response({"error": "Invalid password"}, 401)
+                
+            session["user_id"] = user.id
+            response = make_response(
+                user.to_dict(rules=("-_password_hash",)),
+                200
+            )
+            return response
+            
         except Exception as e:
             import traceback
             print("Error in login:", str(e))  # Debug log
             print("Full traceback:", traceback.format_exc())  # Debug log
             return make_response({"error": str(e)}, 500)
+
+api.add_resource(Login, "/login")
 
 class Logout(Resource):
     def delete(self):
@@ -113,23 +129,20 @@ class Logout(Resource):
         except Exception as e:
             return make_response({"error": str(e)}, 500)
 
+api.add_resource(Logout, "/logout")
+
 class CheckSession(Resource):
     def get(self):
-        try:
-            user_id = session.get("user_id")
-            if user_id:
-                user = User.query.filter_by(id=user_id).first()
-                if user:
-                    return make_response(
-                        user.to_dict(rules=("-_password_hash",)),
-                        200
-                    )
+        user_id = session.get("user_id")
+        if not user_id:
             return make_response({"error": "Unauthorized"}, 401)
-        except Exception as e:
-            return make_response({"error": str(e)}, 500)
+            
+        user = User.query.filter_by(id=user_id).first()
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+            
+        return make_response(user.to_dict(rules=("-_password_hash",)), 200)
 
-api.add_resource(Login, "/login")
-api.add_resource(Logout, "/logout")
 api.add_resource(CheckSession, "/check_session")
 
 class Sightings(Resource):

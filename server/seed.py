@@ -29,14 +29,16 @@ if __name__ == '__main__':
         print("Adding new data...")
 
         # Create users with password hashing
-        user1 = User(username="John Doe")
-        user1.password_hash = "password123"  # This will trigger the hashing
+        user1 = User(username="John Doe", password= "password123")  # This will trigger the hashing
 
-        user2 = User(username="Jane Smith")
-        user2.password_hash = "password456"  # This will trigger the hashing
+        user2 = User(username="Jane Smith", password= "password456")  # This will trigger the hashing
+
+        user3 = User(username="thisbe")
+        user3.password_hash = "thisbe"  # This will trigger the hashing
 
         db.session.add(user1)
         db.session.add(user2)
+        db.session.add(user3)
         db.session.commit()
         
         # Add firefly species
@@ -117,8 +119,13 @@ if __name__ == '__main__':
         friendship1 = Friendship(user_id=user1.id, friend_id=user2.id)
         friendship2 = Friendship(user_id=user2.id, friend_id=user1.id)
 
+        friendship3 = Friendship(user_id=user1.id, friend_id=user3.id)
+        friendship4 = Friendship(user_id=user3.id, friend_id=user1.id)
+
         db.session.add(friendship1)
         db.session.add(friendship2)
+        db.session.add(friendship3)
+        db.session.add(friendship4)
         db.session.commit()
         
         print("Database seeded successfully!")

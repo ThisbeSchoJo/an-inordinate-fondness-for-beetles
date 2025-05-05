@@ -17,6 +17,11 @@ from flask_cors import CORS
 # Instantiate app, set attributes
 app = Flask(__name__)
 
+# Configure CORS
+CORS(app, 
+     resources={r"/*": {"origins": "http://localhost:3000"}},
+     supports_credentials=True)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
@@ -52,12 +57,4 @@ migrate = Migrate(app, db)
 
 # Initialize db
 db.init_app(app)
-
-# Configure CORS
-CORS(app, 
-     origins=["http://localhost:3000"],
-     supports_credentials=True,
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"],
-     expose_headers=["Content-Type", "Authorization"])
 

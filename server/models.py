@@ -16,7 +16,15 @@ class User(db.Model, SerializerMixin):
     profile_picture = db.Column(db.String)
     # password_digest = db.Column(db.String, nullable=False)
 
-    serialize_rules = ("-sightings.user", "-friendships.user", "-friend_of.friend", "-_password_hash") # Hide password hash from JSON responses
+    # Update serialization rules to prevent circular references
+    serialize_rules = (
+        "-sightings.user",
+        "-friendships.user",
+        "-friend_of.friend",
+        "-_password_hash",
+        "-friendships.friend",
+        "-friend_of.user"
+    )
 
     sightings = db.relationship("Sighting", back_populates="user")
     # User's friendships where they are the user
