@@ -29,9 +29,11 @@ if __name__ == '__main__':
         print("Adding new data...")
 
         # Create users with password hashing
-        user1 = User(username="John Doe", password= "password123")  # This will trigger the hashing
+        user1 = User(username="John Doe")
+        user1.password_hash = "password123"  # This will trigger the hashing
 
-        user2 = User(username="Jane Smith", password= "password456")  # This will trigger the hashing
+        user2 = User(username="Jane Smith")
+        user2.password_hash = "password456"  # This will trigger the hashing
 
         user3 = User(username="thisbe")
         user3.password_hash = "thisbe"  # This will trigger the hashing
