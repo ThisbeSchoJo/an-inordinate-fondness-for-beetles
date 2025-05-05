@@ -324,5 +324,28 @@ class Friends(Resource):
         return make_response([friend.to_dict() for friend in friends], 200)
 api.add_resource(Friends, "/friends")
 
+class RemoveFriend(Resource):
+    def delete(self, friend_id):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+        
+        # Check if friendship exists
+        friendship = Friendship.query.filter(
+            ((Friendship.user_id == user_id) & (Friendship.friend_id == friend_id)) |
+            ((Friendship.user_id == friend_id) & (Friendship.friend_id == user_id))
+        ).first()
+        
+        if not friendship:
+            abort(404, "Friendship not found")
+        # Delete both sides of the friendship
+        db.session.delete(friendship)
+        db.session.commit()
+        
+        return make_response({"message": "Friend removed successfully"}, 204)
+api.add_resource(RemoveFriend, "/friends/<int:friend_id>")
+
+
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

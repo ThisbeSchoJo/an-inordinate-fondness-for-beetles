@@ -109,5 +109,13 @@ class Friendship(db.Model, SerializerMixin):
                            foreign_keys=[friend_id],
                            back_populates="friend_of")
 
+    serialize_rules = (
+        "-user",  # skip full user object
+        "-friend._password_hash",
+        "-friend.sightings",
+        "-friend.friendships",
+        "-friend.friend_of",
+    )
+    
     def __repr__(self):
         return f"<Friendship {self.id} - User: {self.user.username}, Friend: {self.friend.username}>"   
