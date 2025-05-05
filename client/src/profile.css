@@ -64,7 +64,7 @@
 
 /* Profile picture styling */
 .profile-picture:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .profile-picture {
@@ -82,4 +82,160 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Friends list section */
+.friends-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.friends-section h2 {
+  color: var(--accent-cyan);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.friends-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.friend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.friend-item:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.friend-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-yellow);
+}
+
+.friend-item span {
+  color: var(--accent-yellow);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .friends-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .friend-item img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--accent-yellow);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.modal-content button:hover {
+  color: var(--accent-cyan);
+}
+
+/* Search form styles */
+.search-form {
+  margin-top: 2rem;
+}
+
+.search-form input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--accent-yellow);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.search-results {
+  margin-top: 1rem;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.search-result-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.search-result-item button {
+  position: static;
+  margin-left: auto;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent-yellow);
+  color: var(--background-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.search-result-item button:hover {
+  background-color: var(--accent-cyan);
+  color: white;
 }
