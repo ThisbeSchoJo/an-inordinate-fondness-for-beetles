@@ -31,7 +31,7 @@ def index():
 class Users(Resource):
     def post(self):
         try:
-            data = request.get_json()
+            data = request.form
             print("Received signup data:", data)  # Debug log
             
             if not data or 'username' not in data or 'password' not in data:
