@@ -44,7 +44,7 @@ function Map({ center, markers = [], zoom = 10, onMarkerClick }) {
           <Marker
             key={index}
             position={marker.position}
-            title={marker.title}
+            title={marker.title || "Unknown"}
             onClick={() => onMarkerClick?.(marker)}
           />
         ))}

@@ -66,6 +66,22 @@ function Sighting() {
     radius: 10,
   });
 
+  // Fetch user sightings
+  useEffect(() => {
+    async function fetchUserSightings() {
+      try {
+        const response = await fetch("http://localhost:5555/sightings", {
+          credentials: "include",
+        });
+        const data = await response.json();
+        setSightings(data);
+      } catch (error) {
+        console.error("Error fetching user sightings:", error);
+      }
+    }
+    fetchUserSightings();
+  }, []);
+
   /**
    * Prepare markers from iNaturalist data
    * Parses the location string into latitude and longitude coordinates
@@ -85,12 +101,25 @@ function Sighting() {
           lat,
           lng,
         },
-        title: observation.species_guess || "Unknown Firefly",
+        title: String(observation.species_guess) || "Unknown Firefly",
         id: observation.id,
         observation: observation, // Store the full observation data for the popup
       };
       // First, try to execute data?.results?.map(...) - if data or results are null/undefined, return an empty array (don't throw an error)
     }) || [];
+  
+    const userSightings =
+    // Map over the user's sightings and create markers
+    sightings?.map((sighting) => {
+      return {
+        position: { lat: sighting.latitude, lng: sighting.longitude },
+        title: String(sighting.species) || "Unknown Firefly",
+        id: sighting.id,
+        sighting: sighting, // Store the full sighting data for the popup
+      };
+    }) || [];
+  
+  const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
   if (isLoadingLocation) {
@@ -122,6 +151,7 @@ function Sighting() {
 
   // Function to handle adding a sighting
   function handleAddSighting() {
+    // fetchUserSightings();
     setShowSightingForm(true);
     setSelectedUserSighting(null);
     setSelectedObservation(null);
@@ -147,6 +177,7 @@ function Sighting() {
         throw new Error(errorData.message || "Failed to create sighting");
       }
 
+      // fetchUserSightings();
       setShowSightingForm(false);
     } catch (error) {
       setError(error.message);
@@ -163,6 +194,7 @@ function Sighting() {
       setError("Sighting not found");
       return;
     }
+    // fetchUserSightings();
     setSelectedUserSighting(sightingToEdit);
   }
 
@@ -182,6 +214,7 @@ function Sighting() {
         throw new Error(errorData.message || "Failed to delete sighting");
       }
 
+      // fetchUserSightings();
       // Clear selected sighting and refresh sightings
       setSelectedUserSighting(null);
       // You'll need to implement fetchSightings to refresh the list
@@ -217,7 +250,7 @@ function Sighting() {
       <div className="map-container">
         <Map
           center={mapCenter}
-          markers={inaturalistMarkers}
+          markers={allMarkers}
           zoom={10}
           onMarkerClick={handleMarkerClick}
         />
