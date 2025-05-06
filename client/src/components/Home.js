@@ -54,8 +54,7 @@ function Home() {
 
     return (
         <>
-            <h1>Welcome to Firefly Finder</h1>
-            <p>Find and share firefly sightings near you.</p>
+            <h1 className="home-title">Firefly Finder</h1>
             <img id="firefly" ref={fireflyRef} src="/firefly-logo.gif" alt="Firefly Logo" style={{ width: "50px", height: "50px", pointerEvents: "none" }}/>
         </>
     )

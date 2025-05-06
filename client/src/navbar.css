@@ -14,7 +14,7 @@
 
 /* Base link style */
 .navbar a {
-  color: #f0f0f0;
+  color: #4145a7;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -22,12 +22,13 @@
 
 /* On hover */
 .navbar a:hover {
-  color: #ffea00;
+  color: #d4ff9b;
+  font-weight: bold;
 }
 
 /* When link is active (matches current route) */
 .navbar a.active {
-  color: #00ffd0;
+  color: #91ff00;
 }
 
 /* Optional: Make it stack vertically on small screens */
@@ -44,7 +45,7 @@
   border: none;
   padding: 0;
   margin: 0;
-  color: #f0f0f0;
+  color: #4145a7;
   font: inherit;
   cursor: pointer;
   display: flex;

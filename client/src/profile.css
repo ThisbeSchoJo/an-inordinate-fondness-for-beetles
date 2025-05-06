@@ -174,19 +174,20 @@
 }
 
 .modal-content button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
+  background-color: #4145a7;
+  color: white;
   border: none;
-  color: var(--accent-yellow);
-  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  padding: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .modal-content button:hover {
-  color: var(--accent-cyan);
+  background-color: #d4ff9b;
+  color: #4145a7;
+  transform: translateY(-2px);
 }
 
 /* Search form styles */
@@ -226,16 +227,18 @@
 }
 
 .search-result-item button {
-  position: static;
-  margin-left: auto;
+  background-color: #4145a7;
+  color: white;
+  border: none;
   padding: 0.5rem 1rem;
-  background-color: var(--accent-yellow);
-  color: var(--background-color);
   border-radius: 4px;
-  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .search-result-item button:hover {
-  background-color: var(--accent-cyan);
-  color: white;
+  background-color: #d4ff9b;
+  color: #4145a7;
+  transform: translateY(-2px);
 }

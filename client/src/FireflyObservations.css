@@ -51,18 +51,20 @@
 
 /* Button styling */
 .filters button {
-  padding: 8px 16px;
-  background-color: #4285f4;
+  background-color: #4145a7;
   color: white;
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .filters button:hover {
-  background-color: #3367d6;
+  background-color: #d4ff9b;
+  color: #4145a7;
+  transform: translateY(-2px);
 }
 
 /* Map container styling */
@@ -93,22 +95,27 @@
 }
 
 .pagination button {
-  padding: 8px 16px;
-  background-color: #4285f4;
+  background-color: #4145a7;
   color: white;
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #3367d6;
+  background-color: #d4ff9b;
+  color: #4145a7;
+  transform: translateY(-2px);
 }
 
 .pagination button:disabled {
-  background-color: #cccccc;
+  background-color: #ccc;
+  color: #666;
   cursor: not-allowed;
+  transform: none;
 }
 
 .pagination span {

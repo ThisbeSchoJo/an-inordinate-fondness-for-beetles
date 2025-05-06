@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
         user3 = User(username="thisbe")
         user3.password_hash = "thisbe"  # This will trigger the hashing
+        user3.profile_picture = "http://localhost:5555/static/uploads/thisbe.jpg"
 
         db.session.add(user1)
         db.session.add(user2)

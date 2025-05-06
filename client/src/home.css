@@ -32,3 +32,11 @@ body {
     transition: top 3s ease-in-out, left 3s ease-in-out;
     pointer-events: none; /* So the image doesn't block mouse events */
 }
+
+.home-title {
+    color: #91ff00;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 250px;
+}
