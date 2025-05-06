@@ -228,7 +228,6 @@ function Sighting() {
   return (
     <div className="sighting-container">
       <h1>Glow Sighting</h1>
-
       {/* Action buttons */}
       <div className="action-buttons">
         <button onClick={handleAddSighting}>Add Sighting</button>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../sightingform.css";
 
 // This component handles the form for creating and editing sightings.
 // It manages its own form state and handles form submission.
@@ -53,42 +54,95 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
   }
 
   return (
-    <div>
+    <div className="add-sighting-form">
       {/* Dynamic heading based on mode */}
-      <h2>{sighting ? "Edit Sighting" : "Add New Sighting"}</h2>
+      <h2 className="form-title">
+        {sighting ? "Edit Sighting" : "Add New Sighting"}
+      </h2>
       <form onSubmit={handleSubmit}>
         {/* Species input */}
-        <div>
-          <label htmlFor="species_id">Species:</label>
-          <input  type="text" id="species_id" name="species_id" value={formData.species_id} onChange={handleFormChange} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="species_id">
+            Species:
+          </label>
+          <input
+            className="form-input"
+            type="text"
+            id="species_id"
+            name="species_id"
+            value={formData.species_id}
+            onChange={handleFormChange}
+          />
         </div>
         {/* Location input */}
-        <div>
-          <label htmlFor="location">Location:</label>
-          <input type="text" id="location" name="location" value={formData.location} onChange={handleFormChange} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="location">
+            Location:
+          </label>
+          <input
+            className="form-input"
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleFormChange}
+          />
         </div>
         {/* Timestamp input */}
-        <div>
-          <label htmlFor="timestamp">Timestamp:</label>
-          <input type="datetime-local" id="timestamp" name="timestamp" value={formData.timestamp} onChange={handleFormChange} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="timestamp">
+            Timestamp:
+          </label>
+          <input
+            className="form-input"
+            type="datetime-local"
+            id="timestamp"
+            name="timestamp"
+            value={formData.timestamp}
+            onChange={handleFormChange}
+          />
         </div>
         {/* Description input */}
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea id="description" name="description" value={formData.description} onChange={handleFormChange} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="description">
+            Description:
+          </label>
+          <textarea
+            className="form-textarea"
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleFormChange}
+          />
         </div>
         {/* Image URL input */}
-        <div>
-          <label htmlFor="image">Image URL:</label>
-          <input type="text" id="image" name="image" value={formData.image} onChange={handleFormChange} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="image">
+            Image URL:
+          </label>
+          <input
+            className="form-input"
+            type="text"
+            id="image"
+            name="image"
+            value={formData.image}
+            onChange={handleFormChange}
+          />
         </div>
         {/* Submit and Cancel buttons */}
-        <button type="submit" disabled={isLoading}>
-          {sighting ? "Save Changes" : "Add Sighting"}
-        </button>
-        <button type="button" onClick={onCancel} disabled={isLoading}>
-          Cancel
-        </button>
+        <div className="form-group">
+          <button className="submit-button" type="submit" disabled={isLoading}>
+            {sighting ? "Save Changes" : "Add Sighting"}
+          </button>
+          <button
+            className="submit-button secondary"
+            type="button"
+            onClick={onCancel}
+            disabled={isLoading}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );
