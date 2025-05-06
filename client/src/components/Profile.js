@@ -86,13 +86,6 @@ function Profile() {
         <div className="friends-list">
           {friends.map((friend) => (
             <div key={friend.id} className="friend-item">
-              <h4>{friend.username}</h4>
-              <button
-                onClick={() => handleRemoveFriend(friend.id)}
-                className="friend-button"
-              >
-                Unfriend
-              </button>
               <img
                 src={
                   friend.profile_picture
@@ -101,6 +94,13 @@ function Profile() {
                 }
                 alt={friend.username}
               />
+              <h4>{friend.username}</h4>
+              <button
+                onClick={() => handleRemoveFriend(friend.id)}
+                className="friend-button"
+              >
+                Unfriend
+              </button>
             </div>
           ))}
         </div>
