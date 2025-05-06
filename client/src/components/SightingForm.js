@@ -15,16 +15,25 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     // user_id is automatically set from the user's session
   });
 
+  const [speciesList, setSpeciesList] = useState([]);
+
+  // Fetch species list on mount
+  useEffect(() => {
+    fetch("/species")
+      .then((response) => response.json())
+      .then((data) => setSpeciesList(data));
+  }, []);
+
   // Initialize form data when sighting changes (for edit mode)
   useEffect(() => {
     if (sighting) {
       // If editing, populate form with sighting data
       setFormData({
-        species_id: sighting.species_id,
-        location: sighting.location,
-        timestamp: sighting.timestamp,
-        description: sighting.description,
-        image: sighting.image,
+        species_id: sighting.species_id || "",
+        location: sighting.location || "",
+        timestamp: formatTimestamp(sighting.timestamp),
+        description: sighting.description || "",
+        image: sighting.image || "",
       });
     } else {
       // If creating, reset form to empty values
@@ -37,6 +46,12 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
       });
     }
   }, [sighting]);
+
+  function formatTimestamp(timestamp) {
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
+  }
 
   // Handle input changes
   function handleFormChange(e) {
@@ -60,19 +75,25 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
         {sighting ? "Edit Sighting" : "Add New Sighting"}
       </h2>
       <form onSubmit={handleSubmit}>
-        {/* Species input */}
+        {/* Species dropdown */}
         <div className="form-group">
           <label className="form-label" htmlFor="species_id">
             Species:
           </label>
-          <input
+          <select
             className="form-input"
-            type="text"
             id="species_id"
             name="species_id"
             value={formData.species_id}
             onChange={handleFormChange}
-          />
+          >
+            <option value="">Select a species</option>
+            {speciesList.map((species) => (
+              <option key={species.id} value={species.id}>
+                {species.name}
+              </option>
+            ))}
+          </select>
         </div>
         {/* Location input */}
         <div className="form-group">

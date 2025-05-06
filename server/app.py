@@ -345,7 +345,11 @@ class RemoveFriend(Resource):
         return make_response({"message": "Friend removed successfully"}, 204)
 api.add_resource(RemoveFriend, "/friends/<int:friend_id>")
 
-
+class SpeciesList(Resource):
+    def get(self):
+        species_list = Species.query.all()
+        return make_response([species.to_dict() for species in species_list], 200)
+api.add_resource(SpeciesList, "/species")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
