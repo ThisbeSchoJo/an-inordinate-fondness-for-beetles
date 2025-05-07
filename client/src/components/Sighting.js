@@ -190,6 +190,7 @@ function Sighting( {user} ) {
       }
 
       // fetchUserSightings();
+      setSightings(sightings.map((s) => s.id === formData.id ? formData : s));
       setShowSightingForm(false);
     } catch (error) {
       setError(error.message);
@@ -279,9 +280,9 @@ function Sighting( {user} ) {
       )}
 
       {/* Observation popup */}
-      {selectedObservation && (
+      {selectedObservation || selectedUserSighting && (
         <ObservationPopup
-          observation={selectedObservation}
+          observation={selectedObservation || selectedUserSighting}
           onClose={handleClosePopup}
         />
       )}
