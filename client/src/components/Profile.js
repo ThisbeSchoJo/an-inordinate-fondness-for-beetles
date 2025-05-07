@@ -38,8 +38,16 @@ function Profile() {
       body: JSON.stringify({ friend_id: friendId }),
     }).then((response) => {
       if (response.ok) {
-        // Refresh friends list or add the new friend to state
-        setFriends([...friends, friendId]);
+        const addedFriend = friendSearchResults.find(f => f.id === friendId);
+        if (addedFriend) {
+          setFriends([...friends, addedFriend]);
+        } else {
+          fetch(`http://localhost:5555/friends`, {
+            credentials: "include",
+          })
+            .then((response) => response.json())
+            .then(setFriends);
+        }
         setIsAddingFriend(false);
       }
     });
@@ -107,6 +115,7 @@ function Profile() {
       {isAddingFriend && (
         <AddFriendForm
           setIsAddingFriend={setIsAddingFriend}
+          friendSearchResults={friendSearchResults}
           handleAddFriend={handleAddFriend}
           friends={friends}
         />

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../addfriendform.css";
 
-function AddFriendForm({ setIsAddingFriend, handleAddFriend, users, friends }) {
+function AddFriendForm({ setIsAddingFriend, handleAddFriend, friendSearchResults }) {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
