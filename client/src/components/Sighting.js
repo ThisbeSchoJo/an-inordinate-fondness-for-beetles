@@ -12,7 +12,7 @@ import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 
-function Sighting( {user} ) {
+function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
@@ -109,8 +109,8 @@ function Sighting( {user} ) {
       };
       // First, try to execute data?.results?.map(...) - if data or results are null/undefined, return an empty array (don't throw an error)
     }) || [];
-  
-    const userSightings =
+
+  const userSightings =
     // Map over the user's sightings and create markers
     sightings?.map((sighting) => {
       // Only process sightings with a valid location
@@ -120,7 +120,7 @@ function Sighting( {user} ) {
       // Parse the location string into latitude and longitude coordinates
       const [lat, lng] = sighting.place_guess
         .split(",")
-        .map((coord) => parseFloat(coord.trim())); 
+        .map((coord) => parseFloat(coord.trim()));
       return {
         position: { lat, lng },
         title: String(sighting.species) || "Unknown Firefly",
@@ -128,7 +128,7 @@ function Sighting( {user} ) {
         sighting: sighting, // Store the full sighting data for the popup
       };
     }) || [];
-  
+
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
@@ -143,13 +143,16 @@ function Sighting( {user} ) {
 
   // Function to handle clicking a marker
   function handleMarkerClick(marker) {
+    console.log("Clicked marker:", marker);
     // If it's an iNaturalist marker
     if (marker.observation) {
+      console.log("Setting iNaturalist observation:", marker.observation);
       setSelectedObservation(marker.observation);
     }
     // If it's a user sighting marker
     else {
-      setSelectedUserSighting(marker.sighting); 
+      console.log("Setting user sighting:", marker.sighting);
+      setSelectedUserSighting(marker.sighting);
     }
   }
 
@@ -173,7 +176,7 @@ function Sighting( {user} ) {
       setIsLoading(true);
       setError(null);
 
-        const response = await fetch("http://localhost:5555/sightings", {
+      const response = await fetch("http://localhost:5555/sightings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -206,7 +209,7 @@ function Sighting( {user} ) {
       return;
     }
     // fetchUserSightings();
-    setSightings(sightings.map((s) => s.id === id ? sightingToEdit : s));
+    setSightings(sightings.map((s) => (s.id === id ? sightingToEdit : s)));
     setSelectedUserSighting(sightingToEdit);
   }
 
@@ -244,18 +247,22 @@ function Sighting( {user} ) {
       {/* Action buttons */}
       <div className="action-buttons">
         <button onClick={handleAddSighting}>Add Sighting</button>
-        {selectedUserSighting && user &&selectedUserSighting.user_id === user.id && (
-          <>
-              <button onClick={() => handleEditSighting(selectedUserSighting.id)}>
-              Edit Sighting
+        {selectedUserSighting &&
+          user &&
+          selectedUserSighting.user_id === user.id && (
+            <>
+              <button
+                onClick={() => handleEditSighting(selectedUserSighting.id)}
+              >
+                Edit Sighting
               </button>
               <button
-              onClick={() => handleDeleteSighting(selectedUserSighting.id)}
+                onClick={() => handleDeleteSighting(selectedUserSighting.id)}
               >
-              Delete Sighting
+                Delete Sighting
               </button>
-          </>
-        )}
+            </>
+          )}
       </div>
 
       {/* Map container with user's location and iNaturalist markers */}
@@ -278,7 +285,7 @@ function Sighting( {user} ) {
       )}
 
       {/* Observation popup */}
-      {selectedObservation || selectedUserSighting && (
+      {(selectedObservation || selectedUserSighting) && (
         <ObservationPopup
           observation={selectedObservation || selectedUserSighting}
           onClose={handleClosePopup}

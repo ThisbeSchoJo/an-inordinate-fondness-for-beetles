@@ -9,13 +9,21 @@ import "../observation-popup.css";
 function ObservationPopup({ observation, onClose }) {
   if (!observation) return null;
 
+  console.log("Full observation object:", observation);
+  console.log("Species data:", observation.species);
+  console.log("Species guess:", observation.species_guess);
+
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <button className="close-button" onClick={onClose}>
           ×
         </button>
-        <h2>{observation.species_guess || observation.species.name || "Unknown Firefly"}</h2>
+        <h2>
+          {observation.species_guess?.trim() ||
+            observation.species?.name ||
+            "Unknown Firefly"}
+        </h2>
         {/* Display the first photo if available */}
         {observation.photos?.[0]?.url && (
           <img
@@ -36,6 +44,7 @@ function ObservationPopup({ observation, onClose }) {
               <strong>Notes:</strong> {observation.description}
             </p>
           )}
+          <button>Delete Sighting</button>
         </div>
       </div>
     </div>
