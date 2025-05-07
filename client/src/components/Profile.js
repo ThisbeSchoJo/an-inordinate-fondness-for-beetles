@@ -66,7 +66,6 @@ function Profile() {
             />
           </div>
           <div className="info-item">
-            {/* <strong>Username:</strong> */}
             <span>{user?.username || "Not logged in"}</span>
           </div>
         </div>

@@ -24,8 +24,6 @@ function Sighting( {user} ) {
   const [error, setError] = useState(null);
   const [sightings, setSightings] = useState([]);
 
-  // const [userSightings, setUserSightings] = useState([]);
-
   /**
    * useEffect hook to get the user's location when the component mounts
    * Uses the browser's geolocation API to request the user's current position

@@ -44,7 +44,6 @@ function Map({ center, markers = [], zoom = 10, onMarkerClick, onMapClick }) {
             lng: e.latLng.lng(),
           };
           onMapClick?.(coords);
-          onMapClick?.(coords);
         }}
       >
         {/* Render markers for each observation */}

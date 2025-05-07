@@ -5,11 +5,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "../sighting-list.css";
-import SightingItem from "./SightingItem";
-import SightingActions from "./SightingActions";
-import SightingForm from "./SightingForm";
 
 function SightingList( {user} ) {
   // State for managing sightings data and UI states

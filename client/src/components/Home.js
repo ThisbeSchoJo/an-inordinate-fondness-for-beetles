@@ -36,22 +36,6 @@ function Home() {
     return () => cancelAnimationFrame(animate);
   }, []);
 
-//     function moveFirefly() {
-//       const maxX = window.innerWidth - firefly.width;
-//       const maxY = window.innerHeight - firefly.height;
-
-//       const randomX = Math.random() * maxX;
-//       const randomY = Math.random() * maxY;
-
-//       firefly.style.left = `${randomX}px`;
-//       firefly.style.top = `${randomY}px`;
-//     }
-
-//     const interval = setInterval(moveFirefly, 1000); // move every 3s slowly
-
-//     return () => clearInterval(interval); // cleanup on unmount
-//   }, []);
-
     return (
         <>
             <h1 className="home-title">Firefly Finder</h1>

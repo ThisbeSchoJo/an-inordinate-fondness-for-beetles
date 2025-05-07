@@ -5,7 +5,6 @@ import "../navbar.css";
 import { Home, MapPinned, LogOut, LogIn, User } from "lucide-react";
 
 function NavBar({ user, updateUser }) {
-  // const { updateUser } = useOutletContext();
 
   const navigate = useNavigate();
 
@@ -41,8 +40,6 @@ function NavBar({ user, updateUser }) {
       <NavLink to="/sightings">
         <MapPinned size={20} />
       </NavLink>
-      {/* <NavLink to="/species">Species</NavLink> */}
-
       {/* Conditional rendering based on user authentication */}
       {user ? (
         // If user is authenticated, show logout button
