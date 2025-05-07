@@ -12,7 +12,7 @@ import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 
-function Sighting() {
+function Sighting( {user} ) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
@@ -233,16 +233,16 @@ function Sighting() {
       {/* Action buttons */}
       <div className="action-buttons">
         <button onClick={handleAddSighting}>Add Sighting</button>
-        {selectedUserSighting && (
+        {selectedUserSighting && user &&selectedUserSighting.user_id === user.id && (
           <>
-            <button onClick={() => handleEditSighting(selectedUserSighting.id)}>
+              <button onClick={() => handleEditSighting(selectedUserSighting.id)}>
               Edit Sighting
-            </button>
-            <button
+              </button>
+              <button
               onClick={() => handleDeleteSighting(selectedUserSighting.id)}
-            >
+              >
               Delete Sighting
-            </button>
+              </button>
           </>
         )}
       </div>
