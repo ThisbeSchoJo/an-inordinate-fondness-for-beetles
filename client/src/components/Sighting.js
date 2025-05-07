@@ -149,7 +149,7 @@ function Sighting( {user} ) {
     }
     // If it's a user sighting marker
     else {
-      setSelectedUserSighting(marker);
+      setSelectedUserSighting(marker.sighting); 
     }
   }
 

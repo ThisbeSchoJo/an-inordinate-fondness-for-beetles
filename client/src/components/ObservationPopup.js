@@ -15,7 +15,7 @@ function ObservationPopup({ observation, onClose }) {
         <button className="close-button" onClick={onClose}>
           ×
         </button>
-        <h2>{observation.species_guess || "Unknown Firefly"}</h2>
+        <h2>{observation.species_guess || observation.species.name || "Unknown Firefly"}</h2>
         {/* Display the first photo if available */}
         {observation.photos?.[0]?.url && (
           <img
