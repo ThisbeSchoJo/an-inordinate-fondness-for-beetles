@@ -190,7 +190,7 @@ function Sighting( {user} ) {
       }
 
       // fetchUserSightings();
-      setSightings(sightings.map((s) => s.id === formData.id ? formData : s));
+      setSightings([...sightings, formData]);
       setShowSightingForm(false);
     } catch (error) {
       setError(error.message);
