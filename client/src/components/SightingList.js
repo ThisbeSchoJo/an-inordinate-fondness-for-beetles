@@ -87,10 +87,10 @@ function SightingList( {user} ) {
       setSightings((prev) => [...prev, newSighting]);
       setFormData({
         species: "",
-        location: "",
-        timestamp: "",
+        place_guess: "",
+        observed_on: "",
         description: "",
-        image: "",
+        photos: "",
       });
     } catch (err) {
       setError(err.message);
@@ -105,10 +105,10 @@ function SightingList( {user} ) {
     setEditingSighting(sighting);
     setFormData({
       species: sighting.species,
-      location: sighting.location,
-      timestamp: sighting.timestamp,
+      place_guess: sighting.place_guess,
+      observed_on: sighting.observed_on,
       description: sighting.description,
-      image: sighting.image,
+      photos: sighting.photos,
     });
   };
 
@@ -138,10 +138,10 @@ function SightingList( {user} ) {
       setEditingSighting(null);
       setFormData({
         species: "",
-        location: "",
-        timestamp: "",
+        place_guess: "",
+        observed_on: "",
         description: "",
-        image: "",
+        photos: "",
       });
     } catch (err) {
       setError(err.message);
@@ -200,9 +200,9 @@ function SightingList( {user} ) {
           <label htmlFor="location">Location:</label>
           <input
             type="text"
-            id="location"
-            name="location"
-            value={formData.location}
+            id="place_guess"
+            name="place_guess"
+            value={formData.place_guess}
             onChange={handleInputChange}
             required
           />
@@ -212,9 +212,9 @@ function SightingList( {user} ) {
           <label htmlFor="timestamp">Date/Time:</label>
           <input
             type="datetime-local"
-            id="timestamp"
-            name="timestamp"
-            value={formData.timestamp}
+            id="observed_on"
+            name="observed_on"
+            value={formData.observed_on}
             onChange={handleInputChange}
             required
           />
@@ -235,9 +235,9 @@ function SightingList( {user} ) {
           <label htmlFor="image">Image URL:</label>
           <input
             type="url"
-            id="image"
-            name="image"
-            value={formData.image}
+            id="photos"
+            name="photos"
+            value={formData.photos}
             onChange={handleInputChange}
           />
         </div>
@@ -258,16 +258,16 @@ function SightingList( {user} ) {
           <div key={sighting.id} className="sighting-card">
             <h2>{sighting.species}</h2>
             <p>
-              <strong>Location:</strong> {sighting.location}
+              <strong>Location:</strong> {sighting.place_guess}
             </p>
             <p>
-              <strong>Date/Time:</strong> {sighting.timestamp}
+              <strong>Date/Time:</strong> {sighting.observed_on}
             </p>
             <p>
               <strong>Description:</strong> {sighting.description}
             </p>
-            {sighting.image && (
-              <img src={sighting.image} alt={sighting.species} />
+            {sighting.photos && (
+            <img src={sighting.photos} alt={sighting.species} />
             )}
             {sighting.user_id === user.id && (
               <div className="sighting-actions">

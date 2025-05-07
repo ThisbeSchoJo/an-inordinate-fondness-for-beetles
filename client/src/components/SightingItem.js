@@ -16,12 +16,12 @@ function SightingItem({ sighting, isSelected, onSelect }) {
     >
       {/* Display sighting details */}
       <h3>{sighting.species.name}</h3>
-      <p>Location: {sighting.location}</p>
-      <p>Date: {new Date(sighting.timestamp).toLocaleDateString()}</p>
+      <p>Location: {sighting.place_guess}</p> 
+      <p>Date: {new Date(sighting.observed_on).toLocaleDateString()}</p>
       <p>Description: {sighting.description}</p>
       {/* Conditionally render image if available */}
-      {sighting.image && (
-        <img src={sighting.image} alt={sighting.species.name} />
+      {sighting.photos && (
+        <img src={sighting.photos} alt={sighting.species.name} />
       )}
       {/* Display any errors */}
       {error && <p className="error">{error}</p>}

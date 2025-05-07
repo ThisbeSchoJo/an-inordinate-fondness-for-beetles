@@ -90,6 +90,10 @@ function Sighting( {user} ) {
   const inaturalistMarkers =
     // Map over the observations and create markers
     data?.results?.map((observation) => {
+      // Only process observations with a valid location
+      if (!observation.location || !observation.location.includes(",")) {
+        return null;
+      }
       // Extract latitude and longitude from the location string
       const [lat, lng] = observation.location
         // Split the location string into an array of coordinates and parse each coordinate as a float
@@ -111,8 +115,16 @@ function Sighting( {user} ) {
     const userSightings =
     // Map over the user's sightings and create markers
     sightings?.map((sighting) => {
+      // Only process sightings with a valid location
+      if (!sighting.place_guess || !sighting.place_guess.includes(",")) {
+        return null;
+      }
+      // Parse the location string into latitude and longitude coordinates
+      const [lat, lng] = sighting.place_guess
+        .split(",")
+        .map((coord) => parseFloat(coord.trim())); 
       return {
-        position: { lat: sighting.latitude, lng: sighting.longitude },
+        position: { lat, lng },
         title: String(sighting.species) || "Unknown Firefly",
         id: sighting.id,
         sighting: sighting, // Store the full sighting data for the popup

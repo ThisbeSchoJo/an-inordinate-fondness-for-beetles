@@ -10,7 +10,7 @@ import "../map.css";
 // The "marker" library is required for marker functionality
 const libraries = ["marker"];
 
-function Map({ center, markers = [], zoom = 10, onMarkerClick }) {
+function Map({ center, markers = [], zoom = 10, onMarkerClick, onMapClick }) {
   // Load the Google Maps API
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -38,16 +38,32 @@ function Map({ center, markers = [], zoom = 10, onMarkerClick }) {
           mapTypeControl: false,
           streetViewControl: false,
         }}
+        onClick={(e) => {
+          const coords = {
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+          };
+          onMapClick?.(coords);
+          onMapClick?.(coords);
+        }}
       >
         {/* Render markers for each observation */}
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            position={marker.position}
-            title={marker.title || "Unknown"}
-            onClick={() => onMarkerClick?.(marker)}
-          />
-        ))}
+        {markers
+          .filter(
+            (marker) =>
+              marker &&
+              marker.position &&
+              typeof marker.position.lat === "number" &&
+              typeof marker.position.lng === "number"
+          )
+          .map((marker, index) => (
+            <Marker
+              key={index}
+              position={marker.position}
+              title={marker.title || "Unknown"}
+              onClick={() => onMarkerClick?.(marker)}
+            />
+          ))}
       </GoogleMap>
     </div>
   );

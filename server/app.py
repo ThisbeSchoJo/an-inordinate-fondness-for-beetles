@@ -178,14 +178,14 @@ class Sightings(Resource):
         
         data = request.get_json()
 
-        timestamp = datetime.strptime(data.get("timestamp"), "%Y-%m-%dT%H:%M")
+        observed_on = datetime.strptime(data.get("observed_on"), "%Y-%m-%dT%H:%M")
 
         new_sighting = Sighting(
             species_id=data.get("species_id"),
-            location=data.get("location"),
-            timestamp=timestamp,
+            place_guess=data.get("place_guess"),
+            observed_on=observed_on,
             description=data.get("description"),
-            image=data.get("image"),
+            photos=data.get("photos"),
             user_id=user_id
         )
         db.session.add(new_sighting)
