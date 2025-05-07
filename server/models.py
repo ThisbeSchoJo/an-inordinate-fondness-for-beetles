@@ -65,10 +65,10 @@ class Sighting(db.Model, SerializerMixin):
     __tablename__ = "sightings"
 
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String)
-    timestamp = db.Column(db.DateTime)
+    place_guess = db.Column(db.String)
+    observed_on = db.Column(db.DateTime)
     description = db.Column(db.String)
-    image = db.Column(db.String)
+    photos = db.Column(db.String)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -80,7 +80,7 @@ class Sighting(db.Model, SerializerMixin):
     serialize_rules = ('-user.sightings', '-species.sightings')
 
     def __repr__(self):
-        return f"<Sighting {self.id} - Location: {self.location}, Timestamp: {self.timestamp}>"
+        return f"<Sighting {self.id} - Location: {self.place_guess}, Timestamp: {self.observed_on}>"
     
 class Species(db.Model, SerializerMixin):
     __tablename__ = "species"

@@ -11,7 +11,7 @@ import SightingItem from "./SightingItem";
 import SightingActions from "./SightingActions";
 import SightingForm from "./SightingForm";
 
-function SightingList() {
+function SightingList( {user} ) {
   // State for managing sightings data and UI states
   const [sightings, setSightings] = useState([]); // Stores the list of sightings
   const [loading, setLoading] = useState(true); // Tracks loading state
@@ -20,13 +20,14 @@ function SightingList() {
   const [formData, setFormData] = useState({
     // Form data for creating/editing sightings
     species: "",
-    location: "",
-    timestamp: "",
+    place_guess: "",
+    observed_on: "",
     description: "",
-    image: "",
+    photos: "",
   });
   const [selectedSighting, setSelectedSighting] = useState(null); // Currently selected sighting for editing/deleting
   const [isEditing, setIsEditing] = useState(false); // Tracks whether the user is in edit mode
+  
 
   /**
    * useEffect hook to fetch sightings when the component mounts
@@ -268,10 +269,12 @@ function SightingList() {
             {sighting.image && (
               <img src={sighting.image} alt={sighting.species} />
             )}
-            <div className="sighting-actions">
-              <button onClick={() => handleEdit(sighting)}>Edit</button>
-              <button onClick={() => handleDelete(sighting.id)}>Delete</button>
-            </div>
+            {sighting.user_id === user.id && (
+              <div className="sighting-actions">
+                <button onClick={() => handleEdit(sighting)}>Edit</button>
+                <button onClick={() => handleDelete(sighting.id)}>Delete</button>
+              </div>
+            )}
           </div>
         ))}
       </div>

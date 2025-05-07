@@ -199,7 +199,7 @@ api.add_resource(Sightings, "/sightings")
 
 class SightingsById(Resource):
     def get(self, id):
-        sighting = Sighting.query.filter_by(id=id).first()
+        sighting = db.session.get(Sighting, id)
         if not sighting:
             abort(404, "Sighting not found")
         response = make_response(
@@ -212,7 +212,7 @@ class SightingsById(Resource):
         user_id = session.get("user_id")
         if not user_id:
             abort(401, "Unauthorized")
-        sighting = Sighting.query.filter_by(id=id).first()
+        sighting = db.session.get(Sighting, id)
         if not sighting:
             abort(404, "Sighting not found")
         if sighting.user_id != user_id:
@@ -231,7 +231,7 @@ class SightingsById(Resource):
         user_id = session.get("user_id")
         if not user_id:
             abort(401, "Unauthorized")
-        sighting = Sighting.query.filter_by(id=id).first()
+        sighting = db.session.get(Sighting, id)
         if not sighting:
             abort(404, "Sighting not found")
         if sighting.user_id != user_id:
@@ -282,7 +282,7 @@ class AddFriend(Resource):
         friend_id = data.get("friend_id")
         
         # Check if friend exists
-        friend = User.query.get(friend_id)
+        friend = db.session.get(User, friend_id)
         if not friend:
             abort(404, "Friend not found")
             

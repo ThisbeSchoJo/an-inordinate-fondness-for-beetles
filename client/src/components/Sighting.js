@@ -195,6 +195,7 @@ function Sighting() {
       return;
     }
     // fetchUserSightings();
+    setSightings(sightings.map((s) => s.id === id ? sightingToEdit : s));
     setSelectedUserSighting(sightingToEdit);
   }
 
@@ -218,6 +219,7 @@ function Sighting() {
       // Clear selected sighting and refresh sightings
       setSelectedUserSighting(null);
       // You'll need to implement fetchSightings to refresh the list
+      setSightings(sightings.filter((s) => s.id !== id));
     } catch (error) {
       setError(error.message);
     } finally {
