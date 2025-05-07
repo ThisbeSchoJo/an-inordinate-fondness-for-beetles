@@ -12,6 +12,7 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from datetime import datetime
 import os
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 # Local imports
 from config import app, db, api, bcrypt
@@ -218,8 +219,22 @@ class SightingsById(Resource):
         if sighting.user_id != user_id:
             abort(403, "Unauthorized")
         data = request.get_json()
-        for attr in data:
-            setattr(sighting, attr, data[attr])
+
+        # Convert the string date to a datetime object
+        if 'observed_on' in data:
+            date_string = data['observed_on']
+            data['observed_on'] = datetime.strptime(date_string, '%Y-%m-%dT%H:%M')
+
+        # Before setting attributes, sanitize the data
+        for key, value in data.items():
+            if key in ['latitude', 'longitude'] and value == "":
+                continue #Skip empty coordinate values
+            if key == 'observed_on' and isinstance(value, str):
+                try:
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M')
+                except ValueError:
+                    abort(400, "Invalid date format. Please use YYYY-MM-DDTHH:MM")
+            setattr(sighting, key, value)
         db.session.commit()
         response = make_response(
             sighting.to_dict(),

@@ -5,13 +5,13 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Map from "./Map";
 import "../sighting.css";
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
-
+import EditSightingForm from "./EditSightingForm";
 function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
@@ -19,7 +19,9 @@ function Sighting({ user }) {
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
   const [selectedUserSighting, setSelectedUserSighting] = useState(null); // Stores the currently selected user sighting
-  const [showSightingForm, setShowSightingForm] = useState(false);
+  // const [showSightingForm, setShowSightingForm] = useState(false);
+  const [showAddSightingForm, setShowAddSightingForm] = useState(false);
+  const [showEditSightingForm, setShowEditSightingForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sightings, setSightings] = useState([]);
@@ -165,13 +167,15 @@ function Sighting({ user }) {
   // Function to handle adding a sighting
   function handleAddSighting() {
     // fetchUserSightings();
-    setShowSightingForm(true);
+    // setShowSightingForm(true);
+    setShowAddSightingForm(true);
+    setShowEditSightingForm(false);
     setSelectedUserSighting(null);
     setSelectedObservation(null);
   }
 
   // Function to handle submitting the sighting form
-  async function handleSubmit(formData) {
+  async function handleSubmitNewSighting(formData) {
     try {
       setIsLoading(true);
       setError(null);
@@ -191,8 +195,9 @@ function Sighting({ user }) {
       }
 
       // fetchUserSightings();
-      setSightings([...sightings, formData]);
-      setShowSightingForm(false);
+      const newSighting = await response.json(); // Don't use formData blindly, use the response to get the new sighting
+      setSightings([...sightings, newSighting]);
+      setShowAddSightingForm(false);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -200,17 +205,49 @@ function Sighting({ user }) {
     }
   }
 
+  async function handleSubmitEditSighting(formData) {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch(`http://localhost:5555/sightings/${formData.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update sighting");
+      }
+
+      const updatedSighting = await response.json();
+      setSightings(sightings.map((s) => (s.id === updatedSighting.id ? updatedSighting : s)));
+      setShowEditSightingForm(false);
+      setSelectedUserSighting(null);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+
   // Function to handle editing a sighting
   function handleEditSighting(id) {
-    setShowSightingForm(true);
     const sightingToEdit = sightings.find((s) => s.id === id);
     if (!sightingToEdit) {
       setError("Sighting not found");
       return;
     }
     // fetchUserSightings();
-    setSightings(sightings.map((s) => (s.id === id ? sightingToEdit : s)));
     setSelectedUserSighting(sightingToEdit);
+    setShowAddSightingForm(false);
+    setShowEditSightingForm(true);
+    setSelectedObservation(null);
   }
 
   // Function to handle deleting a sighting
@@ -274,13 +311,19 @@ function Sighting({ user }) {
           onMarkerClick={handleMarkerClick}
         />
       </div>
-
-      {/* Sighting form - only visible when showSightingForm is true */}
-      {showSightingForm && (
+      {/* Add Sighting Form */}
+      {showAddSightingForm && (
         <SightingForm
+          onSubmit={handleSubmitNewSighting}
+          onCancel={() => setShowAddSightingForm(false)}
+        />
+      )}
+      {/* Edit Sighting Form */}
+      {showEditSightingForm && (
+        <EditSightingForm
           sighting={selectedUserSighting} // Pass the sighting to edit if one is selected
-          onSubmit={handleSubmit}
-          onCancel={() => setShowSightingForm(false)}
+          onSubmit={handleSubmitEditSighting}
+          onCancel={() => setShowEditSightingForm(false)}
         />
       )}
 
@@ -289,6 +332,8 @@ function Sighting({ user }) {
         <ObservationPopup
           observation={selectedObservation || selectedUserSighting}
           onClose={handleClosePopup}
+          onDelete={handleDeleteSighting}
+          onEdit={handleEditSighting}
         />
       )}
     </div>

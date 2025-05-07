@@ -6,7 +6,7 @@
 import React from "react";
 import "../observation-popup.css";
 
-function ObservationPopup({ observation, onClose }) {
+function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
   if (!observation) return null;
 
   console.log("Full observation object:", observation);
@@ -44,7 +44,14 @@ function ObservationPopup({ observation, onClose }) {
               <strong>Notes:</strong> {observation.description}
             </p>
           )}
-          <button>Delete Sighting</button>
+          {/* <button onClick={onClose}>Close</button> */}
+          {/* Only show delete button if observation is a user sighting */}
+          {observation.user_id && (
+            <>
+              <button onClick={() => onDelete(observation.id)}>Delete Sighting</button>
+              <button onClick={() => onEdit(observation.id)}>Edit Sighting</button>
+            </>
+          )}
         </div>
       </div>
     </div>
