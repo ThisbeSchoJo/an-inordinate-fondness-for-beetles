@@ -123,13 +123,10 @@ export async function searchPlaces(query) {
   }
 }
 
-/**
- * Get observations near a specific location
- * @param {number} lat - Latitude of the location
- * @param {number} lng - Longitude of the location
- * @param {number} radius - Search radius in kilometers (default: 10)
- * @returns {Promise} - Promise resolving to the observations near the location
- */
+// Get observations near a specific location
+// Accepts latitude (lat), longitude (lng), and an optional radius (default is 10 km).
+// Returns a promise that resolves to the nearby observations.
+
 export const getObservationsByLocation = async (lat, lng, radius = 10) => {
   try {
     const response = await api.get("/observations", {

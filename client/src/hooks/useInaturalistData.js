@@ -13,14 +13,13 @@ import {
   getObservationDetails,
 } from "../services/inaturalistApi";
 
-/**
- * Custom hook for fetching and managing firefly observation data from iNaturalist
- * @param {Object} params - Query parameters for the search
- * @param {number} params.lat - Latitude for location-based search
- * @param {number} params.lng - Longitude for location-based search
- * @param {number} params.radius - Search radius in kilometers
- * @returns {Object} - Object containing data, loading state, error state, and refetch function
- */
+// Custom hook to fetch and manage firefly observation data from iNaturalist
+// Takes an object containing latitude (lat), longitude (lng), and search radius in kilometers
+// Returns an object containing:
+// - data: fetched observation results
+// - loading: boolean indicating if the data is still loading
+// - error: any errors encountered during fetching
+// - refetch: function to manually refetch the data
 export const useFireflyInaturalistData = (params = {}) => {
   // State management for API response data
   const [data, setData] = useState(null); // Stores the fetched observations

@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
+# This is the main file for the server
 
-# Standard library imports
-from flask import send_from_directory
-# Remote library imports
-from flask import Flask, request, make_response, abort, session, jsonify
+# Flask and related imports
+from flask import Flask, request, make_response, abort, session, jsonify, send_from_directory
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
@@ -12,23 +10,24 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from datetime import datetime
 import os
 from flask_bcrypt import Bcrypt
-from datetime import datetime
 
-# Local imports
+# Local imports for database setup and ORM models
 from config import app, db, api, bcrypt
-# Add your model imports
 from models import User, Sighting, Species, Friendship
 
+# Set up the upload folder (prepares the folder for storing uploaded files)
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Views go here!
+# Views
 
+# Home route
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
 
+# Users Signup route - POST creates a new user, password is hashed and stored in the database
 class Users(Resource):
     def post(self):
         try:
@@ -91,6 +90,7 @@ class Users(Resource):
         
 api.add_resource(Users, "/signup")
 
+# Login route - POST authenticates a user, checks if the password is correct
 class Login(Resource):
     def post(self):
         try:
@@ -122,6 +122,7 @@ class Login(Resource):
 
 api.add_resource(Login, "/login")
 
+# Logout route - DELETE logs out a user, removes the user_id from the session
 class Logout(Resource):
     def delete(self):
         try:
@@ -132,6 +133,7 @@ class Logout(Resource):
 
 api.add_resource(Logout, "/logout")
 
+# CheckSession route - GET checks if a user is logged in, returns the user's data if they are logged in
 class CheckSession(Resource):
     def get(self):
         user_id = session.get("user_id")
@@ -146,6 +148,7 @@ class CheckSession(Resource):
 
 api.add_resource(CheckSession, "/check_session")
 
+# Sightings route - GET returns all sightings, POST creates a new sighting
 class Sightings(Resource):
     def get(self):
         # Check if location parameters are provided
@@ -193,10 +196,6 @@ class Sightings(Resource):
         )
         db.session.add(new_sighting)
         db.session.commit()
-        # response = make_response(
-        #     new_sighting.to_dict(),
-        #     201
-        # )
         response = make_response(
             new_sighting.to_dict(rules=("-user.sightings", "-species.sightings")),
             201
@@ -204,6 +203,7 @@ class Sightings(Resource):
         return response 
 api.add_resource(Sightings, "/sightings")
 
+# SightingsById route - GET returns a single sighting, PATCH updates a sighting, DELETE deletes a sighting  
 class SightingsById(Resource):
     def get(self, id):
         sighting = db.session.get(Sighting, id)
@@ -226,6 +226,7 @@ class SightingsById(Resource):
             abort(403, "Unauthorized")
         data = request.get_json()
 
+        # REDUNDANT/DELETE!
         # Convert the string date to a datetime object
         if 'observed_on' in data:
             date_string = data['observed_on']
@@ -265,6 +266,7 @@ class SightingsById(Resource):
 
 api.add_resource(SightingsById, "/sightings/<int:id>")
  
+# FriendSearch route - GET searches for friends, returns a list of users that match the search term
 class FriendSearch(Resource):
     def get(self):
         # Check if user is logged in
@@ -293,6 +295,7 @@ class FriendSearch(Resource):
         ], 200)
 api.add_resource(FriendSearch, "/friend-search")
 
+# AddFriend route - POST adds a friend to the user's friends list
 class AddFriend(Resource):
     def post(self):
         user_id = session.get("user_id")
@@ -327,6 +330,7 @@ class AddFriend(Resource):
         return make_response({"message": "Friend added successfully"}, 201)
 api.add_resource(AddFriend, "/add-friend")
 
+# Friends route - GET returns all friendships, DELETE removes a friendship
 class Friends(Resource):
     def get(self):
         user_id = session.get("user_id")
@@ -345,6 +349,7 @@ class Friends(Resource):
         return make_response([friend.to_dict() for friend in friends], 200)
 api.add_resource(Friends, "/friends")
 
+# RemoveFriend route - DELETE removes a friendship
 class RemoveFriend(Resource):
     def delete(self, friend_id):
         user_id = session.get("user_id")
@@ -366,6 +371,7 @@ class RemoveFriend(Resource):
         return make_response({"message": "Friend removed successfully"}, 204)
 api.add_resource(RemoveFriend, "/friends/<int:friend_id>")
 
+# SpeciesList route - GET returns all species
 class SpeciesList(Resource):
     def get(self):
         species_list = Species.query.all()

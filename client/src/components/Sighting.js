@@ -5,26 +5,30 @@
  */
 
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-import Map from "./Map";
-import "../sighting.css";
+// Custom hook to fetch iNaturalist data
 import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
+// Local components
+import "../sighting.css";
+import Map from "./Map";
 import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 import EditSightingForm from "./EditSightingForm";
+
 
 function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
   const [locationError, setLocationError] = useState(null); // Stores any geolocation errors
   const [isLoadingLocation, setIsLoadingLocation] = useState(true); // Tracks geolocation loading state
+  // Selected sighting states
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
   const [selectedUserSighting, setSelectedUserSighting] = useState(null); // Stores the currently selected user sighting
-  // const [showSightingForm, setShowSightingForm] = useState(false);
+  // Form states
   const [showAddSightingForm, setShowAddSightingForm] = useState(false); // Controls visibility of the add sighting form
   const [showEditSightingForm, setShowEditSightingForm] = useState(false); // Controls visibility of the edit sighting form
   const [isLoading, setIsLoading] = useState(false); // Tracks loading state for API calls
   const [error, setError] = useState(null); // Stores any error messages
+  // Sightings states
   const [sightings, setSightings] = useState([]); // Stores the user's sightings
 
   /**
@@ -72,8 +76,10 @@ function Sighting({ user }) {
     async function fetchUserSightings() {
       try {
         const response = await fetch("http://localhost:5555/sightings", {
+          // Tells browser to include cookies and authentication headers in the request
           credentials: "include",
         });
+        // await pauses the execution of the function until the response is received so that we don't block our UI while waiting for the response
         const data = await response.json();
         setSightings(data);
       } catch (error) {
@@ -90,6 +96,7 @@ function Sighting({ user }) {
    */
   const inaturalistMarkers =
     // Map over the observations and create markers
+    // optional chaining operator - if data or results are null/undefined, return an empty array (don't throw an error)
     data?.results?.map((observation) => {
       // Only process observations with a valid location
       if (!observation.location || !observation.location.includes(",")) {
@@ -110,7 +117,6 @@ function Sighting({ user }) {
         id: observation.id,
         observation: observation, // Store the full observation data for the popup
       };
-      // First, try to execute data?.results?.map(...) - if data or results are null/undefined, return an empty array (don't throw an error)
     }) || [];
 
   const userSightings =
