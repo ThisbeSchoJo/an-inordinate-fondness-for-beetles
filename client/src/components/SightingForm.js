@@ -1,11 +1,16 @@
+/**
+ * SightingForm Component
+ * A form component for creating new firefly sightings
+ * Includes fields for species, location, date, description, and photos
+ * Features an interactive map for selecting location
+ */
+
 import { useState, useEffect } from "react";
 import "../sightingform.css";
 import Map from "./Map";
 
-// This component handles the form for creating and editing sightings.
-// It manages its own form state and handles form submission.
-
-function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
+function SightingForm({ onSubmit, onCancel }) {
+  // State for managing the map location
   const [mapLocation, setMapLocation] = useState(null);
 
   // Form state to manage input values
@@ -19,64 +24,23 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     longitude: "",
   });
 
+  // State for storing the list of available species
   const [speciesList, setSpeciesList] = useState([]);
 
-  // Fetch species list on mount
+  /**
+   * Fetch species list when component mounts
+   * Populates the species dropdown with available options
+   */
   useEffect(() => {
     fetch("/species")
       .then((response) => response.json())
       .then((data) => setSpeciesList(data));
   }, []);
 
-  // Initialize form data when sighting changes (for edit mode)
-  useEffect(() => {
-    if (sighting) {
-      // If editing, populate form with sighting data
-      setFormData({
-        species_id: sighting.species_id || "",
-        place_guess: sighting.place_guess || "",
-        observed_on: formatTimestamp(sighting.observed_on),
-        description: sighting.description || "",
-        photos: sighting.photos || "",
-        latitude: sighting.latitude || "",
-        longitude: sighting.longitude || "",
-      });
-
-      if (
-        typeof sighting.location === "string" &&
-        sighting.location.includes(",")
-      ) {
-        const [latitude, longitude] = sighting.location.split(",").map(Number);
-        if (!isNaN(latitude) && !isNaN(longitude)) {
-          setMapLocation({ lat: latitude, lng: longitude });
-        } else {
-          setMapLocation(null);
-        }
-      } else {
-        setMapLocation(null);
-      }
-    } else {
-      // If creating, reset form to empty values
-      setFormData({
-        species_id: "",
-        place_guess: "",
-        observed_on: "",
-        description: "",
-        photos: "",
-        latitude: "",
-        longitude: "",
-      });
-      setMapLocation(null);
-    }
-  }, [sighting]);
-
-  function formatTimestamp(timestamp) {
-    if (!timestamp) return "";
-    const date = new Date(timestamp);
-    return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
-  }
-
-  // Handle input changes
+  /**
+   * Handle input changes
+   * Updates form state when user types in any field
+   */
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -85,7 +49,10 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     }));
   }
 
-  // Reset form when cancelled
+  /**
+   * Handle form cancellation
+   * Resets form state and calls onCancel prop
+   */
   const handleCancel = () => {
     setFormData({
       species_id: "",
@@ -100,7 +67,10 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     onCancel();
   };
 
-  // Handle map click
+  /**
+   * Handle map click
+   * Updates location fields when user clicks on the map
+   */
   const handleMapClick = (coords) => {
     const locationString = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
     setMapLocation(coords);
@@ -112,7 +82,10 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
     });
   };
 
-  // Handle form submission
+  /**
+   * Handle form submission
+   * Processes form data and calls onSubmit prop
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -209,6 +182,7 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
           />
         </div>
 
+        {/* Interactive map for location selection */}
         <p>Click on the map to set location:</p>
         <div className="map-container">
           <Map
@@ -219,14 +193,16 @@ function SightingForm({ sighting, onSubmit, onCancel, isLoading }) {
           />
         </div>
 
+        {/* Display selected location */}
         {mapLocation && (
           <p className="selected-location">
             Selected location: {formData.place_guess}
           </p>
         )}
 
+        {/* Form action buttons */}
         <div className="form-buttons">
-          <button type="submit">Submit</button>
+          <button type="submit">Add Sighting</button>
           <button type="button" onClick={handleCancel}>
             Cancel
           </button>

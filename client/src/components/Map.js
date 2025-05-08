@@ -1,6 +1,8 @@
 /**
  * Map Component
- * Displays a Google Map with markers for firefly observations
+ * A Google Maps component that displays firefly sightings and allows location selection
+ * Supports markers for both iNaturalist observations and user sightings
+ * Handles map clicks for setting new sighting locations
  */
 
 import React from "react";

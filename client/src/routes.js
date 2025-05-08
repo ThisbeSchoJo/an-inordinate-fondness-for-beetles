@@ -30,10 +30,10 @@ const routes = [
         path: "/signup",
         element: <Signup />,
       },
-      {
-        path: "/firefly-observations",
-        element: <FireflyObservations />,
-      },
+      // {
+      //   path: "/firefly-observations",
+      //   element: <FireflyObservations />,
+      // },
       {
         path: "/sightings",
         element: (

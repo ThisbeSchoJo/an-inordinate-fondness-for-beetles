@@ -109,42 +109,6 @@ function SightingList( {user} ) {
   };
 
   /**
-   * Handles the update of an existing sighting
-   * Makes a PUT request to the backend API
-   */
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/sightings/${editingSighting.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update sighting");
-      }
-
-      const updatedSighting = await response.json();
-      setSightings((prev) =>
-        prev.map((s) => (s.id === updatedSighting.id ? updatedSighting : s))
-      );
-      setEditingSighting(null);
-      setFormData({
-        species: "",
-        place_guess: "",
-        observed_on: "",
-        description: "",
-        photos: "",
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  /**
    * Handles the deletion of a sighting
    * Makes a DELETE request to the backend API
    */

@@ -12,6 +12,7 @@ import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 import EditSightingForm from "./EditSightingForm";
+
 function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
@@ -20,11 +21,11 @@ function Sighting({ user }) {
   const [selectedObservation, setSelectedObservation] = useState(null); // Stores the currently selected observation for the popup
   const [selectedUserSighting, setSelectedUserSighting] = useState(null); // Stores the currently selected user sighting
   // const [showSightingForm, setShowSightingForm] = useState(false);
-  const [showAddSightingForm, setShowAddSightingForm] = useState(false);
-  const [showEditSightingForm, setShowEditSightingForm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [sightings, setSightings] = useState([]);
+  const [showAddSightingForm, setShowAddSightingForm] = useState(false); // Controls visibility of the add sighting form
+  const [showEditSightingForm, setShowEditSightingForm] = useState(false); // Controls visibility of the edit sighting form
+  const [isLoading, setIsLoading] = useState(false); // Tracks loading state for API calls
+  const [error, setError] = useState(null); // Stores any error messages
+  const [sightings, setSightings] = useState([]); // Stores the user's sightings
 
   /**
    * useEffect hook to get the user's location when the component mounts
@@ -143,7 +144,10 @@ function Sighting({ user }) {
     return <div className="error">Error: {locationError}</div>;
   }
 
-  // Function to handle clicking a marker
+  /**
+   * Function to handle clicking a marker
+   * Sets the appropriate state based on whether it's an iNaturalist observation or user sighting
+   */
   function handleMarkerClick(marker) {
     console.log("Clicked marker:", marker);
     // If it's an iNaturalist marker
@@ -158,23 +162,31 @@ function Sighting({ user }) {
     }
   }
 
-  // Function to handle closing the popup
+  /**
+   * Function to handle closing the popup
+   * Resets both selected observation and user sighting states
+   */
   function handleClosePopup() {
     setSelectedObservation(null);
     setSelectedUserSighting(null);
   }
 
-  // Function to handle adding a sighting
+  /**
+   * Function to handle adding a sighting
+   * Shows the add sighting form and resets other states
+   */
   function handleAddSighting() {
-    // fetchUserSightings();
-    // setShowSightingForm(true);
     setShowAddSightingForm(true);
     setShowEditSightingForm(false);
     setSelectedUserSighting(null);
     setSelectedObservation(null);
   }
 
-  // Function to handle submitting the sighting form
+  /**
+   * Function to handle submitting a new sighting
+   * Makes a POST request to create a new sighting
+   * Updates the sightings state with the new sighting
+   */
   async function handleSubmitNewSighting(formData) {
     try {
       setIsLoading(true);
@@ -205,19 +217,27 @@ function Sighting({ user }) {
     }
   }
 
+  /**
+   * Function to handle submitting an edited sighting
+   * Makes a PATCH request to update the sighting
+   * Updates the sightings state with the edited sighting
+   */
   async function handleSubmitEditSighting(formData) {
     try {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`http://localhost:5555/sightings/${formData.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://localhost:5555/sightings/${formData.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -225,7 +245,11 @@ function Sighting({ user }) {
       }
 
       const updatedSighting = await response.json();
-      setSightings(sightings.map((s) => (s.id === updatedSighting.id ? updatedSighting : s)));
+      setSightings(
+        sightings.map((s) =>
+          s.id === updatedSighting.id ? updatedSighting : s
+        )
+      );
       setShowEditSightingForm(false);
       setSelectedUserSighting(null);
     } catch (error) {
@@ -235,8 +259,10 @@ function Sighting({ user }) {
     }
   }
 
-
-  // Function to handle editing a sighting
+  /**
+   * Function to handle editing a sighting
+   * Shows the edit form and populates it with the selected sighting's data
+   */
   function handleEditSighting(id) {
     const sightingToEdit = sightings.find((s) => s.id === id);
     if (!sightingToEdit) {
@@ -250,7 +276,11 @@ function Sighting({ user }) {
     setSelectedObservation(null);
   }
 
-  // Function to handle deleting a sighting
+  /**
+   * Function to handle deleting a sighting
+   * Makes a DELETE request to remove the sighting
+   * Updates the sightings state by removing the deleted sighting
+   */
   async function handleDeleteSighting(id) {
     try {
       setIsLoading(true);

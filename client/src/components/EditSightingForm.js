@@ -1,9 +1,17 @@
+/**
+ * EditSightingForm Component
+ * A form component for editing existing firefly sightings
+ * Includes fields for species, location, date, description, and photos
+ * Features an interactive map for selecting location
+ */
+
 import { useState, useEffect } from "react";
 import "../sightingform.css";
 import "../editsightingform.css";
 import Map from "./Map";
 
 function EditSightingForm({ sighting, onSubmit, onCancel }) {
+  // State for managing the map location
   const [mapLocation, setMapLocation] = useState(null);
 
   // Form state to manage input values
@@ -17,16 +25,24 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
     longitude: "",
   });
 
+  // State for storing the list of available species
   const [speciesList, setSpeciesList] = useState([]);
 
-  // Fetch species list on mount
+  /**
+   * Fetch species list when component mounts
+   * Populates the species dropdown with available options
+   */
   useEffect(() => {
     fetch("/species")
       .then((response) => response.json())
       .then((data) => setSpeciesList(data));
   }, []);
 
-  // Initialize form data when sighting changes (for edit mode)
+  /**
+   * Initialize form data when sighting changes
+   * Populates form fields with existing sighting data
+   * Handles both edit mode and create mode
+   */
   useEffect(() => {
     if (sighting) {
       // If editing, populate form with sighting data
@@ -40,6 +56,7 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
         longitude: sighting.longitude || "",
       });
 
+      // Set map location if valid coordinates exist
       if (
         typeof sighting.location === "string" &&
         sighting.location.includes(",")
@@ -68,13 +85,20 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
     }
   }, [sighting]);
 
+  /**
+   * Format timestamp for datetime-local input
+   * Converts database timestamp to YYYY-MM-DDTHH:MM format
+   */
   function formatTimestamp(timestamp) {
     if (!timestamp) return "";
     const date = new Date(timestamp);
     return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
   }
 
-  // Handle input changes
+  /**
+   * Handle input changes
+   * Updates form state when user types in any field
+   */
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -83,7 +107,10 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
     }));
   }
 
-  // Reset form when cancelled
+  /**
+   * Handle form cancellation
+   * Resets form state and calls onCancel prop
+   */
   const handleCancel = () => {
     setFormData({
       species_id: "",
@@ -98,7 +125,10 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
     onCancel();
   };
 
-  // Handle map click
+  /**
+   * Handle map click
+   * Updates location fields when user clicks on the map
+   */
   const handleMapClick = (coords) => {
     const locationString = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
     setMapLocation(coords);
@@ -110,7 +140,10 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
     });
   };
 
-  // Handle form submission
+  /**
+   * Handle form submission
+   * Processes form data and calls onSubmit prop
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -129,7 +162,10 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
 
   return (
     <>
+      {/* Semi-transparent overlay */}
       <div className="edit-sighting-form-overlay" onClick={handleCancel} />
+
+      {/* Form container */}
       <div className="edit-sighting-form-container">
         <form className="edit-sighting-form" onSubmit={handleSubmit}>
           <h2>Edit Sighting</h2>
@@ -202,6 +238,7 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
             />
           </div>
 
+          {/* Interactive map for location selection */}
           <p>Click on the map to set location:</p>
           <div className="map-container">
             <Map
@@ -212,12 +249,14 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
             />
           </div>
 
+          {/* Display selected location */}
           {mapLocation && (
             <p className="selected-location">
               Selected location: {formData.place_guess}
             </p>
           )}
 
+          {/* Form action buttons */}
           <div className="edit-sighting-form-buttons">
             <button type="submit">Save Changes</button>
             <button type="button" onClick={handleCancel}>
