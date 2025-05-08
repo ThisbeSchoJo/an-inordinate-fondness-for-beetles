@@ -1,4 +1,108 @@
-# Phase 4 Full-Stack Application Project Template
+# An Inordinate Fondness for Beetles
+
+A full-stack web application for tracking and sharing firefly sightings. This project combines the beauty of bioluminescent insects with modern web technology to create an interactive platform for nature enthusiasts.
+
+## Features
+
+- Interactive map interface for viewing firefly sightings
+- User authentication and profile management
+- Ability to add, edit, and delete personal sightings
+- Integration with iNaturalist API for additional firefly observations
+- Friend system for connecting with other firefly enthusiasts
+- Species database with detailed information about different types of fireflies
+- Responsive design for both desktop and mobile viewing
+
+## Tech Stack
+
+### Frontend
+
+- React.js
+- Google Maps API
+- CSS3 with custom styling
+- React Router for navigation
+- Lucide React for icons
+
+### Backend
+
+- Flask
+- SQLAlchemy
+- Flask-RESTful
+- Flask-Migrate
+- Flask-CORS
+- PostgreSQL database
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.x
+- Node.js and npm
+- PostgreSQL
+- Google Maps API key
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/an-inordinate-fondness-for-beetles.git
+cd an-inordinate-fondness-for-beetles
+```
+
+2. Set up the backend:
+
+```bash
+cd server
+pipenv install
+pipenv shell
+flask db init
+flask db migrate
+flask db upgrade
+python seed.py
+```
+
+3. Set up the frontend:
+
+```bash
+cd ../client
+npm install
+```
+
+4. Create a `.env` file in the client directory with your Google Maps API key:
+
+```
+REACT_APP_GOOGLE_MAPS_API_KEY=your_api_key_here
+```
+
+5. Start the servers:
+
+```bash
+# Terminal 1 (backend)
+cd server
+python app.py
+
+# Terminal 2 (frontend)
+cd client
+npm start
+```
+
+The application will be available at `http://localhost:3000`
+
+## Usage
+
+1. Create an account or log in
+2. View the map to see firefly sightings in your area
+3. Add your own sightings by clicking on the map
+4. Connect with other users through the friend system
+5. Browse the species database to learn about different types of fireflies
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Learning Goals
 
