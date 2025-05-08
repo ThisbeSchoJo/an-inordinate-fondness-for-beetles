@@ -41,9 +41,14 @@ if __name__ == '__main__':
         user3.password_hash = "thisbe"  # This will trigger the hashing
         user3.profile_picture = "/static/uploads/thisbe.png"
 
+        user4 = User(username="InsectHunter2000")
+        user4.password_hash = "password789"
+    
+
         db.session.add(user1)
         db.session.add(user2)
         db.session.add(user3)
+        db.session.add(user4)
         db.session.commit()
         
         # Add bioluminescent species
