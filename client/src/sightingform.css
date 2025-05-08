@@ -17,6 +17,8 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
   color: var(--text-color);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* Form title */
@@ -121,7 +123,7 @@ textarea {
 
 /* Map styling */
 .map-container {
-  height: 300px;
+  height: 250px;
   margin: 1rem 0;
   border-radius: 6px;
   overflow: hidden;
