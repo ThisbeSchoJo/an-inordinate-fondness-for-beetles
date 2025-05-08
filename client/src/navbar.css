@@ -1,71 +1,87 @@
+:root {
+  --background-color: #0b0c10;
+  --accent-yellow: #ffe066;
+  --accent-cyan: #88c0d0;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
 /* Navbar container */
 .navbar {
   display: flex;
-  justify-content: center; /* center horizontally */
+  justify-content: center;
   align-items: center;
   background-color: transparent;
-  box-shadow: none;
   padding: 1rem;
   position: relative;
   z-index: 10;
   gap: 2rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
 }
 
-/* Base link style */
+/* Navigation links */
 .navbar a {
-  color: #4145a7;
+  color: var(--accent-cyan);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
-/* On hover */
+/* For regular nav links */
 .navbar a:hover {
-  color: #d4ff9b;
-  font-weight: bold;
+  color: var(--accent-yellow);
+  transform: translateY(-1px);
 }
 
-/* When link is active (matches current route) */
 .navbar a.active {
-  color: #91ff00;
+  color: var(--accent-yellow);
 }
 
-/* Optional: Make it stack vertically on small screens */
+/* For the logout button specifically */
+.navbar .logout-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-cyan);
+  transition: none;
+}
+
+/* For the logout button hover state */
+.navbar .logout-button:hover {
+  color: var(--accent-cyan);
+  transform: none;
+}
+
+/* For the icon inside logout button */
+.navbar .logout-button .nav-icon {
+  color: var(--accent-cyan);
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+/* For the icon hover state */
+.navbar .logout-button:hover .nav-icon {
+  color: var(--accent-yellow);
+  filter: drop-shadow(0 0 6px var(--accent-yellow));
+}
+
+/* Optional: All SVGs transition smoothly */
+.navbar svg {
+  transition: all 0.3s ease;
+}
+
+/* Responsive layout */
 @media (max-width: 600px) {
   .navbar {
     flex-direction: column;
     gap: 1rem;
   }
 }
-
-/* Reset button styles to match links */
-.navbar .logout-button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  color: #4145a7;
-  font: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-/* Match hover style */
-.navbar .logout-button:hover {
-  color: #f0f0f0 !important;
-}
-
-/* Optional: match "active" link style (if needed) */
-.navbar .logout-button.active {
-  color: #00ffd0;
-}
-
-.navbar .logout-button:hover .nav-icon {
-  color: var(--accent-yellow);
-}
-

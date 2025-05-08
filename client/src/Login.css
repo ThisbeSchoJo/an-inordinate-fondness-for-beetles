@@ -1,66 +1,105 @@
+:root {
+  --background-color: #0b0c10;
+  --card-color: #1c1c1c;
+  --accent-yellow: #ffe066;
+  --accent-cyan: #88c0d0;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
+/* Main container */
 .login-container {
   max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  font-family: "Helvetica Neue", sans-serif;
+  color: var(--text-color);
 }
 
+/* Title */
 .login-title {
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
+  color: var(--accent-yellow);
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
+  text-shadow: 0 0 10px var(--accent-yellow);
 }
 
+/* Form layout */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
 }
 
+/* Form elements */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 5px;
-  color: #666;
+  margin-bottom: 0.4rem;
+  color: var(--accent-cyan);
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
+  padding: 0.8rem;
+  border: 1px solid var(--accent-cyan);
   border-radius: 4px;
+  background-color: #2a2a2a;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.2);
+}
+
+/* Submit button */
 .submit-button {
-  background-color: #4145a7;
-  color: white;
+  background-color: var(--accent-cyan);
+  color: #000;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: bold;
+  font-size: 1rem;
   transition: all 0.3s ease;
   width: 100%;
   margin-top: 1rem;
 }
 
 .submit-button:hover {
-  background-color: #d4ff9b;
-  color: #4145a7;
+  background-color: var(--accent-yellow);
+  color: #000;
   transform: translateY(-2px);
 }
 
 .submit-button:active {
-  background-color: #91ff00;
   transform: translateY(0);
 }
 
+/* Nav link */
 .nav-link {
+  display: block;
   text-align: center;
-  color: #666;
+  margin-top: 1rem;
+  color: var(--text-muted);
   text-decoration: none;
-  margin-top: 10px;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-yellow);
 }

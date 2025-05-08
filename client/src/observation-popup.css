@@ -1,69 +1,87 @@
+:root {
+  --background-color: #0b0c10;
+  --card-color: #1c1c1c;
+  --accent-yellow: #ffe066;
+  --accent-cyan: #88c0d0;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
+/* Overlay backdrop */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
+/* Main popup container */
 .popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 10px;
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
 }
 
+/* Close button */
 .close-button {
   position: absolute;
   top: 1rem;
   right: 1rem;
   background: none;
   border: none;
-  color: #4145a7;
+  color: var(--accent-cyan);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .close-button:hover {
-  color: #d4ff9b;
-  transform: scale(1.1);
+  color: var(--accent-yellow);
+  transform: scale(1.2);
 }
 
+/* Title */
 .popup-content h2 {
   margin-top: 0;
-  color: #333;
-  font-size: 1.4em;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: var(--accent-yellow);
+  text-shadow: 0 0 6px var(--accent-yellow);
 }
 
+/* Image */
 .popup-content img {
   width: 100%;
   max-height: 300px;
   object-fit: cover;
-  border-radius: 4px;
-  margin: 10px 0;
+  border-radius: 6px;
+  margin: 1rem 0;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
 }
 
+/* Observation info */
 .observation-details {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .observation-details p {
-  margin: 8px 0;
-  color: #444;
-  line-height: 1.4;
+  margin: 0.6rem 0;
+  color: var(--text-muted);
+  line-height: 1.5;
 }

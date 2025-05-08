@@ -1,18 +1,13 @@
-.firefly-logo-container {
-    height: 20px;
-    width: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.firefly-logo-container img {
-    height: 100%;
-    width: 100%;
-}
-
-body {
-    background-image: url("/public/firefly-background.gif");
+:root {
+    --background-color: #0b0c10;
+    --accent-yellow: #ffe066;
+    --accent-cyan: #88c0d0;
+    --text-color: #ffffff;
+  }
+  
+  /* Background styling */
+  body {
+    /* background-image: url("/firefly-background.gif"); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -20,23 +15,60 @@ body {
     padding: 0;
     height: 100vh;
     width: 100vw;
-}
-
-#firefly {
+    font-family: "Helvetica Neue", sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color); /* fallback */
+    overflow: hidden;
+  }
+  
+  /* Firefly logo (centered icon on navbar or title area) */
+  .firefly-logo-container {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .firefly-logo-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  /* Animated firefly */
+  #firefly {
     position: absolute;
     top: 200px;
     left: 200px;
-    /* transform: translate(-50%, -50%); */
     height: 50px;
     width: 50px;
+    pointer-events: none;
     transition: top 3s ease-in-out, left 3s ease-in-out;
-    pointer-events: none; /* So the image doesn't block mouse events */
-}
-
-.home-title {
-    color: #91ff00;
-    font-size: 30px;
+    filter: drop-shadow(0 0 10px var(--accent-yellow));
+  }
+  
+  /* Title */
+  .home-title {
+    font-size: 3rem;
     font-weight: bold;
     text-align: center;
-    margin-top: 250px;
-}
+    margin-top: 240px;
+    color: var(--accent-yellow);
+    text-shadow: 0 0 10px var(--accent-yellow);
+    animation: pulseGlow 4s infinite ease-in-out;
+  }
+  
+  /* Soft pulsing glow animation */
+  @keyframes pulseGlow {
+    0% {
+      text-shadow: 0 0 8px var(--accent-yellow);
+    }
+    50% {
+      text-shadow: 0 0 16px var(--accent-yellow);
+    }
+    100% {
+      text-shadow: 0 0 8px var(--accent-yellow);
+    }
+  }
+  
