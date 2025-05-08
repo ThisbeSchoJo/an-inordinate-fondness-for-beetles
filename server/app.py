@@ -187,12 +187,18 @@ class Sightings(Resource):
             observed_on=observed_on,
             description=data.get("description"),
             photos=data.get("photos"),
+            latitude=data.get("latitude"),
+            longitude=data.get("longitude"),
             user_id=user_id
         )
         db.session.add(new_sighting)
         db.session.commit()
+        # response = make_response(
+        #     new_sighting.to_dict(),
+        #     201
+        # )
         response = make_response(
-            new_sighting.to_dict(),
+            new_sighting.to_dict(rules=("-user.sightings", "-species.sightings")),
             201
         )
         return response 

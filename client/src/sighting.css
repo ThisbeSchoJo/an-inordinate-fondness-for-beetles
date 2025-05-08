@@ -1,51 +1,94 @@
+:root {
+  --background-color: #0b0c10;
+  --card-color: #1c1c1c;
+  --accent-yellow: #ffe066;
+  --accent-cyan: #88c0d0;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
 /* Main container for the sighting page */
 .sighting-container {
-  padding: 20px;
+  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
-/* Container for the Google Map */
+/* Heading styles */
+.sighting-container h1,
+.sighting-container h2 {
+  color: var(--accent-yellow);
+  margin-bottom: 1rem;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.action-buttons button {
+  background-color: var(--accent-cyan);
+  color: #000;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-buttons button:hover {
+  background-color: var(--accent-yellow);
+  color: #000;
+}
+
+/* Map container */
 .map-container {
-  margin: 20px 0;
-  border-radius: 8px;
+  margin: 1.5rem 0;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Container for the sighting details section */
+/* Sighting details section */
 .sighting-details-container {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
 
-/* Individual detail items within the sighting details */
+/* Individual detail items */
 .detail-item {
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
 }
 
-/* Remove the bottom border from the last detail item */
+/* Remove bottom border from last item */
 .detail-item:last-child {
   border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 0;
 }
 
-/* Style for the headings */
-h1,
-h2 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-}
-
-/* Style for the strong tags in detail items */
+/* Labels */
 .detail-item strong {
   display: inline-block;
   min-width: 100px;
-  color: #495057;
+  color: var(--accent-cyan);
+}
+
+/* Error and loading messages */
+.loading,
+.error {
+  text-align: center;
+  margin: 2rem;
+  color: var(--accent-yellow);
 }

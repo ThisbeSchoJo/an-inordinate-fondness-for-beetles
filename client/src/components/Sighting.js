@@ -130,7 +130,7 @@ function Sighting({ user }) {
         position: { lat: sighting.latitude, lng: sighting.longitude },
         title: sighting.species?.name || "Unknown Firefly",
         id: sighting.id,
-        sighting: sighting, // Store the full sighting data for the popup 
+        sighting: sighting, // Store the full sighting data for the popup
       };
       // Parse the location string into latitude and longitude coordinates
       // const [lat, lng] = sighting.place_guess
@@ -144,6 +144,8 @@ function Sighting({ user }) {
       // };
     }) || [];
 
+  console.log("Sightings state:", sightings);
+  console.log("Mapped userSightings:", userSightings);  
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location

@@ -90,13 +90,23 @@ function SightingForm({ onSubmit, onCancel }) {
     e.preventDefault();
 
     // Parse the location string into latitude and longitude
-    const [latitude, longitude] = formData.place_guess
+    // const [latitude, longitude] = formData.place_guess
+    //   .split(",")
+    //   .map((coord) => parseFloat(coord.trim()));
+
+    // const submissionData = {
+    //   ...formData,
+    // };
+    const [lat, lng] = formData.place_guess
       .split(",")
       .map((coord) => parseFloat(coord.trim()));
 
     const submissionData = {
       ...formData,
+      latitude: lat,
+      longitude: lng,
     };
+
 
     onSubmit(submissionData);
   };

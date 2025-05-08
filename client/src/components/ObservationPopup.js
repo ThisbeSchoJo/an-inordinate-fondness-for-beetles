@@ -48,7 +48,7 @@ function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
             alt={observation.species?.name || "Firefly observation"}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "/fallback.jpg";
+              e.target.src = "http://localhost:5555/static/uploads/fallback.jpg";
             }}
           />
         ) : Array.isArray(observation.photos) && observation.photos[0]?.url ? (
