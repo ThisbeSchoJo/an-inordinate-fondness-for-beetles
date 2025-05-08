@@ -31,13 +31,15 @@ if __name__ == '__main__':
         # Create users with password hashing
         user1 = User(username="John Doe")
         user1.password_hash = "password123"  # This will trigger the hashing
+        user1.profile_picture = "/static/uploads/john.jpg"
 
         user2 = User(username="Jane Smith")
         user2.password_hash = "password456"  # This will trigger the hashing
+        user2.profile_picture = "/static/uploads/jane.png"
 
-        user3 = User(username="thisbe")
+        user3 = User(username="Thisbe")
         user3.password_hash = "thisbe"  # This will trigger the hashing
-        user3.profile_picture = "/static/uploads/thisbe.jpg"
+        user3.profile_picture = "/static/uploads/thisbe.png"
 
         db.session.add(user1)
         db.session.add(user2)
@@ -87,7 +89,7 @@ if __name__ == '__main__':
             place_guess="Central Park, New York", 
             observed_on=datetime.strptime("2023-06-15 20:30", "%Y-%m-%d %H:%M"), 
             description="Large group of fireflies near the pond", 
-            photos="https://example.com/firefly1.jpg", 
+            photos="/static/uploads/firefly.jpeg", 
             latitude=40.7829,
             longitude=-73.9654,
             user_id=user1.id, 
@@ -98,7 +100,7 @@ if __name__ == '__main__':
             place_guess="Prospect Park, Brooklyn", 
             observed_on=datetime.strptime("2023-06-16 21:00", "%Y-%m-%d %H:%M"), 
             description="Fireflies in the meadow", 
-            photos="https://example.com/firefly2.jpg", 
+            photos="/static/uploads/firefly2.jpeg", 
             latitude=40.6602,
             longitude=-73.9690,
             user_id=user2.id, 
@@ -108,12 +110,12 @@ if __name__ == '__main__':
         db.session.add(sighting1)
         db.session.add(sighting2)
 
-        # Add Tampa/Clearwater area firefly sightings
+        # Tampa/Clearwater area firefly sightings
         sighting3 = Sighting(
             place_guess="Lettuce Lake Park, Tampa", 
             observed_on=datetime.strptime("2023-06-20 20:45", "%Y-%m-%d %H:%M"), 
             description="Fireflies along the boardwalk near the Hillsborough River", 
-            photos="https://example.com/firefly3.jpg", 
+            photos="/static/uploads/firefly3.jpeg", 
             latitude=28.0806,
             longitude=-82.3654,
             user_id=user1.id, 
@@ -124,7 +126,7 @@ if __name__ == '__main__':
             place_guess="Philippe Park, Safety Harbor", 
             observed_on=datetime.strptime("2023-06-21 21:15", "%Y-%m-%d %H:%M"), 
             description="Fireflies in the oak hammock near the water", 
-            photos="https://example.com/firefly4.jpg", 
+            photos="/static/uploads/firefly4.jpeg", 
             latitude=28.0008,
             longitude=-82.6965,
             user_id=user2.id, 
@@ -135,7 +137,7 @@ if __name__ == '__main__':
             place_guess="Moccasin Lake Nature Park, Clearwater", 
             observed_on=datetime.strptime("2023-06-22 20:30", "%Y-%m-%d %H:%M"), 
             description="Fireflies near the lake at dusk", 
-            photos="https://example.com/firefly5.jpg", 
+            photos="/static/uploads/firefly5.png", 
             latitude=27.9914,
             longitude=-82.7689,
             user_id=user1.id, 
@@ -166,7 +168,7 @@ if __name__ == '__main__':
                 place_guess="Lettuce Lake Park, Tampa",
                 observed_on=datetime.strptime("2023-06-15 20:30", "%Y-%m-%d %H:%M"),
                 description="Saw several fireflies near the boardwalk",
-                photos="https://example.com/firefly1.jpg",
+                photos="/static/uploads/firefly.jpeg",
                 latitude=28.0797,
                 longitude=-82.3697,
                 user_id=user3.id,
@@ -176,7 +178,7 @@ if __name__ == '__main__':
                 place_guess="Hillsborough River State Park",
                 observed_on=datetime.strptime("2023-06-16 21:00", "%Y-%m-%d %H:%M"),
                 description="Large group of fireflies near the river",
-                photos="https://example.com/firefly2.jpg",
+                photos="/static/uploads/firefly2.jpeg",
                 latitude=28.1489,
                 longitude=-82.2314,
                 user_id=user3.id,
@@ -186,7 +188,7 @@ if __name__ == '__main__':
                 place_guess="Al Lopez Park, Tampa",
                 observed_on=datetime.strptime("2023-06-17 20:45", "%Y-%m-%d %H:%M"),
                 description="Fireflies in the wooded area",
-                photos="https://example.com/firefly3.jpg",
+                photos="/static/uploads/firefly3.jpg",
                 latitude=27.9789,
                 longitude=-82.4897,
                 user_id=user3.id,
@@ -196,7 +198,7 @@ if __name__ == '__main__':
                 place_guess="Upper Tampa Bay Park",
                 observed_on=datetime.strptime("2023-06-18 21:15", "%Y-%m-%d %H:%M"),
                 description="Fireflies along the trail",
-                photos="https://example.com/firefly4.jpg",
+                photos="/static/uploads/firefly4.jpeg",
                 latitude=28.0897,
                 longitude=-82.5897,
                 user_id=user3.id,
