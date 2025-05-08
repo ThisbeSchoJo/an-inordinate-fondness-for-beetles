@@ -115,7 +115,7 @@ if __name__ == '__main__':
             place_guess="Lettuce Lake Park, Tampa", 
             observed_on=datetime.strptime("2023-06-20 20:45", "%Y-%m-%d %H:%M"), 
             description="Fireflies along the boardwalk near the Hillsborough River", 
-            photos="/static/uploads/firefly3.jpeg", 
+            photos="/static/uploads/firefly3.jpg", 
             latitude=28.0806,
             longitude=-82.3654,
             user_id=user1.id, 

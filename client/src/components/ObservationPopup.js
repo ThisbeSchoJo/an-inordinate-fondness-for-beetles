@@ -32,12 +32,32 @@ function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
         </h2>
 
         {/* Display the first photo if available */}
-        {observation.photos?.[0]?.url && (
+        {/* {observation.photos?.[0]?.url && (
           <img
             src={observation.photos[0].url}
             alt={observation.species_guess || "Firefly observation"}
           />
-        )}
+        )} */}
+        {typeof observation.photos === "string" ? (
+          <img
+            src={
+              observation.photos.startsWith("http")
+                ? observation.photos
+                : `http://localhost:5555${observation.photos}`
+            }
+            alt={observation.species?.name || "Firefly observation"}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/fallback.jpg";
+            }}
+          />
+        ) : Array.isArray(observation.photos) && observation.photos[0]?.url ? (
+          <img
+            src={observation.photos[0].url}
+            alt={observation.species_guess || "Firefly observation"}
+          />
+        ) : null}
+
 
         {/* Observation details section */}
         <div className="observation-details">

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-
+from flask import send_from_directory
 # Remote library imports
 from flask import Flask, request, make_response, abort, session, jsonify
 from flask_migrate import Migrate
@@ -365,6 +365,10 @@ class SpeciesList(Resource):
         species_list = Species.query.all()
         return make_response([species.to_dict() for species in species_list], 200)
 api.add_resource(SpeciesList, "/species")
+
+@app.route('/static/uploads/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

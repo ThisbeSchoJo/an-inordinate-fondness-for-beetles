@@ -117,19 +117,31 @@ function Sighting({ user }) {
     // Map over the user's sightings and create markers
     sightings?.map((sighting) => {
       // Only process sightings with a valid location
-      if (!sighting.place_guess || !sighting.place_guess.includes(",")) {
+      // if (!sighting.place_guess || !sighting.place_guess.includes(",")) {
+      //   return null;
+      // }
+      if (
+        typeof sighting.latitude !== "number" ||
+        typeof sighting.longitude !== "number"
+      ) {
         return null;
       }
-      // Parse the location string into latitude and longitude coordinates
-      const [lat, lng] = sighting.place_guess
-        .split(",")
-        .map((coord) => parseFloat(coord.trim()));
       return {
-        position: { lat, lng },
-        title: String(sighting.species) || "Unknown Firefly",
+        position: { lat: sighting.latitude, lng: sighting.longitude },
+        title: sighting.species?.name || "Unknown Firefly",
         id: sighting.id,
-        sighting: sighting, // Store the full sighting data for the popup
+        sighting: sighting, // Store the full sighting data for the popup 
       };
+      // Parse the location string into latitude and longitude coordinates
+      // const [lat, lng] = sighting.place_guess
+      //   .split(",")
+      //   .map((coord) => parseFloat(coord.trim()));
+      // return {
+      //   position: { lat, lng },
+      //   title: String(sighting.species) || "Unknown Firefly",
+      //   id: sighting.id,
+      //   sighting: sighting, // Store the full sighting data for the popup
+      // };
     }) || [];
 
   const allMarkers = [...inaturalistMarkers, ...userSightings];
