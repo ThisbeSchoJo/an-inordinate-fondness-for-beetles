@@ -19,6 +19,7 @@
   color: var(--text-color);
   max-height: 90vh;
   overflow-y: auto;
+  position: relative;
 }
 
 /* Form title */
@@ -123,7 +124,7 @@ textarea {
 
 /* Map styling */
 .map-container {
-  height: 250px;
+  height: 200px;
   margin: 1rem 0;
   border-radius: 6px;
   overflow: hidden;
