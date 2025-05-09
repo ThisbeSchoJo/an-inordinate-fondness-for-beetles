@@ -5,9 +5,9 @@
 }
 
 /* Map container styling */
-.map-container {
+.sighting-container .map-container {
   width: 100%;
-  height: 100%;
+  height: 60vh;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -19,7 +19,7 @@
 }
 
 /* Ensure Google Maps container fills the parent */
-.map-container > div {
+.sighting-container .map-container > div {
   width: 100% !important;
   height: 100% !important;
 }
