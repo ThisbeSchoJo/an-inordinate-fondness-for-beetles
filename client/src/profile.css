@@ -1,11 +1,4 @@
-:root {
-  --background-color: #0b0c10;
-  --card-color: #1f1f1f;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #bbbbbb;
-}
+@import "./common.css";
 
 /* Overall page styles */
 body {
@@ -61,19 +54,8 @@ body {
 }
 
 .profile-button {
-  background-color: var(--accent-cyan);
-  color: #000;
   padding: 0.5rem 1rem;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-.profile-button:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
 }
 
 /* Friends container */
@@ -128,13 +110,10 @@ body {
 
 .friend-button {
   background-color: transparent;
-  color: var(--accent-cyan);
   border: 1px solid var(--accent-cyan);
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .friend-button:hover {
@@ -165,5 +144,3 @@ body {
   background-color: var(--accent-yellow);
   color: #000;
 }
-
-

@@ -1,11 +1,31 @@
 @import "./common.css";
 
 /* Map container specific styling */
+.map-container {
+  height: 60vh;
+  margin: 1rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+/* Map container for sighting form */
+.sighting-form .map-container {
+  height: 180px;
+}
+
+/* Map container for edit sighting form */
+.edit-sighting-form .map-container {
+  height: 300px;
+}
+
+/* Map container for sighting details */
 .sighting-container .map-container {
   height: 60vh;
 }
 
-/* Optional custom marker styling (if using your own HTML markers) */
+/* Optional custom marker styling */
 .marker {
   position: absolute;
   left: 50%;
@@ -17,4 +37,12 @@
   color: #000;
   font-weight: bold;
   box-shadow: 0 0 6px var(--accent-yellow);
+}
+
+/* Map location text */
+.selected-location {
+  color: var(--accent-yellow);
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 0.5rem 0;
 }

@@ -1,3 +1,5 @@
+@import "./common.css";
+
 .add-friend-form {
   position: fixed;
   top: 0;

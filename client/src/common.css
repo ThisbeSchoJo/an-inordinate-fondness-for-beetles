@@ -98,3 +98,53 @@ a:hover {
   width: 100% !important;
   height: 100% !important;
 }
+
+/* Common Form Group Styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+/* Common Card Styles */
+.card {
+  background-color: var(--card-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Common Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+/* Common Modal Content */
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  z-index: 1001;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--text-color);
+}

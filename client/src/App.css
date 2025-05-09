@@ -1,21 +1,4 @@
-:root {
-  --background-color: #0b0c10;
-  --card-color: #1c1c1c;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
-}
-
-/* Base document */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: "Helvetica Neue", sans-serif;
-  min-height: 100vh;
-}
+@import "./common.css";
 
 /* Main layout wrapper */
 .main-container {
@@ -27,77 +10,6 @@ body {
 /* Hidden sighting details (override if needed) */
 .sighting-details-container {
   display: none;
-}
-
-/* Reusable card layout */
-.card {
-  background-color: var(--card-color);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-}
-
-/* Button styles */
-button {
-  background-color: var(--accent-cyan);
-  color: #000;
-  border: none;
-  padding: 0.75rem 1.25rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  font-family: "Helvetica Neue", sans-serif;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-button:disabled {
-  background-color: #444;
-  color: #888;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Form inputs */
-input,
-textarea,
-select {
-  background-color: #2a2a2a;
-  color: var(--text-color);
-  border: 1px solid var(--accent-cyan);
-  padding: 0.6rem;
-  border-radius: 4px;
-  margin: 0.5rem 0;
-  font-size: 1rem;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--accent-yellow);
-  box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.2);
-}
-
-/* Link styles */
-a {
-  color: var(--accent-cyan);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--accent-yellow);
 }
 
 /* Responsive adjustments */

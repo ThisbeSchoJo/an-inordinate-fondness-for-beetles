@@ -1,14 +1,5 @@
 @import "./common.css";
 
-:root {
-  --background-color: #0b0c10;
-  --card-color: #1c1c1c;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
-}
-
 /* Main container for the sighting page */
 .sighting-container {
   padding: 0;
@@ -33,19 +24,8 @@
 }
 
 .action-buttons button {
-  background-color: var(--accent-cyan);
-  color: #000;
-  border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.action-buttons button:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
 }
 
 /* Map container */

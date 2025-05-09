@@ -1,3 +1,6 @@
+@import "./common.css";
+
+/* Additional root variables specific to index */
 :root {
   --bg: #282c34;
   --header: #fff;

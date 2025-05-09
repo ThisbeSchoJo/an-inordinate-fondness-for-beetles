@@ -1,11 +1,4 @@
-:root {
-  --background-color: #0b0c10;
-  --card-color: #1c1c1c;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
-}
+@import "./common.css";
 
 /* Overlay backdrop */
 .popup-overlay {

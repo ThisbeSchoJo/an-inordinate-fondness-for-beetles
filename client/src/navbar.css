@@ -1,10 +1,4 @@
-:root {
-  --background-color: #0b0c10;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
-}
+@import "./common.css";
 
 /* Navbar container */
 .navbar {
@@ -21,23 +15,23 @@
 
 /* Navigation links */
 .navbar a {
-  color: var(--accent-cyan);
-  text-decoration: none;
-  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.3s ease, filter 0.3s ease;
+  color: var(--accent-cyan);
 }
 
 /* For regular nav links */
 .navbar a:hover {
-  color: var(--accent-yellow);
   transform: translateY(-1px);
+  color: var(--accent-yellow);
+  filter: drop-shadow(0 0 6px var(--accent-yellow));
 }
 
 .navbar a.active {
   color: var(--accent-yellow);
+  filter: drop-shadow(0 0 6px var(--accent-yellow));
 }
 
 /* For the logout button specifically */
@@ -51,20 +45,21 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  transition: color 0.3s ease, filter 0.3s ease;
   color: var(--accent-cyan);
-  transition: none;
 }
 
 /* For the logout button hover state */
 .navbar .logout-button:hover {
-  color: var(--accent-cyan);
   transform: none;
+  color: var(--accent-yellow);
+  filter: drop-shadow(0 0 6px var(--accent-yellow));
 }
 
 /* For the icon inside logout button */
 .navbar .logout-button .nav-icon {
-  color: var(--accent-cyan);
   transition: color 0.3s ease, filter 0.3s ease;
+  color: var(--accent-cyan);
 }
 
 /* For the icon hover state */
