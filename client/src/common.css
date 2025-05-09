@@ -1,0 +1,100 @@
+/* Common CSS Variables */
+:root {
+  --background-color: #0b0c10;
+  --card-color: #1c1c1c;
+  --accent-yellow: #ffe066;
+  --accent-cyan: #88c0d0;
+  --text-color: #ffffff;
+  --text-muted: #aaaaaa;
+}
+
+/* Common Button Styles */
+button {
+  background-color: var(--accent-cyan);
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Helvetica Neue", sans-serif;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--accent-yellow);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Common Form Input Styles */
+input,
+textarea,
+select {
+  background-color: #2a2a2a;
+  color: var(--text-color);
+  border: 1px solid var(--accent-cyan);
+  padding: 0.6rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.2);
+}
+
+/* Common Link Styles */
+a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-yellow);
+}
+
+/* Common Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+.error {
+  color: red;
+}
+
+/* Common Map Container Base Styles */
+.map-container {
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.map-container > div {
+  width: 100% !important;
+  height: 100% !important;
+}

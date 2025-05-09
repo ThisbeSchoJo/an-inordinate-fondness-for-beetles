@@ -1,11 +1,4 @@
-:root {
-  --background-color: #0b0c10;
-  --card-color: #1c1c1c;
-  --accent-yellow: #ffe066;
-  --accent-cyan: #88c0d0;
-  --text-color: #ffffff;
-  --text-muted: #aaaaaa;
-}
+@import "./common.css";
 
 /* Form container */
 .add-sighting-form,
@@ -80,7 +73,7 @@ textarea {
   resize: vertical;
 }
 
-/* Submit and Cancel buttons */
+/* Form buttons */
 .form-buttons {
   display: flex;
   justify-content: space-between;
@@ -127,13 +120,10 @@ textarea {
   margin-top: 0.5rem;
 }
 
-/* Map styling */
+/* Map container specific height */
 .map-container {
   height: 180px;
   margin: 1rem 0;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--accent-cyan);
 }
 
 /* Location display */

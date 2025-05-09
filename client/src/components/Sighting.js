@@ -68,7 +68,7 @@ function Sighting({ user }) {
   const { data } = useFireflyInaturalistData({
     lat: userLocation?.lat,
     lng: userLocation?.lng,
-    radius: 10,
+    radius: 80,
   });
 
   // Fetch user sightings
