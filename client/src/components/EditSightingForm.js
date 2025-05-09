@@ -12,7 +12,10 @@ import Map from "./Map";
 
 function EditSightingForm({ sighting, onSubmit, onCancel }) {
   // State for managing the map location
-  const [mapLocation, setMapLocation] = useState(null);
+  const [mapLocation, setMapLocation] = useState({
+    lat: sighting.latitude,
+    lng: sighting.longitude,
+  });
 
   // Form state to manage input values
   const [formData, setFormData] = useState({
@@ -58,15 +61,12 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
 
       // Set map location if valid coordinates exist
       if (
-        typeof sighting.location === "string" &&
-        sighting.location.includes(",")
+        typeof sighting.latitude === "number" &&
+        typeof sighting.longitude === "number" &&
+        !isNaN(sighting.latitude) &&
+        !isNaN(sighting.longitude)
       ) {
-        const [latitude, longitude] = sighting.location.split(",").map(Number);
-        if (!isNaN(latitude) && !isNaN(longitude)) {
-          setMapLocation({ lat: latitude, lng: longitude });
-        } else {
-          setMapLocation(null);
-        }
+        setMapLocation({ lat: sighting.latitude, lng: sighting.longitude });
       } else {
         setMapLocation(null);
       }
