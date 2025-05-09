@@ -114,6 +114,8 @@ body {
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.8rem;
+  color: var(--accent-cyan);
+  transition: all 0.3s ease;
 }
 
 .friend-button:hover {
