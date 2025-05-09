@@ -226,12 +226,6 @@ class SightingsById(Resource):
             abort(403, "Unauthorized")
         data = request.get_json()
 
-        # REDUNDANT/DELETE!
-        # Convert the string date to a datetime object
-        if 'observed_on' in data:
-            date_string = data['observed_on']
-            data['observed_on'] = datetime.strptime(date_string, '%Y-%m-%dT%H:%M')
-
         # Before setting attributes, sanitize the data
         for key, value in data.items():
             if key in ['latitude', 'longitude'] and value == "":
@@ -351,23 +345,6 @@ api.add_resource(Friends, "/friends")
 
 # RemoveFriend route - DELETE removes a friendship
 class RemoveFriend(Resource):
-    # def delete(self, friend_id):
-    #     user_id = session.get("user_id")
-    #     if not user_id:
-    #         abort(401, "Unauthorized")
-        
-    #     # Check if friendship exists
-    #     friendship = Friendship.query.filter(
-    #         ((Friendship.user_id == user_id) & (Friendship.friend_id == friend_id)) |
-    #         ((Friendship.user_id == friend_id) & (Friendship.friend_id == user_id))
-    #     ).first()
-        
-    #     if not friendship:
-    #         abort(404, "Friendship not found")
-    #     # Delete both sides of the friendship
-    #     db.session.delete(friendship)
-    #     db.session.commit()
-        
     #     return make_response({"message": "Friend removed successfully"}, 204)
     def delete(self, friend_id):
         user_id = session.get("user_id")

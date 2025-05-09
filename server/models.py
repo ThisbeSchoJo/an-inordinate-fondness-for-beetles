@@ -56,16 +56,6 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
-    # REDUNDANT/DELETE!
-    # def set_password(self, password):
-    #     if not password:
-    #         raise ValueError("Password cannot be empty")
-    #     self._password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-    
-    # REDUNDANT/DELETE!
-    # def check_password(self, password):
-    #     return bcrypt.check_password_hash(self._password_hash, password)
-
     def __repr__(self):
         return f"<User {self.username}, {self.email}>"
     
