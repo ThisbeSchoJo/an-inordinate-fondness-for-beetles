@@ -364,6 +364,7 @@ function Sighting({ user }) {
       {/* Add Sighting Form */}
       {showAddSightingForm && (
         <SightingForm
+          userLocation={userLocation}
           onSubmit={handleSubmitNewSighting}
           onCancel={() => setShowAddSightingForm(false)}
         />

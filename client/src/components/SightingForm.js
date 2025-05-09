@@ -9,9 +9,9 @@ import { useState, useEffect } from "react";
 import "../sightingform.css";
 import Map from "./Map";
 
-function SightingForm({ onSubmit, onCancel }) {
+function SightingForm({ onSubmit, onCancel, userLocation }) {
   // State for managing the map location
-  const [mapLocation, setMapLocation] = useState(null);
+  const [mapLocation, setMapLocation] = useState(userLocation);
 
   // Form state to manage input values
   const [formData, setFormData] = useState({
