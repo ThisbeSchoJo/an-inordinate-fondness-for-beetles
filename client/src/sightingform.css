@@ -22,7 +22,7 @@
   border-radius: 10px;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
   z-index: 1001;
-  max-width: 500px;
+  max-width: 600px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
@@ -63,6 +63,16 @@
   color: var(--text-color);
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
+  height: 38px;
+  box-sizing: border-box;
+  line-height: 1.2;
+}
+
+.sighting-form textarea {
+  min-height: 38px;
+  max-height: 200px;
+  resize: vertical;
+  overflow-y: auto;
 }
 
 .sighting-form input:focus,
@@ -73,14 +83,9 @@
   box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.2);
 }
 
-.sighting-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
 /* Map container */
 .map-container {
-  height: 300px;
+  height: 200px;
   margin: 1rem 0;
   border-radius: 6px;
   overflow: hidden;

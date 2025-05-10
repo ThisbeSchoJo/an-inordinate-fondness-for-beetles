@@ -130,11 +130,6 @@ function Sighting({ user }) {
       };
     }) || [];
 
-<<<<<<< HEAD
-=======
-  console.log("Sightings state:", sightings);
-  console.log("Mapped userSightings:", userSightings);
->>>>>>> 113d270d44964538fc7880abec998b6b513c34df
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
@@ -151,20 +146,10 @@ function Sighting({ user }) {
    * Function to handle clicking a marker
    * Sets the appropriate state based on whether it's an iNaturalist observation or user sighting
    */
-<<<<<<< HEAD
-  function handleMarkerClick(marker) {
-    // If it's an iNaturalist marker
-    if (marker.observation) {
-      setSelectedObservation(marker.observation);
-    }
-    // If it's a user sighting marker
-    else {
-=======
   const handleMarkerClick = (marker) => {
     if (marker.observation) {
       setSelectedObservation(marker.observation);
     } else if (marker.sighting) {
->>>>>>> 113d270d44964538fc7880abec998b6b513c34df
       setSelectedUserSighting(marker.sighting);
     }
   };

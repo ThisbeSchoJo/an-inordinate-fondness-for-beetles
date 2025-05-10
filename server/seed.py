@@ -61,26 +61,27 @@ if __name__ == '__main__':
             Species(name="Winter Firefly", type="Insect", scientific_name="Ellychnia corrusca"),
             Species(name="Florida Intertidal Firefly", type="Insect", scientific_name="Micronaspis floridana"),
             
-            # Glowworms
-            Species(name="European Glowworm", type="Insect", scientific_name="Lampyris noctiluca"),
-            Species(name="New Zealand Glowworm", type="Insect", scientific_name="Arachnocampa luminosa"),
+            # Limiting it to fireflies for now
+            # # Glowworms
+            # Species(name="European Glowworm", type="Insect", scientific_name="Lampyris noctiluca"),
+            # Species(name="New Zealand Glowworm", type="Insect", scientific_name="Arachnocampa luminosa"),
             
-            # Other Bioluminescent Insects
-            Species(name="Railroad Worm", type="Insect", scientific_name="Phrixothrix hirtus"),
-            Species(name="Click Beetle", type="Insect", scientific_name="Pyrophorus noctilucus"),
+            # # Other Bioluminescent Insects
+            # Species(name="Railroad Worm", type="Insect", scientific_name="Phrixothrix hirtus"),
+            # Species(name="Click Beetle", type="Insect", scientific_name="Pyrophorus noctilucus"),
             
-            # Marine Bioluminescent Species
-            Species(name="Dinoflagellate", type="Microorganism", scientific_name="Noctiluca scintillans"),
-            Species(name="Bioluminescent Jellyfish", type="Marine", scientific_name="Aequorea victoria"),
-            Species(name="Bioluminescent Squid", type="Marine", scientific_name="Watasenia scintillans"),
+            # # Marine Bioluminescent Species
+            # Species(name="Dinoflagellate", type="Microorganism", scientific_name="Noctiluca scintillans"),
+            # Species(name="Bioluminescent Jellyfish", type="Marine", scientific_name="Aequorea victoria"),
+            # Species(name="Bioluminescent Squid", type="Marine", scientific_name="Watasenia scintillans"),
             
-            # Fungi
-            Species(name="Ghost Fungus", type="Fungus", scientific_name="Omphalotus nidiformis"),
-            Species(name="Jack-O'-Lantern Mushroom", type="Fungus", scientific_name="Omphalotus olearius"),
+            # # Fungi
+            # Species(name="Ghost Fungus", type="Fungus", scientific_name="Omphalotus nidiformis"),
+            # Species(name="Jack-O'-Lantern Mushroom", type="Fungus", scientific_name="Omphalotus olearius"),
             
-            # Other Terrestrial Bioluminescent Species
-            Species(name="Bioluminescent Millipede", type="Arthropod", scientific_name="Motyxia sequoiae"),
-            Species(name="Bioluminescent Earthworm", type="Annelid", scientific_name="Diplocardia longa")
+            # # Other Terrestrial Bioluminescent Species
+            # Species(name="Bioluminescent Millipede", type="Arthropod", scientific_name="Motyxia sequoiae"),
+            # Species(name="Bioluminescent Earthworm", type="Annelid", scientific_name="Diplocardia longa")
         ]
 
         for species in species_list:

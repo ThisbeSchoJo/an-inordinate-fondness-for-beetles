@@ -11,13 +11,12 @@
 }
 
 /* Map container for sighting form */
-.sighting-form .map-container {
-  height: 180px;
-}
-
-/* Map container for edit sighting form */
+.sighting-form-container .map-container,
+.sighting-form .map-container,
 .edit-sighting-form .map-container {
-  height: 300px;
+  height: 150px !important;
+  min-height: 150px !important;
+  max-height: 150px !important;
 }
 
 /* Map container for sighting details */
