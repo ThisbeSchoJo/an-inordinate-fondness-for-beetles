@@ -18,20 +18,24 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: transform 0.2s ease, color 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease,
+    text-shadow 0.3s ease;
   color: var(--accent-cyan);
+  text-decoration: none;
 }
 
 /* For regular nav links */
 .navbar a:hover {
   transform: translateY(-1px);
   color: var(--accent-yellow);
-  filter: drop-shadow(0 0 6px var(--accent-yellow));
+  filter: drop-shadow(0 0 16px var(--accent-yellow));
+  text-shadow: 0 0 16px var(--accent-yellow);
 }
 
 .navbar a.active {
   color: var(--accent-yellow);
-  filter: drop-shadow(0 0 6px var(--accent-yellow));
+  filter: drop-shadow(0 0 16px var(--accent-yellow));
+  text-shadow: 0 0 16px var(--accent-yellow);
 }
 
 /* For the logout button specifically */
@@ -45,32 +49,36 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: color 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease,
+    text-shadow 0.3s ease;
   color: var(--accent-cyan);
 }
 
 /* For the logout button hover state */
 .navbar .logout-button:hover {
-  transform: none;
+  transform: translateY(-1px);
   color: var(--accent-yellow);
-  filter: drop-shadow(0 0 6px var(--accent-yellow));
+  filter: drop-shadow(0 0 16px var(--accent-yellow));
+  text-shadow: 0 0 16px var(--accent-yellow);
 }
 
-/* For the icon inside logout button */
-.navbar .logout-button .nav-icon {
-  transition: color 0.3s ease, filter 0.3s ease;
+/* For all icons in navbar */
+.navbar .nav-icon {
+  transition: color 0.3s ease, filter 0.3s ease, text-shadow 0.3s ease;
   color: var(--accent-cyan);
 }
 
-/* For the icon hover state */
+/* For icon hover states */
+.navbar a:hover .nav-icon,
 .navbar .logout-button:hover .nav-icon {
   color: var(--accent-yellow);
-  filter: drop-shadow(0 0 6px var(--accent-yellow));
+  filter: drop-shadow(0 0 16px var(--accent-yellow));
+  text-shadow: 0 0 16px var(--accent-yellow);
 }
 
 /* Optional: All SVGs transition smoothly */
 .navbar svg {
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, filter 0.3s ease, text-shadow 0.3s ease;
 }
 
 /* Responsive layout */
