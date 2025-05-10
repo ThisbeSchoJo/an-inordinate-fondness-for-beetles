@@ -14,13 +14,15 @@ function App() {
     fetch("http://localhost:5555/check_session", {
       credentials: "include", // Important for cookies
     })
-      .then((r) => {
-        if (r.ok) {
-          r.json().then((user) => setUser(user));
-        }
+      .then((r) => r.json())
+      .then((data) => {
+        setUser(data.user); // data.user will be null if not logged in
       })
       .catch((error) => {
-        console.error("Session check failed:", error);
+        // Only log unexpected errors
+        if (error.name !== "AbortError") {
+          console.error("Session check failed:", error);
+        }
       });
   }, []);
 
