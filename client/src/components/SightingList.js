@@ -23,7 +23,7 @@ function SightingList( {user} ) {
   });
   const [selectedSighting, setSelectedSighting] = useState(null); // Currently selected sighting for editing/deleting
   const [isEditing, setIsEditing] = useState(false); // Tracks whether the user is in edit mode
-  const { user } = useOutletContext();
+  // const { user } = useOutletContext();
 
   /**
    * useEffect hook to fetch sightings when the component mounts

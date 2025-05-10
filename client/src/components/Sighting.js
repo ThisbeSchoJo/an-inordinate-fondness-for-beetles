@@ -14,7 +14,6 @@ import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 import EditSightingForm from "./EditSightingForm";
 
-
 function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
