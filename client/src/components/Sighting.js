@@ -312,7 +312,7 @@ function Sighting({ user }) {
   return (
     <div className="sighting-container">
       <h1>Glow Sighting</h1>
-      
+
       {/* Map container with user's location and iNaturalist markers */}
       <div className="map-container">
         <Map
@@ -322,12 +322,12 @@ function Sighting({ user }) {
           onMarkerClick={handleMarkerClick}
         />
       </div>
-      
+
       {/* Action buttons */}
       <div className="action-buttons">
         <button onClick={handleAddSighting}>Add Sighting</button>
       </div>
-      
+
       {/* Add Sighting Form */}
       {showAddSightingForm && (
         <AddSightingForm
