@@ -27,9 +27,18 @@ function Profile() {
     fetch(`http://localhost:5555/friends`, {
       credentials: "include",
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch friends");
+        }
+        return response.json();
+      })
       .then((data) => {
         setFriends(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching friends:", error);
+        setFriends([]); // Set friends to empty array on error
       });
   }, []);
 

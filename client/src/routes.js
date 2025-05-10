@@ -5,7 +5,6 @@ import Sighting from "./components/Sighting";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ErrorPage from "./components/ErrorPage";
-import FireflyObservations from "./components/FireflyObservations";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const routes = [
@@ -20,7 +19,11 @@ const routes = [
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login",
@@ -30,10 +33,6 @@ const routes = [
         path: "/signup",
         element: <Signup />,
       },
-      // {
-      //   path: "/firefly-observations",
-      //   element: <FireflyObservations />,
-      // },
       {
         path: "/sightings",
         element: (
