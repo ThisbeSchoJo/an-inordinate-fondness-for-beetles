@@ -5,6 +5,7 @@ import "../login.css";
 function Login() {
   const { updateUser } = useOutletContext();
   const navigate = useNavigate();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // State for the login form
   const [loginData, setLoginData] = useState({
@@ -23,6 +24,7 @@ function Login() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoggingIn(true);
     fetch("http://localhost:5555/login", {
       method: "POST",
       headers: {
@@ -32,6 +34,7 @@ function Login() {
       body: JSON.stringify(loginData),
     })
       .then((response) => {
+        setIsLoggingIn(false);
         console.log("Login response status:", response.status);
         if (response.ok) {
           return response.json();
@@ -43,10 +46,12 @@ function Login() {
         // On successful login:
         // 1. Update the authentication state with user data
         updateUser(user);
+        setIsLoggingIn(false);
         // 2. Redirect to home page
         navigate("/");
       })
       .catch((error) => {
+        setIsLoggingIn(false);
         alert(error.message);
       });
   };

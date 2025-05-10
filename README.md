@@ -49,7 +49,15 @@ git clone https://github.com/yourusername/an-inordinate-fondness-for-beetles.git
 cd an-inordinate-fondness-for-beetles
 ```
 
-2. Set up the backend:
+2. Set up environment variables:
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+# Edit .env with your specific values
+```
+
+3. Set up the backend:
 
 ```bash
 cd server
@@ -61,17 +69,11 @@ flask db upgrade
 python seed.py
 ```
 
-3. Set up the frontend:
+4. Set up the frontend:
 
 ```bash
 cd ../client
 npm install
-```
-
-4. Create a `.env` file in the client directory with your Google Maps API key:
-
-```
-REACT_APP_GOOGLE_MAPS_API_KEY=your_api_key_here
 ```
 
 5. Start the servers:
@@ -87,6 +89,25 @@ npm start
 ```
 
 The application will be available at `http://localhost:3000`
+
+## Project Structure
+
+```
+.
+├── .env.example          # Example environment variables
+├── .gitignore           # Git ignore rules
+├── client/              # React frontend
+│   ├── public/         # Static files
+│   └── src/            # React source code
+│       ├── components/ # React components
+│       ├── hooks/      # Custom React hooks
+│       └── routes.js   # Route definitions
+└── server/             # Flask backend
+    ├── app.py         # Main Flask application
+    ├── config.py      # Flask configuration
+    ├── models.py      # Database models
+    └── seed.py        # Database seeding script
+```
 
 ## Usage
 

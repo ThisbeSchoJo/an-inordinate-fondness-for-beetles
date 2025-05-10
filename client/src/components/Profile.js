@@ -20,6 +20,8 @@ function Profile() {
   // State for managing friend-related functionality
   const [isAddingFriend, setIsAddingFriend] = useState(false);
   const [friendSearchResults, setFriendSearchResults] = useState([]);
+  const [isLoadingFriends, setIsLoadingFriends] = useState(true);
+  const [isRemovingFriend, setIsRemovingFriend] = useState(false);
   const [friends, setFriends] = useState([]);
 
   // Fetch user's friends list on component mount
@@ -35,10 +37,12 @@ function Profile() {
       })
       .then((data) => {
         setFriends(data);
+        setIsLoadingFriends(false);
       })
       .catch((error) => {
         console.error("Error fetching friends:", error);
         setFriends([]); // Set friends to empty array on error
+        setIsLoadingFriends(false);
       });
   }, []);
 
@@ -48,12 +52,14 @@ function Profile() {
    * Updates local friends state to reflect removal
    */
   const handleRemoveFriend = (friendId) => {
+    setIsRemovingFriend(true);
     fetch(`http://localhost:5555/friends/${friendId}`, {
       method: "DELETE",
       credentials: "include",
     });
     // use the setFriends function to update the friends state
     setFriends(friends.filter((friend) => friend.id !== friendId));
+    setIsRemovingFriend(false);
   };
 
   /**
@@ -71,6 +77,9 @@ function Profile() {
       credentials: "include",
       body: JSON.stringify({ friend_id: friendId }),
     }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to add friend");
+      }
       if (response.ok) {
         const addedFriend = friendSearchResults.find((f) => f.id === friendId);
         if (addedFriend) {
@@ -85,7 +94,11 @@ function Profile() {
         }
         setIsAddingFriend(false);
       }
-    });
+    })
+      .catch((error) => {
+        console.error("Error adding friend:", error);
+        setIsAddingFriend(false);
+      });
   };
 
   return (
