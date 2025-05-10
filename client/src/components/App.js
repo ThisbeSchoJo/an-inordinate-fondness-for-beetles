@@ -19,9 +19,9 @@ function App() {
         setUser(data.user); // data.user will be null if not logged in
       })
       .catch((error) => {
-        // Only log unexpected errors
+        // Silently handle session check failure
         if (error.name !== "AbortError") {
-          console.error("Session check failed:", error);
+          setUser(null);
         }
       });
   }, []);

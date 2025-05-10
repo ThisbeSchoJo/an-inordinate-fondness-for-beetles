@@ -29,28 +29,25 @@ function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(loginData),
+      credentials: "include",
     })
       .then((response) => {
-        console.log("Login response status:", response.status);
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Invalid username or password");
+        if (!response.ok) {
+          throw new Error("Login failed");
         }
+        return response.json();
       })
       .then((user) => {
-        // Debug logging
-        console.log("Logged in user:", user);
-        // On successful login:
-        // 1. Update the authentication state with user data
         updateUser(user);
         // 2. Redirect to home page
         navigate("/");
       })
       .catch((error) => {
-        alert(error.message);
+        setLoginData({
+          ...loginData,
+          error: "Invalid username or password",
+        });
       });
   };
 

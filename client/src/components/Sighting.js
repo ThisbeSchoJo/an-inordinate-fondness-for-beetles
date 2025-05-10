@@ -14,7 +14,6 @@ import ObservationPopup from "./ObservationPopup";
 import SightingForm from "./SightingForm";
 import EditSightingForm from "./EditSightingForm";
 
-
 function Sighting({ user }) {
   // State for managing user's location and related UI states
   const [userLocation, setUserLocation] = useState(null); // Stores the user's current coordinates
@@ -73,20 +72,14 @@ function Sighting({ user }) {
 
   // Fetch user sightings
   useEffect(() => {
-    async function fetchUserSightings() {
-      try {
-        const response = await fetch("http://localhost:5555/sightings", {
-          // Tells browser to include cookies and authentication headers in the request
-          credentials: "include",
-        });
-        // await pauses the execution of the function until the response is received so that we don't block our UI while waiting for the response
-        const data = await response.json();
-        setSightings(data);
-      } catch (error) {
+    fetch("http://localhost:5555/sightings", {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((data) => setSightings(data))
+      .catch((error) => {
         console.error("Error fetching user sightings:", error);
-      }
-    }
-    fetchUserSightings();
+      });
   }, []);
 
   /**
@@ -151,7 +144,7 @@ function Sighting({ user }) {
     }) || [];
 
   console.log("Sightings state:", sightings);
-  console.log("Mapped userSightings:", userSightings);  
+  console.log("Mapped userSightings:", userSightings);
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
@@ -168,19 +161,13 @@ function Sighting({ user }) {
    * Function to handle clicking a marker
    * Sets the appropriate state based on whether it's an iNaturalist observation or user sighting
    */
-  function handleMarkerClick(marker) {
-    console.log("Clicked marker:", marker);
-    // If it's an iNaturalist marker
+  const handleMarkerClick = (marker) => {
     if (marker.observation) {
-      console.log("Setting iNaturalist observation:", marker.observation);
       setSelectedObservation(marker.observation);
-    }
-    // If it's a user sighting marker
-    else {
-      console.log("Setting user sighting:", marker.sighting);
+    } else if (marker.sighting) {
       setSelectedUserSighting(marker.sighting);
     }
-  }
+  };
 
   /**
    * Function to handle closing the popup
