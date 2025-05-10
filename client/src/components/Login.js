@@ -23,7 +23,6 @@ function Login() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login data being sent:", loginData);
     fetch("http://localhost:5555/login", {
       method: "POST",
       headers: {
@@ -41,8 +40,6 @@ function Login() {
         }
       })
       .then((user) => {
-        // Debug logging
-        console.log("Logged in user:", user);
         // On successful login:
         // 1. Update the authentication state with user data
         updateUser(user);

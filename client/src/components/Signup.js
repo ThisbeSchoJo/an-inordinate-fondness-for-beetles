@@ -44,7 +44,6 @@ function Signup() {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Signup data being sent:", signUpData);
 
     // Create FormData object for file upload
     const formData = new FormData();
@@ -60,7 +59,6 @@ function Signup() {
       credentials: "include",
     })
       .then((response) => {
-        console.log("Signup response status:", response.status);
         if (response.ok) {
           return response.json();
         } else {

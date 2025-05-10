@@ -11,11 +11,6 @@ function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
   // If no observation is provided, don't render anything
   if (!observation) return null;
 
-  // Debug logs to help track data structure
-  console.log("Full observation object:", observation);
-  console.log("Species data:", observation.species);
-  console.log("Species guess:", observation.species_guess);
-
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>

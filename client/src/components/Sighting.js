@@ -123,9 +123,6 @@ function Sighting({ user }) {
     // Map over the user's sightings and create markers
     sightings?.map((sighting) => {
       // Only process sightings with a valid location
-      // if (!sighting.place_guess || !sighting.place_guess.includes(",")) {
-      //   return null;
-      // }
       if (
         typeof sighting.latitude !== "number" ||
         typeof sighting.longitude !== "number"
@@ -138,20 +135,8 @@ function Sighting({ user }) {
         id: sighting.id,
         sighting: sighting, // Store the full sighting data for the popup
       };
-      // Parse the location string into latitude and longitude coordinates
-      // const [lat, lng] = sighting.place_guess
-      //   .split(",")
-      //   .map((coord) => parseFloat(coord.trim()));
-      // return {
-      //   position: { lat, lng },
-      //   title: String(sighting.species) || "Unknown Firefly",
-      //   id: sighting.id,
-      //   sighting: sighting, // Store the full sighting data for the popup
-      // };
     }) || [];
 
-  console.log("Sightings state:", sightings);
-  console.log("Mapped userSightings:", userSightings);  
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
@@ -169,15 +154,12 @@ function Sighting({ user }) {
    * Sets the appropriate state based on whether it's an iNaturalist observation or user sighting
    */
   function handleMarkerClick(marker) {
-    console.log("Clicked marker:", marker);
     // If it's an iNaturalist marker
     if (marker.observation) {
-      console.log("Setting iNaturalist observation:", marker.observation);
       setSelectedObservation(marker.observation);
     }
     // If it's a user sighting marker
     else {
-      console.log("Setting user sighting:", marker.sighting);
       setSelectedUserSighting(marker.sighting);
     }
   }
