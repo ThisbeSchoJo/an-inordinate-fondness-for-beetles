@@ -8,20 +8,30 @@ function App() {
   // user will be null when no user is logged in
   // user will contain user data (id, username, etc.) when logged in
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in when app loads
-    fetch("http://localhost:5555/check_session", {
-      credentials: "include", // Important for cookies
-    })
-      .then((r) => {
-        if (r.ok) {
-          r.json().then((user) => setUser(user));
+    const checkSession = async () => {
+      try {
+        const response = await fetch("http://localhost:5555/check_session", {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Session check failed");
         }
-      })
-      .catch((error) => {
+
+        const data = await response.json();
+        setUser(data.user); // Now correctly setting the user from data.user
+      } catch (error) {
         console.error("Session check failed:", error);
-      });
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkSession();
   }, []);
 
   // Function to update the authentication state
@@ -39,6 +49,7 @@ function App() {
           context={{
             user,
             updateUser,
+            isLoading,
           }}
         />
       </main>

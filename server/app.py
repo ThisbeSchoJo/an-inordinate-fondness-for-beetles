@@ -138,13 +138,13 @@ class CheckSession(Resource):
     def get(self):
         user_id = session.get("user_id")
         if not user_id:
-            return make_response({"error": "Unauthorized"}, 401)
+            return make_response({"user": None}, 200)
             
         user = User.query.filter_by(id=user_id).first()
         if not user:
-            return make_response({"error": "User not found"}, 404)
+            return make_response({"user": None}, 200)
             
-        return make_response(user.to_dict(rules=("-_password_hash",)), 200)
+        return make_response({"user": user.to_dict(rules=("-_password_hash",))}, 200)
 
 api.add_resource(CheckSession, "/check_session")
 

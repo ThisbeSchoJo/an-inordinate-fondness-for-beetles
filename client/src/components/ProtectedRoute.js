@@ -4,11 +4,16 @@
 import { Navigate, useOutletContext } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
-  const { user } = useOutletContext();
+  const { user, isLoading } = useOutletContext();
 
-  // If user is null (not logged in), redirect to login
+  // Show loading state while checking session
+  if (isLoading) {
+    return <div className="loading-screen">Loading...</div>;
+  }
+
+  // Only redirect if we're done loading and there's no user
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   // If we have a user, render the protected content
