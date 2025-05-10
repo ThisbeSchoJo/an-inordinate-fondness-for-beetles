@@ -71,7 +71,7 @@
 }
 
 .search-input {
-  width: 100%;
+  width: 70%;
   padding: 0.8rem 2.5rem 0.8rem 1rem;
   border: 1px solid var(--accent-yellow);
   border-radius: 4px;
@@ -90,8 +90,8 @@
 .search-button {
   position: absolute;
   right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 25%;
+  /* transform: translateY(-50%); */
   background: none;
   border: none;
   color: #4145a7;
@@ -101,7 +101,9 @@
 }
 
 .search-button:hover {
-  color: #d4ff9b;
+  background-color: var(--accent-yellow);
+  color: #000;
+  transform: translateY(-2px);
 }
 
 .search-results {
