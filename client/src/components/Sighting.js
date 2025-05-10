@@ -72,20 +72,14 @@ function Sighting({ user }) {
 
   // Fetch user sightings
   useEffect(() => {
-    async function fetchUserSightings() {
-      try {
-        const response = await fetch("http://localhost:5555/sightings", {
-          // Tells browser to include cookies and authentication headers in the request
-          credentials: "include",
-        });
-        // await pauses the execution of the function until the response is received so that we don't block our UI while waiting for the response
-        const data = await response.json();
-        setSightings(data);
-      } catch (error) {
+    fetch("http://localhost:5555/sightings", {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((data) => setSightings(data))
+      .catch((error) => {
         console.error("Error fetching user sightings:", error);
-      }
-    }
-    fetchUserSightings();
+      });
   }, []);
 
   /**
@@ -136,6 +130,11 @@ function Sighting({ user }) {
       };
     }) || [];
 
+<<<<<<< HEAD
+=======
+  console.log("Sightings state:", sightings);
+  console.log("Mapped userSightings:", userSightings);
+>>>>>>> 113d270d44964538fc7880abec998b6b513c34df
   const allMarkers = [...inaturalistMarkers, ...userSightings];
 
   // Show loading state while getting user's location
@@ -152,6 +151,7 @@ function Sighting({ user }) {
    * Function to handle clicking a marker
    * Sets the appropriate state based on whether it's an iNaturalist observation or user sighting
    */
+<<<<<<< HEAD
   function handleMarkerClick(marker) {
     // If it's an iNaturalist marker
     if (marker.observation) {
@@ -159,9 +159,15 @@ function Sighting({ user }) {
     }
     // If it's a user sighting marker
     else {
+=======
+  const handleMarkerClick = (marker) => {
+    if (marker.observation) {
+      setSelectedObservation(marker.observation);
+    } else if (marker.sighting) {
+>>>>>>> 113d270d44964538fc7880abec998b6b513c34df
       setSelectedUserSighting(marker.sighting);
     }
-  }
+  };
 
   /**
    * Function to handle closing the popup
