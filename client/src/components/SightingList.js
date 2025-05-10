@@ -6,24 +6,18 @@
 
 import React, { useState, useEffect } from "react";
 import "../sighting-list.css";
+import ObservationPopup from "./ObservationPopup";
+import AddSightingForm from "./AddSightingForm";
+import EditSightingForm from "./EditSightingForm";
 
-function SightingList( {user} ) {
+function SightingList({ user }) {
   // State for managing sightings data and UI states
   const [sightings, setSightings] = useState([]); // Stores the list of sightings
   const [loading, setLoading] = useState(true); // Tracks loading state
   const [error, setError] = useState(null); // Stores any error messages
-  const [editingSighting, setEditingSighting] = useState(null); // Stores the sighting being edited
-  const [formData, setFormData] = useState({
-    // Form data for creating/editing sightings
-    species: "",
-    place_guess: "",
-    observed_on: "",
-    description: "",
-    photos: "",
-  });
-  const [selectedSighting, setSelectedSighting] = useState(null); // Currently selected sighting for editing/deleting
-  const [isEditing, setIsEditing] = useState(false); // Tracks whether the user is in edit mode
-  // const { user } = useOutletContext();
+  const [selectedSighting, setSelectedSighting] = useState(null); // Currently selected sighting for viewing/editing/deleting
+  const [showAddSightingForm, setShowAddSightingForm] = useState(false); // Controls visibility of the add sighting form
+  const [showEditSightingForm, setShowEditSightingForm] = useState(false); // Controls visibility of the edit sighting form
 
   /**
    * useEffect hook to fetch sightings when the component mounts
@@ -49,63 +43,12 @@ function SightingList( {user} ) {
   }, []);
 
   /**
-   * Handles form input changes
-   * Updates the formData state with the new input values
-   */
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  /**
-   * Handles form submission for creating a new sighting
-   * Makes a POST request to the backend API
-   */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/sightings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create sighting");
-      }
-
-      const newSighting = await response.json();
-      setSightings((prev) => [...prev, newSighting]);
-      setFormData({
-        species: "",
-        place_guess: "",
-        observed_on: "",
-        description: "",
-        photos: "",
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  /**
    * Handles the start of editing a sighting
-   * Sets the editingSighting state and populates the form with the sighting's data
+   * Shows the edit form and sets the selected sighting
    */
   const handleEdit = (sighting) => {
-    setEditingSighting(sighting);
-    setFormData({
-      species: sighting.species,
-      place_guess: sighting.place_guess,
-      observed_on: sighting.observed_on,
-      description: sighting.description,
-      photos: sighting.photos,
-    });
+    setSelectedSighting(sighting);
+    setShowEditSightingForm(true);
   };
 
   /**
@@ -123,6 +66,62 @@ function SightingList( {user} ) {
       }
 
       setSightings((prev) => prev.filter((s) => s.id !== id));
+      setSelectedSighting(null);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  /**
+   * Handles submitting a new sighting
+   * Makes a POST request to create a new sighting
+   */
+  const handleSubmitNewSighting = async (formData) => {
+    try {
+      const response = await fetch("/sightings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create sighting");
+      }
+
+      const newSighting = await response.json();
+      setSightings((prev) => [...prev, newSighting]);
+      setShowAddSightingForm(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  /**
+   * Handles submitting an edited sighting
+   * Makes a PATCH request to update the sighting
+   */
+  const handleSubmitEditSighting = async (formData) => {
+    try {
+      const response = await fetch(`/sightings/${formData.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update sighting");
+      }
+
+      const updatedSighting = await response.json();
+      setSightings((prev) =>
+        prev.map((s) => (s.id === updatedSighting.id ? updatedSighting : s))
+      );
+      setShowEditSightingForm(false);
+      setSelectedSighting(null);
     } catch (err) {
       setError(err.message);
     }
@@ -142,102 +141,68 @@ function SightingList( {user} ) {
     <div className="sighting-list-container">
       <h1>My Firefly Sightings</h1>
 
-      {/* Form for creating/editing sightings */}
-      <form onSubmit={editingSighting ? handleUpdate : handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="species">Species:</label>
-          <input
-            type="text"
-            id="species"
-            name="species"
-            value={formData.species}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            id="place_guess"
-            name="place_guess"
-            value={formData.place_guess}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="timestamp">Date/Time:</label>
-          <input
-            type="datetime-local"
-            id="observed_on"
-            name="observed_on"
-            value={formData.observed_on}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="image">Image URL:</label>
-          <input
-            type="url"
-            id="photos"
-            name="photos"
-            value={formData.photos}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <button type="submit">
-          {editingSighting ? "Update Sighting" : "Add Sighting"}
-        </button>
-        {editingSighting && (
-          <button type="button" onClick={() => setEditingSighting(null)}>
-            Cancel
-          </button>
-        )}
-      </form>
+      {/* Add Sighting button */}
+      <button
+        className="add-sighting-button"
+        onClick={() => setShowAddSightingForm(true)}
+      >
+        Add New Sighting
+      </button>
 
       {/* List of sightings */}
       <div className="sightings-list">
         {sightings.map((sighting) => (
-          <div key={sighting.id} className="sighting-card">
-            <h2>{sighting.species}</h2>
+          <div
+            key={sighting.id}
+            className="sighting-card"
+            onClick={() => setSelectedSighting(sighting)}
+          >
+            <h2>{sighting.species?.name || "Unknown Species"}</h2>
             <p>
               <strong>Location:</strong> {sighting.place_guess}
             </p>
             <p>
               <strong>Date/Time:</strong> {sighting.observed_on}
             </p>
-            <p>
-              <strong>Description:</strong> {sighting.description}
-            </p>
             {sighting.photos && (
-            <img src={sighting.photos} alt={sighting.species} />
-            )}
-            {sighting.user_id === user.id && (
-              <div className="sighting-actions">
-                <button onClick={() => handleEdit(sighting)}>Edit</button>
-                <button onClick={() => handleDelete(sighting.id)}>Delete</button>
-              </div>
+              <img
+                src={sighting.photos}
+                alt={sighting.species?.name || "Firefly sighting"}
+              />
             )}
           </div>
         ))}
       </div>
+
+      {/* Add Sighting Form */}
+      {showAddSightingForm && (
+        <AddSightingForm
+          onSubmit={handleSubmitNewSighting}
+          onCancel={() => setShowAddSightingForm(false)}
+        />
+      )}
+
+      {/* Edit Sighting Form */}
+      {showEditSightingForm && selectedSighting && (
+        <EditSightingForm
+          sighting={selectedSighting}
+          onSubmit={handleSubmitEditSighting}
+          onCancel={() => {
+            setShowEditSightingForm(false);
+            setSelectedSighting(null);
+          }}
+        />
+      )}
+
+      {/* Observation Popup for viewing/editing/deleting sightings */}
+      {selectedSighting && !showEditSightingForm && (
+        <ObservationPopup
+          observation={selectedSighting}
+          onClose={() => setSelectedSighting(null)}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
+      )}
     </div>
   );
 }

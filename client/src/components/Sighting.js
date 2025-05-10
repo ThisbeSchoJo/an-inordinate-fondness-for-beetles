@@ -11,7 +11,7 @@ import { useFireflyInaturalistData } from "../hooks/useInaturalistData";
 import "../sighting.css";
 import Map from "./Map";
 import ObservationPopup from "./ObservationPopup";
-import SightingForm from "./SightingForm";
+import AddSightingForm from "./AddSightingForm";
 import EditSightingForm from "./EditSightingForm";
 
 function Sighting({ user }) {
@@ -312,27 +312,7 @@ function Sighting({ user }) {
   return (
     <div className="sighting-container">
       <h1>Glow Sighting</h1>
-      {/* Action buttons */}
-      <div className="action-buttons">
-        <button onClick={handleAddSighting}>Add Sighting</button>
-        {selectedUserSighting &&
-          user &&
-          selectedUserSighting.user_id === user.id && (
-            <>
-              <button
-                onClick={() => handleEditSighting(selectedUserSighting.id)}
-              >
-                Edit Sighting
-              </button>
-              <button
-                onClick={() => handleDeleteSighting(selectedUserSighting.id)}
-              >
-                Delete Sighting
-              </button>
-            </>
-          )}
-      </div>
-
+      
       {/* Map container with user's location and iNaturalist markers */}
       <div className="map-container">
         <Map
@@ -342,9 +322,15 @@ function Sighting({ user }) {
           onMarkerClick={handleMarkerClick}
         />
       </div>
+      
+      {/* Action buttons */}
+      <div className="action-buttons">
+        <button onClick={handleAddSighting}>Add Sighting</button>
+      </div>
+      
       {/* Add Sighting Form */}
       {showAddSightingForm && (
-        <SightingForm
+        <AddSightingForm
           userLocation={userLocation}
           onSubmit={handleSubmitNewSighting}
           onCancel={() => setShowAddSightingForm(false)}

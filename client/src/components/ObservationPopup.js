@@ -27,12 +27,6 @@ function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
         </h2>
 
         {/* Display the first photo if available */}
-        {/* {observation.photos?.[0]?.url && (
-          <img
-            src={observation.photos[0].url}
-            alt={observation.species_guess || "Firefly observation"}
-          />
-        )} */}
         {typeof observation.photos === "string" ? (
           <img
             src={
@@ -76,11 +70,11 @@ function ObservationPopup({ observation, onClose, onDelete, onEdit }) {
           {/* Action buttons - only show for user's own sightings */}
           {observation.user_id && (
             <>
-              <button onClick={() => onDelete(observation.id)}>
-                Delete Sighting
-              </button>
               <button onClick={() => onEdit(observation.id)}>
                 Edit Sighting
+              </button>
+              <button onClick={() => onDelete(observation.id)}>
+                Delete Sighting
               </button>
             </>
           )}

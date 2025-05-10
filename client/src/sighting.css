@@ -9,8 +9,16 @@
   background-color: var(--background-color);
 }
 
+/* Main heading */
+.sighting-container h1 {
+  margin: 0 0 1.5rem 0;
+  color: var(--accent-yellow);
+  text-shadow: 0 0 6px var(--accent-yellow);
+  font-size: 1.8rem;
+  text-align: center;
+}
+
 /* Heading styles */
-.sighting-container h1,
 .sighting-container h2 {
   color: var(--accent-yellow);
   margin-bottom: 1rem;
@@ -20,12 +28,29 @@
 .action-buttons {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  justify-content: center;
 }
 
 .action-buttons button {
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  padding: 0.7rem 1.2rem;
+  border: 2px solid var(--accent-cyan);
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background-color: var(--accent-cyan);
+  color: #000;
+  margin: 0.5rem 0;
+}
+
+.action-buttons button:hover {
+  background-color: var(--accent-yellow);
+  color: #000;
+  border-color: var(--accent-yellow);
+  transform: translateY(-2px);
 }
 
 /* Map container */

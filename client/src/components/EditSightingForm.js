@@ -7,7 +7,6 @@
 
 import { useState, useEffect } from "react";
 import "../sightingform.css";
-import "../editsightingform.css";
 import Map from "./Map";
 
 function EditSightingForm({ sighting, onSubmit, onCancel }) {
@@ -163,11 +162,11 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
   return (
     <>
       {/* Semi-transparent overlay */}
-      <div className="edit-sighting-form-overlay" onClick={handleCancel} />
+      <div className="sighting-form-overlay" onClick={handleCancel} />
 
       {/* Form container */}
-      <div className="edit-sighting-form-container">
-        <form className="edit-sighting-form" onSubmit={handleSubmit}>
+      <div className="sighting-form-container">
+        <form className="sighting-form" onSubmit={handleSubmit}>
           <h2>Edit Sighting</h2>
 
           {/* Species dropdown */}
@@ -257,7 +256,7 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
           )}
 
           {/* Form action buttons */}
-          <div className="edit-sighting-form-buttons">
+          <div className="sighting-form-buttons">
             <button type="submit">Save Changes</button>
             <button type="button" onClick={handleCancel}>
               Cancel

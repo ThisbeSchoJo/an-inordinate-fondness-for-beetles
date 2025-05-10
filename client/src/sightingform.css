@@ -1,185 +1,137 @@
 @import "./common.css";
 
-/* Form container */
-.add-sighting-form,
-.sighting-form {
-  max-width: 800px;
-  width: 90%;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: var(--card-color);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  color: var(--text-color);
-  height: 90vh;
-  overflow-y: scroll;
+/* Modal overlay */
+.sighting-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+/* Main form container */
+.sighting-form-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  z-index: 1001;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--text-color);
 }
 
-/* Form title */
-.form-title {
+/* Form layout */
+.sighting-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Heading */
+.sighting-form h2 {
+  margin: 0 0 1rem 0;
   color: var(--accent-yellow);
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.5rem;
 }
 
-/* Form group spacing */
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-/* Labels */
-.form-label {
+/* Label */
+.sighting-form label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: var(--accent-cyan);
   font-weight: 500;
 }
 
-/* Inputs, selects, and textareas */
-.form-input,
-.form-textarea,
-.form-select,
-input[type="text"],
-input[type="datetime-local"],
-input[type="url"],
-select,
-textarea {
+/* Inputs and textarea */
+.sighting-form input,
+.sighting-form textarea,
+.sighting-form select {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.7rem;
   border: 1px solid var(--accent-cyan);
   border-radius: 4px;
   background-color: #2a2a2a;
   color: var(--text-color);
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+.sighting-form input:focus,
+.sighting-form textarea:focus,
+.sighting-form select:focus {
   outline: none;
   border-color: var(--accent-yellow);
   box-shadow: 0 0 0 2px rgba(255, 224, 102, 0.2);
 }
 
-textarea {
+.sighting-form textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-/* Form buttons */
-.form-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.form-buttons button {
-  background-color: var(--accent-cyan);
-  color: #000;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.form-buttons button:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
-  transform: translateY(-2px);
-}
-
-.form-buttons button:disabled {
-  background-color: #444;
-  color: #888;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Error and success messages */
-.error-message {
-  color: #ff6b6b;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.success-message {
-  color: var(--accent-yellow);
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-/* Map container specific height */
+/* Map container */
 .map-container {
-  height: 180px;
+  height: 300px;
   margin: 1rem 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--accent-cyan);
 }
 
-/* Location display */
+/* Location text */
 .selected-location {
   color: var(--accent-yellow);
   font-size: 0.95rem;
   text-align: center;
 }
 
-/* Image preview */
-.image-preview {
+/* Buttons */
+.sighting-form-buttons {
+  display: flex;
+  gap: 1rem;
   margin-top: 1rem;
-  max-width: 100%;
-  border-radius: 6px;
-  border: 1px solid var(--accent-cyan);
 }
 
-/* File input */
-.file-input-container {
-  margin: 1rem 0;
+.sighting-form button {
+  padding: 0.7rem 1.2rem;
+  border: 2px solid var(--accent-cyan);
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin: 0.5rem 0;
 }
 
-.file-input {
-  display: none;
-}
-
-.file-input-label {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
+.sighting-form button[type="submit"] {
   background-color: var(--accent-cyan);
   color: #000;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.file-input-label:hover {
+.sighting-form button[type="submit"]:hover {
   background-color: var(--accent-yellow);
   color: #000;
+  border-color: var(--accent-yellow);
   transform: translateY(-2px);
 }
 
-.file-name {
-  margin-left: 1rem;
-  color: var(--accent-yellow);
-  font-size: 0.875rem;
+.sighting-form button[type="button"] {
+  background-color: #444;
+  color: #fff;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .add-sighting-form {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-
-  .form-buttons {
-    flex-direction: column;
-  }
+.sighting-form button[type="button"]:hover {
+  background-color: #666;
+  border-color: var(--accent-yellow);
+  transform: translateY(-2px);
 }

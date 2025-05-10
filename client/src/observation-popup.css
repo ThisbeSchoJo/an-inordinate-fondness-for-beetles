@@ -78,3 +78,37 @@
   color: var(--text-muted);
   line-height: 1.5;
 }
+
+/* Action buttons */
+.observation-details button {
+  padding: 0.7rem 1.2rem;
+  border: 2px solid var(--accent-cyan);
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin: 0.5rem 0;
+  background-color: var(--accent-cyan);
+  color: #000;
+}
+
+.observation-details button:hover {
+  background-color: var(--accent-yellow);
+  color: #000;
+  border-color: var(--accent-yellow);
+  transform: translateY(-2px);
+}
+
+/* Style for delete button specifically */
+.observation-details button:last-child {
+  background-color: #444;
+  color: #fff;
+}
+
+.observation-details button:last-child:hover {
+  background-color: #666;
+  border-color: var(--accent-yellow);
+  transform: translateY(-2px);
+}
