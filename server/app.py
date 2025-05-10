@@ -203,6 +203,18 @@ class Sightings(Resource):
         return response 
 api.add_resource(Sightings, "/sightings")
 
+# Sightings count route - GET returns the count of sightings for the current user
+class SightingsCount(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            abort(401, "Unauthorized")
+        
+        count = Sighting.query.filter_by(user_id=user_id).count()
+        return make_response({"count": count}, 200)
+
+api.add_resource(SightingsCount, "/sightings/count")
+
 # SightingsById route - GET returns a single sighting, PATCH updates a sighting, DELETE deletes a sighting  
 class SightingsById(Resource):
     def get(self, id):

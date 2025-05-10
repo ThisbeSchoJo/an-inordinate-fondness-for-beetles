@@ -23,9 +23,11 @@ function Profile() {
   const [isLoadingFriends, setIsLoadingFriends] = useState(true);
   const [isRemovingFriend, setIsRemovingFriend] = useState(false);
   const [friends, setFriends] = useState([]);
+  const [sightingsCount, setSightingsCount] = useState(0);
 
-  // Fetch user's friends list on component mount
+  // Fetch user's friends list and sightings count on component mount
   useEffect(() => {
+    // Fetch friends
     fetch(`http://localhost:5555/friends`, {
       credentials: "include",
     })
@@ -43,6 +45,24 @@ function Profile() {
         console.error("Error fetching friends:", error);
         setFriends([]); // Set friends to empty array on error
         setIsLoadingFriends(false);
+      });
+
+    // Fetch sightings count
+    fetch(`http://localhost:5555/sightings/count`, {
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch sightings count");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSightingsCount(data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching sightings count:", error);
+        setSightingsCount(0);
       });
   }, []);
 
@@ -76,25 +96,28 @@ function Profile() {
       },
       credentials: "include",
       body: JSON.stringify({ friend_id: friendId }),
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to add friend");
-      }
-      if (response.ok) {
-        const addedFriend = friendSearchResults.find((f) => f.id === friendId);
-        if (addedFriend) {
-          setFriends([...friends, addedFriend]);
-        } else {
-          // If friend not found in search results, refresh entire friends list
-          fetch(`http://localhost:5555/friends`, {
-            credentials: "include",
-          })
-            .then((response) => response.json())
-            .then(setFriends);
-        }
-        setIsAddingFriend(false);
-      }
     })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add friend");
+        }
+        if (response.ok) {
+          const addedFriend = friendSearchResults.find(
+            (f) => f.id === friendId
+          );
+          if (addedFriend) {
+            setFriends([...friends, addedFriend]);
+          } else {
+            // If friend not found in search results, refresh entire friends list
+            fetch(`http://localhost:5555/friends`, {
+              credentials: "include",
+            })
+              .then((response) => response.json())
+              .then(setFriends);
+          }
+          setIsAddingFriend(false);
+        }
+      })
       .catch((error) => {
         console.error("Error adding friend:", error);
         setIsAddingFriend(false);
@@ -126,6 +149,9 @@ function Profile() {
           {/* Username display */}
           <div className="info-item">
             <span>{user?.username || "Not logged in"}</span>
+            <div className="sightings-count">
+              <span>{sightingsCount} Sightings</span>
+            </div>
           </div>
         </div>
       </div>
@@ -156,18 +182,17 @@ function Profile() {
               </button>
             </div>
           ))}
-              {/* Profile action buttons */}
-              <div className="profile-actions">
-                {/* Add any profile actions here */}
-                <button
-                  onClick={() => setIsAddingFriend(true)}
-                  className="add-friend-button"
-                >
-                  Add Friend
-                </button>
-              </div>
+          {/* Profile action buttons */}
+          <div className="profile-actions">
+            {/* Add any profile actions here */}
+            <button
+              onClick={() => setIsAddingFriend(true)}
+              className="add-friend-button"
+            >
+              Add Friend
+            </button>
+          </div>
         </div>
-      
       </div>
 
       {/* Conditional rendering of AddFriendForm */}
