@@ -173,6 +173,7 @@ function Profile() {
                 alt={friend.username}
               />
               <h4>{friend.username}</h4>
+              <button className="friend-button">View Profile</button>
               {/* Unfriend button */}
               <button
                 onClick={() => handleRemoveFriend(friend.id)}

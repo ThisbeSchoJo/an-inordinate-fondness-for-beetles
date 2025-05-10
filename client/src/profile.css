@@ -173,12 +173,13 @@ body {
 .friend-button {
   background-color: transparent;
   border: 1px solid var(--accent-cyan);
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 5px;
   font-size: 0.85rem;
   color: var(--accent-cyan);
   transition: all 0.3s ease;
   font-weight: 500;
+  margin: 0.5rem 0;
 }
 
 .friend-button:hover {
@@ -266,8 +267,9 @@ body {
   font-weight: 500;
   transition: all 0.3s ease;
   cursor: pointer;
-  margin: 0 auto;
+  margin: 1rem auto;
   display: block;
+  padding: 0.6rem 1.2rem;
 }
 
 .add-friend-button:hover {
