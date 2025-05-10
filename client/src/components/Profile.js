@@ -128,17 +128,6 @@ function Profile() {
             <span>{user?.username || "Not logged in"}</span>
           </div>
         </div>
-        {/* Profile action buttons */}
-        <div className="profile-actions">
-          {/* Add any profile actions here */}
-          <button className="profile-button">Edit Profile</button>
-          <button
-            onClick={() => setIsAddingFriend(true)}
-            className="profile-button"
-          >
-            Add Friend
-          </button>
-        </div>
       </div>
 
       {/* Friends list section */}
@@ -167,7 +156,18 @@ function Profile() {
               </button>
             </div>
           ))}
+              {/* Profile action buttons */}
+              <div className="profile-actions">
+                {/* Add any profile actions here */}
+                <button
+                  onClick={() => setIsAddingFriend(true)}
+                  className="add-friend-button"
+                >
+                  Add Friend
+                </button>
+              </div>
         </div>
+      
       </div>
 
       {/* Conditional rendering of AddFriendForm */}

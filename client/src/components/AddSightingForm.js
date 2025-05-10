@@ -129,7 +129,7 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 ))}
               </select>
             </div>
-  
+
             {/* Location input */}
             <div className="form-group">
               <label className="form-label" htmlFor="place_guess">
@@ -144,7 +144,7 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 required
               />
             </div>
-  
+
             {/* Timestamp input */}
             <div className="form-group">
               <label className="form-label" htmlFor="observed_on">
@@ -159,7 +159,7 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 required
               />
             </div>
-  
+
             {/* Description input */}
             <div className="form-group">
               <label className="form-label" htmlFor="description">
@@ -172,7 +172,7 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 onChange={handleChange}
               />
             </div>
-  
+
             {/* Image URL input */}
             <div className="form-group">
               <label className="form-label" htmlFor="photos">
@@ -186,7 +186,7 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 onChange={handleChange}
               />
             </div>
-  
+
             {/* Interactive map for location selection */}
             <p>Click on the map to set location:</p>
             <div className="map-container">
@@ -197,16 +197,16 @@ function AddSightingForm({ onSubmit, onCancel, userLocation }) {
                 markers={mapLocation ? [{ position: mapLocation }] : []}
               />
             </div>
-  
+
             {/* Display selected location */}
             {mapLocation && (
               <p className="selected-location">
                 Selected location: {formData.place_guess}
               </p>
             )}
-  
+
             {/* Form action buttons */}
-            <div className="form-buttons">
+            <div className="sighting-form-buttons">
               <button type="submit">Add Sighting</button>
               <button type="button" onClick={handleCancel}>
                 Cancel

@@ -27,30 +27,39 @@
 /* Action buttons */
 .action-buttons {
   display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
   padding: 1rem;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
 }
 
-.action-buttons button {
-  padding: 0.7rem 1.2rem;
-  border: 2px solid var(--accent-cyan);
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+.sighting-container .action-buttons button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: all 0.2s ease;
-  background-color: var(--accent-cyan);
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--accent-cyan);
+  background: linear-gradient(145deg, var(--accent-cyan), #6ba8c0);
   color: #000;
-  margin: 0.5rem 0;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(136, 192, 208, 0.2);
+  margin: 0;
 }
 
-.action-buttons button:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
-  border-color: var(--accent-yellow);
+.sighting-container .action-buttons button:hover {
+  background: linear-gradient(145deg, var(--accent-yellow), #e6c952);
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 224, 102, 0.3);
+  border-color: var(--accent-yellow);
+}
+
+.sighting-container .action-buttons button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(255, 224, 102, 0.2);
 }
 
 /* Map container */

@@ -99,44 +99,52 @@
   text-align: center;
 }
 
-/* Buttons */
+/* Form buttons container */
 .sighting-form-buttons {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  justify-content: center;
 }
 
-.sighting-form button {
-  padding: 0.7rem 1.2rem;
-  border: 2px solid var(--accent-cyan);
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+/* Form buttons */
+.sighting-form .sighting-form-buttons button,
+.sighting-form-container .sighting-form-buttons button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: all 0.2s ease;
-  width: 100%;
-  margin: 0.5rem 0;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--accent-cyan);
+  background: linear-gradient(
+    135deg,
+    var(--accent-cyan) 0%,
+    var(--accent-purple) 100%
+  );
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
 }
 
-.sighting-form button[type="submit"] {
-  background-color: var(--accent-cyan);
-  color: #000;
-}
-
-.sighting-form button[type="submit"]:hover {
-  background-color: var(--accent-yellow);
-  color: #000;
+.sighting-form .sighting-form-buttons button:hover,
+.sighting-form-container .sighting-form-buttons button:hover {
+  background: linear-gradient(
+    135deg,
+    var(--accent-yellow) 0%,
+    var(--accent-orange) 100%
+  );
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
   border-color: var(--accent-yellow);
-  transform: translateY(-2px);
 }
 
-.sighting-form button[type="button"] {
-  background-color: #444;
-  color: #fff;
-}
-
-.sighting-form button[type="button"]:hover {
-  background-color: #666;
-  border-color: var(--accent-yellow);
-  transform: translateY(-2px);
+.sighting-form .sighting-form-buttons button:active,
+.sighting-form-container .sighting-form-buttons button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
 }
