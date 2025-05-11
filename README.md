@@ -4,39 +4,41 @@ A full-stack web application for tracking and sharing firefly sightings. This pr
 
 ## Features
 
-- Interactive map interface for viewing firefly sightings
-- User authentication and profile management
-- Ability to add, edit, and delete personal sightings
+- Interactive map interface for viewing firefly sightings using Google Maps API
+- User authentication and profile management with session-based login
+- Ability to add, edit, and delete personal sightings with location tracking
 - Integration with iNaturalist API for additional firefly observations
 - Friend system for connecting with other firefly enthusiasts
 - Species database with detailed information about different types of fireflies
 - Responsive design for both desktop and mobile viewing
-- Photo upload support for sightings
-- Location-based sighting tracking with coordinates
+- Photo upload support for sightings with static file serving
+- Location-based sighting tracking with coordinates and radius search
 - User profiles with customizable profile pictures
+- Progress tracking and ranking system for users
+- Real-time friend search and management
 
 ## Tech Stack
 
 ### Frontend
 
-- React.js
-- Google Maps API
-- CSS3 with custom styling
-- React Router for navigation
+- React.js 18.2.0
+- Google Maps API with @react-google-maps/api
+- CSS3 with custom styling and CSS variables
+- React Router v6 for navigation
 - Axios for API requests
-- Custom React hooks for state management
+- Custom React hooks for state management (useInaturalistData)
 - iNaturalist API integration for firefly observations
 
 ### Backend
 
-- Flask
-- SQLAlchemy with Flask-SQLAlchemy
-- Flask-RESTful for API endpoints
+- Flask with Flask-RESTful for API endpoints
+- SQLAlchemy with Flask-SQLAlchemy for ORM
 - Flask-Migrate for database migrations
 - Flask-CORS for cross-origin requests
 - Flask-Bcrypt for password hashing
 - PostgreSQL database
 - SQLAlchemy-Serializer for JSON serialization
+- Werkzeug for file uploads and static file serving
 
 ## Getting Started
 
@@ -56,15 +58,7 @@ git clone https://github.com/ThisbeSchoJo/firefly-finder.git
 cd firefly-finder
 ```
 
-2. Set up environment variables:
-
-```bash
-# Copy the example environment file
-cp .env.example .env
-# Edit .env with your specific values
-```
-
-3. Set up the backend:
+2. Set up the backend:
 
 ```bash
 cd server
@@ -76,14 +70,14 @@ flask db upgrade
 python seed.py
 ```
 
-4. Set up the frontend:
+3. Set up the frontend:
 
 ```bash
 cd ../client
 npm install
 ```
 
-5. Start the servers:
+4. Start the servers:
 
 ```bash
 # Terminal 1 (backend)
@@ -100,22 +94,75 @@ The application will be available at `http://localhost:3000`
 ## Project Structure
 
 ```
-.
-├── .env.example          # Example environment variables
-├── .gitignore           # Git ignore rules
-├── client/              # React frontend
-│   ├── public/         # Static files
-│   └── src/            # React source code
-│       ├── components/ # React components
-│       ├── hooks/      # Custom React hooks
-│       ├── services/   # API services
-│       └── routes.js   # Route definitions
-└── server/             # Flask backend
-    ├── app.py         # Main Flask application
-    ├── config.py      # Flask configuration
-    ├── models.py      # Database models
-    └── seed.py        # Database seeding script
+firefly-finder/
+├── client/                 # React frontend
+│   ├── public/            # Static files
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   │   ├── App.js
+│   │   │   ├── Home.js
+│   │   │   ├── Login.js
+│   │   │   ├── Signup.js
+│   │   │   ├── Profile.js
+│   │   │   ├── Map.js
+│   │   │   ├── Sighting.js
+│   │   │   ├── SightingList.js
+│   │   │   ├── AddSightingForm.js
+│   │   │   ├── EditSightingForm.js
+│   │   │   ├── AddFriendForm.js
+│   │   │   ├── FriendProfile.js
+│   │   │   ├── NavBar.js
+│   │   │   ├── ObservationPopup.js
+│   │   │   ├── ProtectedRoute.js
+│   │   │   └── ErrorPage.js
+│   │   ├── hooks/         # Custom React hooks
+│   │   │   └── useInaturalistData.js
+│   │   ├── services/      # API services
+│   │   │   └── inaturalistApi.js
+│   │   ├── routes.js      # Route definitions
+│   │   └── *.css          # Component-specific styles
+│   └── package.json
+├── server/                # Flask backend
+│   ├── app.py            # Main Flask application
+│   ├── config.py         # Flask configuration
+│   ├── models.py         # Database models
+│   ├── seed.py           # Database seeding script
+│   ├── migrations/       # Database migration files
+│   └── static/uploads/   # Uploaded files
+├── Pipfile               # Python dependencies
+├── requirements.txt      # Alternative Python dependencies
+└── README.md
 ```
+
+## API Endpoints
+
+### Authentication
+
+- `POST /signup` - Create new user account
+- `POST /login` - User login
+- `DELETE /logout` - User logout
+- `GET /check_session` - Check current session
+
+### Sightings
+
+- `GET /sightings` - Get all sightings (with optional location filtering)
+- `POST /sightings` - Create new sighting
+- `GET /sightings/<id>` - Get specific sighting
+- `PATCH /sightings/<id>` - Update sighting
+- `DELETE /sightings/<id>` - Delete sighting
+- `GET /sightings/count` - Get user's sighting count
+
+### User Management
+
+- `GET /profile/<user_id>` - Get user profile
+- `GET /friend-search` - Search for users to add as friends
+- `POST /add-friend` - Add a friend
+- `GET /friends` - Get user's friends list
+- `DELETE /remove-friend/<friend_id>` - Remove a friend
+
+### Species
+
+- `GET /species` - Get all firefly species
 
 ## Usage
 
@@ -126,6 +173,7 @@ The application will be available at `http://localhost:3000`
 5. Connect with other users through the friend system
 6. Browse the species database to learn about different types of fireflies
 7. Customize your profile with a profile picture
+8. Track your progress and ranking in the community
 
 ## Contributing
 
@@ -204,289 +252,122 @@ the permissions to edit our Canvas course, so it's not worth keeping around.
 
 ### Creating Your Own Git Repo
 
-First things first- rename this directory! Once you have an idea for a name,
-move one level up with `cd ..` and run
-`mv python-p4-project-template <new-directory-name>` to change its name (replace
-<new-directory-name> with an appropriate project directory name).
-
-> **Note: If you typed the `mv` command in a terminal within VS Code, you should
-> close VS Code then reopen it.**
-
-> **Note: `mv` actually stands for "move", but your computer interprets this
-> rename as a move from a directory with the old name to a directory with a new
-> name.**
-
-`cd` back into your new directory and run `git init` to create a local git
-repository. Add all of your local files to version control with `git add --all`,
-then commit them with `git commit -m'initial commit'`. (You can change the
-message here- this one is just a common choice.)
-
-Navigate to [GitHub](https://github.com). In the upper-right corner of the page,
-click on the "+" dropdown menu, then select "New repository". Enter the name of
-your local repo, choose whether you would like it to be public or private, make
-sure "Initialize this repository with a README" is unchecked (you already have
-one), then click "Create repository".
-
-Head back to the command line and enter
-`git remote add origin git@github.com:github-username/new-repository-name.git`.
-NOTE: Replace `github-username` with your github username, and
-`new-repository-name` with the name of your new repository. This command will
-map the remote repository to your local repository. Finally, push your first
-commit with `git push -u origin main`.
-
-Your project is now version-controlled locally and online. This will allow you
-to create different versions of your project and pick up your work on a
-different machine if the need arises.
-
----
-
-## Setup
-
-### `server/`
-
-The `server/` directory contains all of your backend code.
-
-`app.py` is your Flask application. You'll want to use Flask to build a simple
-API backend like we have in previous modules. You should use Flask-RESTful for
-your routes. You should be familiar with `models.py` and `seed.py` by now, but
-remember that you will need to use Flask-SQLAlchemy, Flask-Migrate, and
-SQLAlchemy-Serializer instead of SQLAlchemy and Alembic in your models.
-
-The project contains a default `Pipfile` with some basic dependencies. You may
-adapt the `Pipfile` if there are additional dependencies you want to add for
-your project.
-
-To download the dependencies for the backend server, run:
+After removing the existing Git configuration, you'll want to create your own
+Git repository. Run the following command:
 
 ```console
-pipenv install
-pipenv shell
+$ git init
 ```
 
-You can run your Flask API on [`localhost:5555`](http://localhost:5555) by
-running:
+This will create a new Git repository in your current directory. You can then
+add your files and make your first commit:
 
 ```console
-python server/app.py
+$ git add .
+$ git commit -m "Initial commit"
 ```
 
-Check that your server serves the default route `http://localhost:5555`. You
-should see a web page with the heading "Project Server".
+### Setting Up Your Remote Repository
 
-### `client/`
+You'll also want to create a remote repository on Github to store your code.
+You can do this by:
 
-The `client/` directory contains all of your frontend code. The file
-`package.json` has been configured with common React application dependencies,
-include `react-router-dom`. The file also sets the `proxy` field to forward
-requests to `"http://localhost:5555". Feel free to change this to another port-
-just remember to configure your Flask app to use another port as well!
+1. Going to [Github.com](https://github.com)
+2. Clicking the "+" icon in the top right corner
+3. Selecting "New repository"
+4. Giving your repository a name
+5. Making sure it's public
+6. **NOT** initializing it with a README, .gitignore, or license (since you
+   already have these files)
 
-To download the dependencies for the frontend client, run:
+Once you've created your remote repository, you can connect your local
+repository to it:
 
 ```console
-npm install --prefix client
+$ git remote add origin <your-repository-url>
+$ git branch -M main
+$ git push -u origin main
 ```
 
-You can run your React app on [`localhost:3000`](http://localhost:3000) by
-running:
+### Installing Dependencies
 
-```sh
-npm start --prefix client
-```
-
-Check that your the React client displays a default page
-`http://localhost:3000`. You should see a web page with the heading "Project
-Client".
-
-## Generating Your Database
-
-NOTE: The initial project directory structure does not contain the `instance` or
-`migrations` folders. Change into the `server` directory:
+Now you'll need to install the dependencies for both the frontend and backend.
+Start with the backend:
 
 ```console
-cd server
+$ cd server
+$ pipenv install
+$ pipenv shell
 ```
 
-Then enter the commands to create the `instance` and `migrations` folders and
-the database `app.db` file:
-
-```
-flask db init
-flask db upgrade head
-```
-
-Type `tree -L 2` within the `server` folder to confirm the new directory
-structure:
+This will install all the Python dependencies listed in the `Pipfile`. You can
+then install the frontend dependencies:
 
 ```console
-.
-├── app.py
-├── config.py
-├── instance
-│   └── app.db
-├── migrations
-│   ├── README
-│   ├── __pycache__
-│   ├── alembic.ini
-│   ├── env.py
-│   ├── script.py.mako
-│   └── versions
-├── models.py
-└── seed.py
+$ cd ../client
+$ npm install
 ```
 
-Edit `models.py` and start creating your models. Import your models as needed in
-other modules, i.e. `from models import ...`.
+This will install all the JavaScript dependencies listed in the `package.json`
+file.
 
-Remember to regularly run
-`flask db revision --autogenerate -m'<descriptive message>'`, replacing
-`<descriptive message>` with an appropriate message, and `flask db upgrade head`
-to track your modifications to the database and create checkpoints in case you
-ever need to roll those modifications back.
+### Running Your Application
 
-> **Tip: It's always a good idea to start with an empty revision! This allows
-> you to roll all the way back while still holding onto your database. You can
-> create this empty revision with `flask db revision -m'Create DB'`.**
+Once you've installed all the dependencies, you can run your application. You'll
+need to run both the frontend and backend servers. You can do this by opening
+two terminal windows and running the following commands:
 
-If you want to seed your database, now would be a great time to write out your
-`seed.py` script and run it to generate some test data. Faker has been included
-in the Pipfile if you'd like to use that library.
-
----
-
-#### `config.py`
-
-When developing a large Python application, you might run into a common issue:
-_circular imports_. A circular import occurs when two modules import from one
-another, such as `app.py` and `models.py`. When you create a circular import and
-attempt to run your app, you'll see the following error:
+**Terminal 1 (Backend):**
 
 ```console
-ImportError: cannot import name
+$ cd server
+$ pipenv shell
+$ python app.py
 ```
 
-If you're going to need an object in multiple modules like `app` or `db`,
-creating a _third_ module to instantiate these objects can save you a great deal
-of circular grief. Here's a good start to a Flask config file (you may need more
-if you intend to include features like authentication and passwords):
+**Terminal 2 (Frontend):**
 
-```py
-# Standard library imports
-
-# Remote library imports
-from flask import Flask
-from flask_cors import CORS
-from flask_migrate import Migrate
-from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
-
-# Local imports
-
-# Instantiate app, set attributes
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
-
-# Define metadata, instantiate db
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-db = SQLAlchemy(metadata=metadata)
-migrate = Migrate(app, db)
-db.init_app(app)
-
-# Instantiate REST API
-api = Api(app)
-
-# Instantiate CORS
-CORS(app)
-
+```console
+$ cd client
+$ npm start
 ```
 
-Now let's review that last line...
+Your application should now be running at `http://localhost:3000`.
 
-#### CORS
+### Database Setup
 
-CORS (Cross-Origin Resource Sharing) is a system that uses HTTP headers to
-determine whether resources from different servers-of-origin can be accessed. If
-you're using the fetch API to connect your frontend to your Flask backend, you
-need to configure CORS on your Flask application instance. Lucky for us, that
-only takes one line:
+You'll also need to set up your database. You can do this by running the
+following commands:
 
-```py
-CORS(app)
-
+```console
+$ cd server
+$ pipenv shell
+$ flask db init
+$ flask db migrate
+$ flask db upgrade
+$ python seed.py
 ```
 
-By default, Flask-CORS enables CORS on all routes in your application with all
-fetching servers. You can also specify the resources that allow CORS. The
-following specifies that routes beginning with `api/` allow CORS from any
-originating server:
+This will create your database and populate it with some initial data.
 
-```py
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+### Next Steps
 
+Now that you have your application running, you can start building your features.
+You can:
+
+1. Add new routes to your Flask backend
+2. Create new React components
+3. Add new features to your application
+4. Style your application with CSS
+5. Add new dependencies as needed
+
+Remember to commit your changes regularly:
+
+```console
+$ git add .
+$ git commit -m "Add new feature"
+$ git push
 ```
 
-You can also set this up resource-by-resource by importing and using the
-`@cross_origin` decorator:
-
-```py
-@app.route("/")
-@cross_origin()
-def howdy():
-  return "Howdy partner!"
-
-```
-
----
-
-## Updating Your README.md
-
-`README.md` is a Markdown file that describes your project. These files can be
-used in many different ways- you may have noticed that we use them to generate
-entire Canvas lessons- but they're most commonly used as homepages for online
-Git repositories. **When you develop something that you want other people to
-use, you need to have a README.**
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this lesson's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README should serve as a template for your own- go through the important
-files in your project and describe what they do. Each file that you edit (you
-can ignore your migration files) should get at least a paragraph. Each function
-should get a small blurb.
-
-You should descibe your application first, and with a good level of detail. The
-rest should be ordered by importance to the user. (Probably routes next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a full-stack application, but it all relies on concepts
-that you've practiced thoroughly throughout this phase. Hopefully this template
-and guide will get you off to a good start with your Phase 4 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Setting up a respository - Atlassian](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
-- [Create a repo- GitHub Docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
-- [Python Circular Imports - StackAbuse](https://stackabuse.com/python-circular-imports/)
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/)
+This will help you keep track of your progress and make it easy to roll back
+changes if something goes wrong.
