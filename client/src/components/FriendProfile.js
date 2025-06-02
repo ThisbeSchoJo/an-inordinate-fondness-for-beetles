@@ -24,7 +24,10 @@ function FriendProfile() {
     <div className="profile-container">
       <div className="profile-info">
         <div className="profile-picture">
-          <img src={friendData?.profile_picture} alt={friendData?.username} />
+          <img src={friendData?.profile_picture
+            ? `http://localhost:5555${friendData.profile_picture}`
+            : "http://localhost:5555/static/uploads/default-profile-pic.png"
+          } alt={friendData?.username} />
         </div>
         <div className="info-item">
           <h2>{friendData?.username}</h2>
