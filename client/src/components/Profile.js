@@ -9,9 +9,10 @@
  */
 
 import "../profile.css";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AddFriendForm from "./AddFriendForm";
+import FriendProfile from "./FriendProfile";
 
 function Profile() {
   // Get user data from context
@@ -24,6 +25,7 @@ function Profile() {
   const [isRemovingFriend, setIsRemovingFriend] = useState(false);
   const [friends, setFriends] = useState([]);
   const [sightingsCount, setSightingsCount] = useState(0);
+  const navigate = useNavigate();
 
   // Fetch user's friends list and sightings count on component mount
   useEffect(() => {
@@ -124,6 +126,19 @@ function Profile() {
       });
   };
 
+  const handleViewProfile = (friendId) => {
+    fetch(`http://localhost:5555/profile/${friendId}`, {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigate(`/profile/${data.id}`);
+      })
+      .catch((error) => {
+        console.error("Error viewing profile:", error);
+      });
+  };
   return (
     <>
       {/* Main profile section */}
@@ -173,7 +188,12 @@ function Profile() {
                 alt={friend.username}
               />
               <h4>{friend.username}</h4>
-              <button className="friend-button">View Profile</button>
+              <button
+                onClick={() => handleViewProfile(friend.id)}
+                className="friend-button"
+              >
+                View Profile
+              </button>
               {/* Unfriend button */}
               <button
                 onClick={() => handleRemoveFriend(friend.id)}
@@ -202,9 +222,15 @@ function Profile() {
           setIsAddingFriend={setIsAddingFriend}
           friendSearchResults={friendSearchResults}
           handleAddFriend={handleAddFriend}
+          handleRemoveFriend={handleRemoveFriend}
           friends={friends}
         />
       )}
+      <FriendProfile
+        handleAddFriend={handleAddFriend}
+        handleRemoveFriend={handleRemoveFriend}
+        friends={friends}
+      />
     </>
   );
 }

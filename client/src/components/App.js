@@ -9,6 +9,8 @@ function App() {
   // user will contain user data (id, username, etc.) when logged in
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [friends, setFriends] = useState([]);
+  const [isFriend, setIsFriend] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -22,7 +24,7 @@ function App() {
         }
 
         const data = await response.json();
-        setUser(data.user); // Now correctly setting the user from data.user
+        setUser(data.user);
       } catch (error) {
         console.error("Session check failed:", error);
         setUser(null);
@@ -41,6 +43,32 @@ function App() {
     setUser(userData);
   };
 
+  const handleAddFriend = (friendId) => {
+    fetch(`http://localhost:5555/add-friend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ friend_id: friendId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFriends([...friends, data]);
+        setIsFriend(true);
+      });
+  };
+
+  const handleRemoveFriend = (friendId) => {
+    fetch(`http://localhost:5555/friends/${friendId}`, {
+      method: "DELETE",
+      credentials: "include",
+    }).then(() => {
+      setFriends(friends.filter((friend) => friend.id !== friendId));
+      setIsFriend(false);
+    });
+  };
+
   return (
     <div className="App">
       <NavBar user={user} updateUser={updateUser} />
@@ -50,6 +78,11 @@ function App() {
             user,
             updateUser,
             isLoading,
+            friends,
+            handleAddFriend,
+            handleRemoveFriend,
+            isFriend,
+            setIsFriend,
           }}
         />
       </main>

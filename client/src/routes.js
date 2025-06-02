@@ -1,6 +1,7 @@
 import App from "./components/App";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
+import FriendProfile from "./components/FriendProfile";
 import Sighting from "./components/Sighting";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -22,6 +23,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/profile/:userId",
+        element: (
+          <ProtectedRoute>
+            <FriendProfile />
           </ProtectedRoute>
         ),
       },

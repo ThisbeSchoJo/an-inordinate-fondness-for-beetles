@@ -215,6 +215,16 @@ class SightingsCount(Resource):
 
 api.add_resource(SightingsCount, "/sightings/count")
 
+# SightingsByUser route - GET returns all sightings for a user
+class SightingsByUserId(Resource):
+    def get(self, id):
+        sighting = Sighting.query.get(id)
+        if not sighting:
+            abort(404, "Sighting not found")
+        return make_response(sighting.to_dict(), 200)
+api.add_resource(SightingsByUserId, "/sightings/count/<int:id>")
+
+
 # SightingsById route - GET returns a single sighting, PATCH updates a sighting, DELETE deletes a sighting  
 class SightingsById(Resource):
     def get(self, id):
@@ -272,6 +282,8 @@ class SightingsById(Resource):
 
 api.add_resource(SightingsById, "/sightings/<int:id>")
  
+
+
 # FriendSearch route - GET searches for friends, returns a list of users that match the search term
 class FriendSearch(Resource):
     def get(self):
@@ -386,7 +398,17 @@ class SpeciesList(Resource):
         return make_response([species.to_dict() for species in species_list], 200)
 api.add_resource(SpeciesList, "/species")
 
+# Profile route - GET returns the profile of a user
+class Profile(Resource):
+    def get(self, user_id):
+        user = User.query.get(user_id)
+        if not user:
+            abort(404, "User not found")
+        return make_response(user.to_dict(), 200)
+api.add_resource(Profile, "/profile/<int:user_id>")
+
 @app.route('/static/uploads/<path:filename>')
+
 def serve_static(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
