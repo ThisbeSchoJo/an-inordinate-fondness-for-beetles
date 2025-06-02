@@ -62,10 +62,20 @@ body {
   font-weight: 600;
 }
 
-/* Sightings count */
-.sightings-count {
-  margin-top: 0.5rem;
+.rank {
+  font-size: 1.2rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px var(--accent-cyan);
+  font-weight: 500;
+  animation: pulseGlow 4s infinite ease-in-out;
+  animation-delay: 2s;
+  margin-top: 1rem;
 }
+
+/* Sightings count */
+/* .sightings-count {
+  margin-top: 0.2rem;
+} */
 
 .sightings-count span {
   font-size: 1.2rem;

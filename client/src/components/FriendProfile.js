@@ -24,16 +24,30 @@ function FriendProfile() {
     <div className="profile-container">
       <div className="profile-info">
         <div className="profile-picture">
-          <img src={friendData?.profile_picture
-            ? `http://localhost:5555${friendData.profile_picture}`
-            : "http://localhost:5555/static/uploads/default-profile-pic.png"
-          } alt={friendData?.username} />
+          <img
+            src={
+              friendData?.profile_picture
+                ? `http://localhost:5555${friendData.profile_picture}`
+                : "http://localhost:5555/static/uploads/default-profile-pic.png"
+            }
+            alt={friendData?.username}
+          />
         </div>
         <div className="info-item">
-          <h2>{friendData?.username}</h2>
-        </div>
-        <div className="sightings-count">
-          <span>Sightings: {sightingsCount}</span>
+          <span>{friendData?.username}</span>
+          <div className="rank">
+            Rank:{" "}
+            {sightingsCount < 1
+              ? "Egg"
+              : sightingsCount < 5
+              ? "Larva"
+              : sightingsCount < 30
+              ? "Pupa"
+              : "Lightning Bug"}
+          </div>
+          <div className="sightings-count">
+            <span>{sightingsCount} Sightings</span>
+          </div>
         </div>
       </div>
       <button onClick={() => navigate("/profile")}>Return to Profile</button>

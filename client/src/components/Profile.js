@@ -139,6 +139,15 @@ function Profile() {
           {/* Username display */}
           <div className="info-item">
             <span>{user?.username || "Not logged in"}</span>
+            <div className="rank">
+              Rank: {sightingsCount < 1
+                  ? "Egg"
+                  : sightingsCount < 5
+                  ? "Larva"
+                  : sightingsCount < 30
+                  ? "Pupa"
+                  : "Lightning Bug"}
+            </div>
             <div className="sightings-count">
               <span>{sightingsCount} Sightings</span>
             </div>
