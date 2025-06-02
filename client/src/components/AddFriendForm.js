@@ -8,11 +8,11 @@ function AddFriendForm({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
+//   const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setIsSearching(true);
+    // setIsSearching(true);
     fetch(`http://localhost:5555/friend-search?username=${searchTerm}`, {
       credentials: "include",
     }).then((response) => {
@@ -23,11 +23,11 @@ function AddFriendForm({
     })
       .then((data) => {
         setSearchResults(data);
-        setIsSearching(false);
+        // setIsSearching(false);
       })
       .catch((error) => {
         console.error("Error searching for friends:", error);
-        setIsSearching(false);
+        // setIsSearching(false);
       });
   };
 

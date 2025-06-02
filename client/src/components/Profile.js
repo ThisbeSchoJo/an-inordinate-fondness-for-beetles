@@ -127,17 +127,7 @@ function Profile() {
   };
 
   const handleViewProfile = (friendId) => {
-    fetch(`http://localhost:5555/profile/${friendId}`, {
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate(`/profile/${data.id}`);
-      })
-      .catch((error) => {
-        console.error("Error viewing profile:", error);
-      });
+    navigate(`/profile/${friendId}`);
   };
   return (
     <>
@@ -226,11 +216,6 @@ function Profile() {
           friends={friends}
         />
       )}
-      <FriendProfile
-        handleAddFriend={handleAddFriend}
-        handleRemoveFriend={handleRemoveFriend}
-        friends={friends}
-      />
     </>
   );
 }
