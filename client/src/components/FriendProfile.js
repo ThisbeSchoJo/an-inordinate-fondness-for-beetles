@@ -35,6 +35,9 @@ function FriendProfile() {
         </div>
         <div className="info-item">
           <span>{friendData?.username}</span>
+          <div className="sightings-count">
+            <span>{sightingsCount} Sightings</span>
+          </div>
           <div className="rank">
             Rank:{" "}
             {sightingsCount < 1
@@ -44,9 +47,6 @@ function FriendProfile() {
               : sightingsCount < 30
               ? "Pupa"
               : "Lightning Bug"}
-          </div>
-          <div className="sightings-count">
-            <span>{sightingsCount} Sightings</span>
           </div>
         </div>
       </div>

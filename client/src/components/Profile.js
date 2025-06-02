@@ -139,17 +139,24 @@ function Profile() {
           {/* Username display */}
           <div className="info-item">
             <span>{user?.username || "Not logged in"}</span>
-            <div className="rank">
-              Rank: {sightingsCount < 1
-                  ? "Egg"
-                  : sightingsCount < 5
-                  ? "Larva"
-                  : sightingsCount < 30
-                  ? "Pupa"
-                  : "Lightning Bug"}
-            </div>
             <div className="sightings-count">
               <span>{sightingsCount} Sightings</span>
+            </div>
+            <div className="rank">
+              Rank:{" "}
+              {sightingsCount < 1
+                ? "Egg"
+                : sightingsCount < 5
+                ? "Larva"
+                : sightingsCount < 30
+                ? "Pupa"
+                : "Lightning Bug"}
+            </div>
+            <div className="progress-bar">
+              <div
+                className="progress-bar-fill"
+                style={{ width: `${(sightingsCount / 30) * 100}%` }}
+              ></div>
             </div>
           </div>
         </div>
