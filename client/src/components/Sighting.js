@@ -25,8 +25,6 @@ function Sighting({ user }) {
   // Form states
   const [showAddSightingForm, setShowAddSightingForm] = useState(false); // Controls visibility of the add sighting form
   const [showEditSightingForm, setShowEditSightingForm] = useState(false); // Controls visibility of the edit sighting form
-  const [isLoading, setIsLoading] = useState(false); // Tracks loading state for API calls
-  const [error, setError] = useState(null); // Stores any error messages
   // Sightings states
   const [sightings, setSightings] = useState([]); // Stores the user's sightings
 
@@ -181,9 +179,6 @@ function Sighting({ user }) {
    */
   async function handleSubmitNewSighting(formData) {
     try {
-      setIsLoading(true);
-      setError(null);
-
       const response = await fetch("http://localhost:5555/sightings", {
         method: "POST",
         headers: {
@@ -198,14 +193,12 @@ function Sighting({ user }) {
         throw new Error(errorData.message || "Failed to create sighting");
       }
 
-      // fetchUserSightings();
-      const newSighting = await response.json(); // Don't use formData blindly, use the response to get the new sighting
+      const newSighting = await response.json();
       setSightings([...sightings, newSighting]);
       setShowAddSightingForm(false);
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
+      console.error("Error creating sighting:", error);
+      alert(error.message);
     }
   }
 
@@ -216,9 +209,6 @@ function Sighting({ user }) {
    */
   async function handleSubmitEditSighting(formData) {
     try {
-      setIsLoading(true);
-      setError(null);
-
       const response = await fetch(
         `http://localhost:5555/sightings/${formData.id}`,
         {
@@ -227,7 +217,15 @@ function Sighting({ user }) {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            species_id: formData.species_id,
+            place_guess: formData.place_guess,
+            observed_on: formData.observed_on,
+            description: formData.description,
+            photos: formData.photos,
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+          }),
         }
       );
 
@@ -245,9 +243,8 @@ function Sighting({ user }) {
       setShowEditSightingForm(false);
       setSelectedUserSighting(null);
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
+      console.error("Error updating sighting:", error);
+      alert(error.message);
     }
   }
 
@@ -258,7 +255,7 @@ function Sighting({ user }) {
   function handleEditSighting(id) {
     const sightingToEdit = sightings.find((s) => s.id === id);
     if (!sightingToEdit) {
-      setError("Sighting not found");
+      console.error("Sighting not found");
       return;
     }
     // fetchUserSightings();
@@ -275,9 +272,6 @@ function Sighting({ user }) {
    */
   async function handleDeleteSighting(id) {
     try {
-      setIsLoading(true);
-      setError(null);
-
       const response = await fetch(`http://localhost:5555/sightings/${id}`, {
         method: "DELETE",
         credentials: "include",
@@ -288,15 +282,11 @@ function Sighting({ user }) {
         throw new Error(errorData.message || "Failed to delete sighting");
       }
 
-      // fetchUserSightings();
-      // Clear selected sighting and refresh sightings
       setSelectedUserSighting(null);
-      // You'll need to implement fetchSightings to refresh the list
       setSightings(sightings.filter((s) => s.id !== id));
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
+      console.error("Error deleting sighting:", error);
+      alert(error.message);
     }
   }
 

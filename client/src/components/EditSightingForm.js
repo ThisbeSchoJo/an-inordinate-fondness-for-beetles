@@ -146,14 +146,15 @@ function EditSightingForm({ sighting, onSubmit, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Parse the location string into latitude and longitude
-    const [latitude, longitude] = formData.place_guess
-      .split(",")
-      .map((coord) => parseFloat(coord.trim()));
-
     const submissionData = {
       id: sighting.id,
-      ...formData,
+      species_id: formData.species_id,
+      place_guess: formData.place_guess,
+      observed_on: formData.observed_on,
+      description: formData.description,
+      photos: formData.photos,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
     };
 
     onSubmit(submissionData);

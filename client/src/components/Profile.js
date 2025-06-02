@@ -12,7 +12,6 @@ import "../profile.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AddFriendForm from "./AddFriendForm";
-import FriendProfile from "./FriendProfile";
 
 function Profile() {
   // Get user data from context
@@ -20,9 +19,6 @@ function Profile() {
 
   // State for managing friend-related functionality
   const [isAddingFriend, setIsAddingFriend] = useState(false);
-  const [friendSearchResults, setFriendSearchResults] = useState([]);
-  const [isLoadingFriends, setIsLoadingFriends] = useState(true);
-  const [isRemovingFriend, setIsRemovingFriend] = useState(false);
   const [friends, setFriends] = useState([]);
   const [sightingsCount, setSightingsCount] = useState(0);
   const navigate = useNavigate();
@@ -41,12 +37,10 @@ function Profile() {
       })
       .then((data) => {
         setFriends(data);
-        setIsLoadingFriends(false);
       })
       .catch((error) => {
         console.error("Error fetching friends:", error);
         setFriends([]); // Set friends to empty array on error
-        setIsLoadingFriends(false);
       });
 
     // Fetch sightings count
@@ -74,14 +68,12 @@ function Profile() {
    * Updates local friends state to reflect removal
    */
   const handleRemoveFriend = (friendId) => {
-    setIsRemovingFriend(true);
     fetch(`http://localhost:5555/friends/${friendId}`, {
       method: "DELETE",
       credentials: "include",
     });
     // use the setFriends function to update the friends state
     setFriends(friends.filter((friend) => friend.id !== friendId));
-    setIsRemovingFriend(false);
   };
 
   /**
@@ -104,19 +96,12 @@ function Profile() {
           throw new Error("Failed to add friend");
         }
         if (response.ok) {
-          const addedFriend = friendSearchResults.find(
-            (f) => f.id === friendId
-          );
-          if (addedFriend) {
-            setFriends([...friends, addedFriend]);
-          } else {
-            // If friend not found in search results, refresh entire friends list
-            fetch(`http://localhost:5555/friends`, {
-              credentials: "include",
-            })
-              .then((response) => response.json())
-              .then(setFriends);
-          }
+          // If friend not found in search results, refresh entire friends list
+          fetch(`http://localhost:5555/friends`, {
+            credentials: "include",
+          })
+            .then((response) => response.json())
+            .then(setFriends);
           setIsAddingFriend(false);
         }
       })
@@ -210,7 +195,6 @@ function Profile() {
       {isAddingFriend && (
         <AddFriendForm
           setIsAddingFriend={setIsAddingFriend}
-          friendSearchResults={friendSearchResults}
           handleAddFriend={handleAddFriend}
           handleRemoveFriend={handleRemoveFriend}
           friends={friends}
