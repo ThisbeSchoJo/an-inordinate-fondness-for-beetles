@@ -148,3 +148,18 @@
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
 }
+
+.sighting-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  color: white;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.sighting-form input[type="datetime-local"]::-webkit-inner-spin-button,
+.sighting-form input[type="datetime-local"]::-webkit-clear-button {
+  filter: invert(1);
+}
+
+.sighting-form input[type="datetime-local"] {
+  color-scheme: dark;
+}
