@@ -24,6 +24,22 @@
   margin-bottom: 1rem;
 }
 
+/* Map container specific styles */
+.sighting-container .map-container {
+  height: 300vh;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Sighting details section */
+.sighting-details-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--card-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+}
+
 /* Action buttons */
 .action-buttons {
   display: flex;
@@ -60,26 +76,6 @@
 .sighting-container .action-buttons button:active {
   transform: translateY(-1px);
   box-shadow: 0 3px 10px rgba(255, 224, 102, 0.2);
-}
-
-/* Map container */
-.map-container {
-  margin: 0;
-  padding: 0;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-  height: 300vh;
-  width: 100%;
-}
-
-/* Sighting details section */
-.sighting-details-container {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: var(--card-color);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
 
 /* Individual detail items */

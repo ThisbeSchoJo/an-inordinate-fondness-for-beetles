@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from "react";
-import "../sightingform.css";
+import "../sighting-form.css";
 import Map from "./Map";
 
 function EditSightingForm({ sighting, onSubmit, onCancel }) {

@@ -51,7 +51,7 @@ body {
   transform: scale(1.1);
 }
 
-/* Username */
+/* Username and rank */
 .info-item span {
   font-size: 2rem;
   color: var(--accent-yellow);
@@ -72,6 +72,7 @@ body {
   margin: 0.1rem 0 0.5rem 0;
 }
 
+/* Progress bar */
 .progress-bar {
   width: 100%;
   height: 10px;
@@ -227,7 +228,7 @@ body {
   }
 }
 
-/* Responsive adjustments */
+/* Responsive styles */
 @media (max-width: 768px) {
   .profile-container,
   .friends-container {
@@ -236,8 +237,8 @@ body {
   }
 
   .profile-picture {
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
   }
 
   .friends-list {
@@ -245,8 +246,8 @@ body {
   }
 
   .friend-item img {
-    width: 85px;
-    height: 85px;
+    width: 80px;
+    height: 80px;
   }
 
   .profile-actions {

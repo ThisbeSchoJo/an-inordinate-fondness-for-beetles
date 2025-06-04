@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../addfriendform.css";
+import "../add-friend-form.css";
 
 function AddFriendForm({
   setIsAddingFriend,
@@ -8,19 +8,20 @@ function AddFriendForm({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-//   const [isSearching, setIsSearching] = useState(false);
+  //   const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
     // setIsSearching(true);
     fetch(`http://localhost:5555/friend-search?username=${searchTerm}`, {
       credentials: "include",
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Failed to search for friends");
-        }   
-        return response.json();
     })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to search for friends");
+        }
+        return response.json();
+      })
       .then((data) => {
         setSearchResults(data);
         // setIsSearching(false);

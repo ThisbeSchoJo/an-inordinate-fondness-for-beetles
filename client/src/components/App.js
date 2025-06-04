@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
-import "../App.css";
+import "../app.css";
 
 function App() {
   // Authentication state
