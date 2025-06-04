@@ -1,4 +1,4 @@
-# An Inordinate Fondness for Beetles
+# Firefly Finder
 
 A full-stack web application for tracking and sharing firefly sightings. This project combines the beauty of bioluminescent insects with modern web technology to create an interactive platform for nature enthusiasts.
 
@@ -45,8 +45,8 @@ A full-stack web application for tracking and sharing firefly sightings. This pr
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/an-inordinate-fondness-for-beetles.git
-cd an-inordinate-fondness-for-beetles
+git clone https://github.com/yourusername/firefly-finder.git
+cd firefly-finder
 ```
 
 2. Set up environment variables:
