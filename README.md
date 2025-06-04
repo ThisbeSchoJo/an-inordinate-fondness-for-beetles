@@ -11,6 +11,9 @@ A full-stack web application for tracking and sharing firefly sightings. This pr
 - Friend system for connecting with other firefly enthusiasts
 - Species database with detailed information about different types of fireflies
 - Responsive design for both desktop and mobile viewing
+- Photo upload support for sightings
+- Location-based sighting tracking with coordinates
+- User profiles with customizable profile pictures
 
 ## Tech Stack
 
@@ -20,22 +23,26 @@ A full-stack web application for tracking and sharing firefly sightings. This pr
 - Google Maps API
 - CSS3 with custom styling
 - React Router for navigation
-- Lucide React for icons
+- Axios for API requests
+- Custom React hooks for state management
+- iNaturalist API integration for firefly observations
 
 ### Backend
 
 - Flask
-- SQLAlchemy
-- Flask-RESTful
-- Flask-Migrate
-- Flask-CORS
+- SQLAlchemy with Flask-SQLAlchemy
+- Flask-RESTful for API endpoints
+- Flask-Migrate for database migrations
+- Flask-CORS for cross-origin requests
+- Flask-Bcrypt for password hashing
 - PostgreSQL database
+- SQLAlchemy-Serializer for JSON serialization
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.x
+- Python 3.8.x
 - Node.js and npm
 - PostgreSQL
 - Google Maps API key
@@ -45,7 +52,7 @@ A full-stack web application for tracking and sharing firefly sightings. This pr
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/firefly-finder.git
+git clone https://github.com/ThisbeSchoJo/firefly-finder.git
 cd firefly-finder
 ```
 
@@ -101,6 +108,7 @@ The application will be available at `http://localhost:3000`
 │   └── src/            # React source code
 │       ├── components/ # React components
 │       ├── hooks/      # Custom React hooks
+│       ├── services/   # API services
 │       └── routes.js   # Route definitions
 └── server/             # Flask backend
     ├── app.py         # Main Flask application
@@ -114,8 +122,10 @@ The application will be available at `http://localhost:3000`
 1. Create an account or log in
 2. View the map to see firefly sightings in your area
 3. Add your own sightings by clicking on the map
-4. Connect with other users through the friend system
-5. Browse the species database to learn about different types of fireflies
+4. Upload photos and add descriptions to your sightings
+5. Connect with other users through the friend system
+6. Browse the species database to learn about different types of fireflies
+7. Customize your profile with a profile picture
 
 ## Contributing
 
